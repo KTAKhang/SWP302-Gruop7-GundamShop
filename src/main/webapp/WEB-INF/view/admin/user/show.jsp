@@ -18,92 +18,69 @@
         <body>
             <div class="container-fluid d-flex p-0">
                 <!-- Sidebar -->
-                <div class="p-3 d-flex flex-column align-items-center"
-                    style="width: 250px; min-height: 100vh; background-color: #1D3865;">
-                    <img src="/images/logo.jpg" alt="Logo" class="logo mb-4"
-                        style="width: 160px; height: auto; display: block; margin: 0 auto;">
-                    <ul class="list-unstyled w-100">
-                        <li><a href="dashboard.html" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-house-fill"></i> Dashboard</a></li>
-                        <li><a href="profile.html" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-person-fill"></i>
-                                View Profile</a></li>
-                        <li><a href="/admin/user" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-box-fill"></i> Manage User</a></li>
-                        <li><a href="manage-category.html" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-tags-fill"></i> Manage Category</a></li>
-                        <li><a href="manage-order.html" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-clipboard-fill"></i> Manage Order</a></li>
-                        <li><a href="working-schedule.html" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-calendar-fill"></i> Working Schedule</a></li>
-                        <li><a href="feedback.html" class="btn btn-light w-100 text-start mb-3"><i
-                                    class="bi bi-chat-fill"></i>
-                                View Feedback</a></li>
-                        <li><a href="logout.html" class="btn btn-danger w-100 text-start"><i
-                                    class="bi bi-box-arrow-right"></i>
-                                Log Out</a></li>
-                    </ul>
-                </div>
+                <jsp:include page="../layout/navbar.jsp" />
+
 
                 <!-- Main Content -->
-                <div class="main-content p-4 w-100">
+
+                <div class="main-content p-0">
+
                     <jsp:include page="../layout/header.jsp" />
-                    <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Manage User</h1>
+                    <div class="p-4">
+                        <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Manage User</h1>
+                        <table class="table table-bordered table-hover align-middle text-center">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Users</li>
+                            </ol>
+                            <div class="mt-5">
+                                <div class="row">
+                                    <div class="col-12 mx-auto">
+                                        <div class="d-flex justify-content-between">
+                                            <h3>Table users</h3>
+                                            <a href="/admin/user/create" class="btn btn-primary">Create a user</a>
+                                        </div>
 
+                                        <hr />
+                                        <table class=" table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Email</th>
+                                                    <th>Full Name</th>
+                                                    <th>Role</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="user" items="${users}">
 
+                                                    <tr>
+                                                        <th>${user.id}</th>
+                                                        <td>${user.email}</td>
+                                                        <td>${user.fullName}</td>
+                                                        <td>${user.role.name}</td>
+                                                        <td>
+                                                            <a href="/admin/user/${user.id}"
+                                                                class="btn btn-success">View</a>
+                                                            <a href="/admin/user/update/${user.id}"
+                                                                class="btn btn-warning  mx-2">Update</a>
+                                                            <a href="/admin/user/delete/${user.id}"
+                                                                class="btn btn-danger">Delete</a>
+                                                        </td>
+                                                    </tr>
 
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Users</li>
-                        </ol>
-                        <div class="mt-5">
-                            <div class="row">
-                                <div class="col-12 mx-auto">
-                                    <div class="d-flex justify-content-between">
-                                        <h3>Table users</h3>
-                                        <a href="/admin/user/create" class="btn btn-primary">Create a user</a>
+                                                </c:forEach>
+
+                                            </tbody>
+                                        </table>
                                     </div>
 
-                                    <hr />
-                                    <table class=" table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Email</th>
-                                                <th>Full Name</th>
-                                                <th>Role</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="user" items="${users}">
-
-                                                <tr>
-                                                    <th>${user.id}</th>
-                                                    <td>${user.email}</td>
-                                                    <td>${user.fullName}</td>
-                                                    <td>${user.role.name}</td>
-                                                    <td>
-                                                        <a href="/admin/user/${user.id}"
-                                                            class="btn btn-success">View</a>
-                                                        <a href="/admin/user/update/${user.id}"
-                                                            class="btn btn-warning  mx-2">Update</a>
-                                                        <a href="/admin/user/delete/${user.id}"
-                                                            class="btn btn-danger">Delete</a>
-                                                    </td>
-                                                </tr>
-
-                                            </c:forEach>
-
-                                        </tbody>
-                                    </table>
                                 </div>
 
                             </div>
-
-                        </div>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
 

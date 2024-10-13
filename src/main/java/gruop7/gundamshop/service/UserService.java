@@ -1,5 +1,8 @@
 package gruop7.gundamshop.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gruop7.gundamshop.domain.Role;
@@ -15,6 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository,
             RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -28,6 +32,15 @@ public class UserService {
     public List<User> getAllUsers() {
         return this.userRepository.findAll();
     }
+
+    // show user(employee, customer)
+    public List<User> getUsersByRoleId(long roleId, boolean status) {
+        return userRepository.findAllByRole_IdAndStatus(roleId, status);
+    }
+
+    // public Optional<User> fetchUserById(long id) {
+    // return this.userRepository.findById(id);
+    // }
 
     public User getUserById(long id) {
         return this.userRepository.findById(id);
@@ -49,21 +62,18 @@ public class UserService {
         return this.roleRepository.findByName(name);
     }
 
-    // public User registerDTOtoUser(RegisterDTO registerDTO) {
-    // User user = new User();
-    // user.setFullName(registerDTO.getFirstName() + " " +
-    // registerDTO.getLastName());
-    // user.setEmail(registerDTO.getEmail());
-    // user.setPassword(registerDTO.getPassword());
-    // return user;
-    // }
-
     public boolean checkEmailExist(String email) {
         return this.userRepository.existsByEmail(email);
     }
 
     public User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    public void updatePassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email);
+        user.setPassword(newPassword); // Hash password before saving
+        userRepository.save(user);
     }
 
 }

@@ -1,0 +1,26 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+        <div class="p-3 d-flex flex-column align-items-center"
+            style="width: 250px; min-height: 100vh; background-color: #1D3865;">
+            <img src="/images/logo.jpg" alt="Logo" class="logo mb-4"
+                style="width: 160px; height: auto; display: block; margin: 0 auto;">
+            <ul class="list-unstyled w-100">
+                <li><a href="dashboard.html" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-house-fill"></i> Dashboard</a></li>
+                <li><a href="profile.html" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-person-fill"></i>
+                        View Profile</a></li>
+                <li><a href="/admin/user" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-box-fill"></i>
+                        Manage User</a></li>
+                <li><a href="/admin/customer" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-tags-fill"></i> Manage Customer</a></li>
+                <li><a href="/admin/employee" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-clipboard-fill"></i> Manage Employee</a></li>
+                <li><a href="working-schedule.html" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-calendar-fill"></i> Working Schedule</a></li>
+                <li><a href="feedback.html" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-chat-fill"></i>
+                        View Feedback</a></li>
+                <li><a href="logout.html" class="btn btn-danger w-100 text-start"><i class="bi bi-box-arrow-right"></i>
+                        Log Out</a></li>
+            </ul>
+        </div>
