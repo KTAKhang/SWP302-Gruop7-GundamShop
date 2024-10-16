@@ -20,7 +20,12 @@
                             class="bi bi-calendar-fill"></i> Working Schedule</a></li>
                 <li><a href="feedback.html" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-chat-fill"></i>
                         View Feedback</a></li>
-                <li><a href="logout.html" class="btn btn-danger w-100 text-start"><i class="bi bi-box-arrow-right"></i>
-                        Log Out</a></li>
+                <li>
+                    <form method="post" action="/logout">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <button class="btn btn-danger w-100 text-start"><a><i class="bi bi-box-arrow-right"></i>
+                                Log Out</a></button>
+                    </form>
+                </li>
             </ul>
         </div>

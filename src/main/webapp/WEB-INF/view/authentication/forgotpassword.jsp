@@ -76,7 +76,7 @@
 
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="email-for-pass">Enter your email address</label>
+
                                         <label for="email-for-pass">Enter your email address</label>
                                         <c:set var="errorEmail">
                                             <form:errors path="email" cssClass="invalid-feedback" />
@@ -87,18 +87,17 @@
                                             class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
                                             path="email" required="" />
                                         ${errorEmail}
-                                        <!-- <input
-                                            class="form-control" type="text" name="email" id="email-for-pass"
-                                            required=""> -->
+
                                         <small class="form-text text-muted">Enter the registered email
                                             address . Then we'll
                                             email a OTP to this address.</small>
                                     </div>
+
                                 </div>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Get OTP</button>
-                                    <button class="btn btn-danger"><a href="/admin/login"
-                                            class="btn btn-success mt-3">Back</a></button>
+                                    <button class="btn btn-danger"><a href="/login">Back</a></button>
                                 </div>
                             </form:form>
                         </div>
