@@ -8,8 +8,11 @@
             <ul class="list-unstyled w-100">
                 <li><a href="dashboard.html" class="btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-house-fill"></i> Dashboard</a></li>
-                <li><a href="profile.html" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-person-fill"></i>
-                        View Profile</a></li>
+                <li><a href="/admin/category" class=" btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-person-fill"></i>
+                        Manage Category</a></li>
+                <li><a href="/admin/product" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-clipboard-fill"></i> Manage Product</a></li>
                 <li><a href="/admin/user" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-box-fill"></i>
                         Manage User</a></li>
                 <li><a href="/admin/customer" class="btn btn-light w-100 text-start mb-3"><i

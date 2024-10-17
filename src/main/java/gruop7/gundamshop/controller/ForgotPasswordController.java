@@ -4,6 +4,7 @@ import java.util.Properties;
 import java.util.Random;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -150,6 +151,8 @@ public class ForgotPasswordController {
 
             if (email != null) {
                 this.userService.updatePassword(email, newPassword);
+                // Xóa session sau khi đổi mật khẩu thành công
+                session.invalidate();
                 request.setAttribute("message", "Password successfully updated!");
                 return "redirect:/authentication/success";
             } else {
@@ -160,6 +163,7 @@ public class ForgotPasswordController {
             request.setAttribute("message", "Passwords do not match!");
             return "authentication/resetPassword";
         }
+
     }
 
     @GetMapping("/authentication/success")
