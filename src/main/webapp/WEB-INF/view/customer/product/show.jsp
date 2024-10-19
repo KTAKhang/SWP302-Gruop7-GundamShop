@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Sản Phẩm - Laptopshop</title>
+                    <title> Sản Phẩm - Gundamshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -188,7 +188,7 @@
                                                                 class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                            style="top: 10px; left: 10px;">Laptop
+                                                            style="top: 10px; left: 10px;">___
                                                         </div>
                                                         <div
                                                             class="p-4 border border-secondary border-top-0 rounded-bottom">
