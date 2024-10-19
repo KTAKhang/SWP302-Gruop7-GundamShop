@@ -1,6 +1,5 @@
 package gruop7.gundamshop.service;
 
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -13,21 +12,15 @@ import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.repository.CategoryRepository;
 import gruop7.gundamshop.repository.ProductRepository;
 
-
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
 
     private final CategoryRepository categoryRepository;
-  
-  
+
     public List<Product> fetchProducts() {
         return this.productRepository.findAll();
-    }
-
-    public Optional<Product> fetchProductById(long id) {
-        return this.productRepository.findById(id);
     }
 
     public Page<Product> fetchProducts(Pageable page) {
@@ -39,8 +32,8 @@ public class ProductService {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }
-  
-     public Product createProduct(Product pr) {
+
+    public Product createProduct(Product pr) {
         return this.productRepository.save(pr);
     }
 
