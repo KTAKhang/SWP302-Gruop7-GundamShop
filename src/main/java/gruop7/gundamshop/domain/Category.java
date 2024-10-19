@@ -27,7 +27,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
-
     private String image;
     private boolean status;
 
@@ -47,20 +46,12 @@ public class Category {
         this.name = name;
     }
 
-
     public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
     }
 
     public String getImage() {
@@ -78,6 +69,14 @@ public class Category {
         return "Category [id=" + id + ", name=" + name + ", products=" + products + ", image=" + image + ", status="
                 + status + "]";
 
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }
