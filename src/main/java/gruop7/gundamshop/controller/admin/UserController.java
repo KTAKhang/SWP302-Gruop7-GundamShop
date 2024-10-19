@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import gruop7.gundamshop.domain.Role;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.service.UploadService;
 import gruop7.gundamshop.service.UserService;
@@ -177,6 +176,11 @@ public class UserController {
             // Handle the case where the user is not found
             return "redirect:/admin/customer"; // Redirect or show an error page
         }
+        // Ensure customer is not null before adding to model
+        if (!currentCustomer.isStatus()) {
+            // Handle the case where the user is not found
+            return "redirect:/admin/customer"; // Redirect or show an error page
+        }
         model.addAttribute("newCustomer", currentCustomer);
         return "admin/customer/update";
     }
@@ -277,6 +281,12 @@ public class UserController {
 
         // Ensure customer is not null before adding to model
         if (currentEmployee == null) {
+            // Handle the case where the user is not found
+            return "redirect:/admin/employee"; // Redirect or show an error page
+        }
+
+        // Ensure customer is not null before adding to model
+        if (!currentEmployee.isStatus()) {
             // Handle the case where the user is not found
             return "redirect:/admin/employee"; // Redirect or show an error page
         }

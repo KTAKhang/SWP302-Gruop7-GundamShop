@@ -1,11 +1,15 @@
 package gruop7.gundamshop.domain;
 
+
+import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +18,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -21,15 +26,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
     @NotNull
-    @Size(min = 2, max = 50)
+    @Size(min = 3, message = "Name phải có tối thiểu 3 ký tự")
     private String name;
-
     private double price;
     private String image;
     private String detailDesc;
@@ -38,7 +40,6 @@ public class Product {
     private int sold;
     private String factory;
     private String target;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean status;
@@ -107,6 +108,7 @@ public class Product {
         this.quantity = quantity;
     }
 
+
     public int getSold() {
         return sold;
     }
@@ -114,6 +116,7 @@ public class Product {
     public void setSold(int sold) {
         this.sold = sold;
     }
+
 
     public String getFactory() {
         return factory;
@@ -159,8 +162,10 @@ public class Product {
     public String toString() {
         return "Product [id=" + id + ", category=" + category + ", name=" + name + ", price=" + price + ", image="
                 + image + ", detailDesc=" + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity
+
                 + ", sold=" + sold + ", factory=" + factory + ", target=" + target + ", createdAt=" + createdAt
                 + ", updatedAt=" + updatedAt + ", status=" + status + "]";
+
     }
 
 }
