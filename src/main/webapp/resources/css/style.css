@@ -24,7 +24,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('../image/FhOraKA.jpg') center/cover;
+    background: url('../images/FhOraKA.jpg') center/cover;
     filter: blur(1px);
     z-index: -1;
 }

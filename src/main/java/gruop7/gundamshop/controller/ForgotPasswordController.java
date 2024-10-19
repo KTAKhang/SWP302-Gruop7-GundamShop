@@ -3,6 +3,8 @@ package gruop7.gundamshop.controller;
 import java.util.Properties;
 import java.util.Random;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import gruop7.gundamshop.domain.OTPForm;
+import gruop7.gundamshop.domain.ResetPasswordForm;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
+import jakarta.validation.Valid;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
@@ -27,9 +31,11 @@ import jakarta.mail.internet.MimeMessage;
 public class ForgotPasswordController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public ForgotPasswordController(UserService userService) {
+    public ForgotPasswordController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/forgotpassword")
@@ -46,32 +52,28 @@ public class ForgotPasswordController {
 
             // Generate OTP
             int otpvalue = new Random().nextInt(1255650);
-
             String email = user.getEmail();
 
-            // Set properties for the mail session
+            // Set properties for mail session
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587"); // TLS port
+            props.put("mail.smtp.port", "587");
             props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true"); // Enable TLS
+            props.put("mail.smtp.starttls.enable", "true");
 
-            // Use an app-specific password generated in Google Account for security
+            // Use app-specific password (fetch from environment variable)
+
             Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("khangkien.060603@gmail.com", "khangkien123"); // Replace
-                    // with
-                    // your
-                    // app
-                    // password
+                    return new PasswordAuthentication("khangkien.060603@gmail.com", "vinu qibz jtdl blqg");
                 }
             });
 
-            // Compose the message
             try {
+                // Compose the message
                 MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("khangkien.060603@gmail.com")); // Sender's email
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email)); // Recipient's email
+                message.setFrom(new InternetAddress("khangkien.060603@gmail.com"));
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
                 message.setSubject("Password Recovery OTP");
                 message.setText("Your OTP is: " + otpvalue);
 
@@ -80,6 +82,7 @@ public class ForgotPasswordController {
                 System.out.println("Message sent successfully");
 
             } catch (MessagingException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
 
@@ -87,44 +90,85 @@ public class ForgotPasswordController {
             mySession.setAttribute("otp", otpvalue);
             mySession.setAttribute("email", email);
             request.setAttribute("message", "OTP is sent to your email ID");
-            return "authentication/enterOTP"; // Redirect to OTP entry page
+            return "redirect:/authentication/enterOTP"; // Change to redirect
         } else {
             request.setAttribute("message", "Invalid email address!");
-            return "authentication/forgotPassword"; // Stay on the same page with an error
+            return "authentication/forgotPassword";
         }
-
     }
 
-    @PostMapping("/validateOtp")
-    public String validateOtp(HttpServletRequest request, @RequestParam("otp") int otp, Model model) {
+    @GetMapping("/authentication/enterOTP")
+    public String getOTP(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        int generatedOtp = (int) session.getAttribute("otp");
+        String email = (String) session.getAttribute("email");
 
-        if (otp == generatedOtp) {
-            // OTP is correct, redirect to reset password page
-            return "authentication/resetPassword";
+        if (email == null) {
+            request.setAttribute("message",
+                    "Session expired or unauthorized access. Please go through the forgot password process again.");
+            return "redirect:/forgotpassword";
+        }
+        model.addAttribute("newOtpForm", new OTPForm());
+        return "authentication/enterOTP";
+    }
+
+    @PostMapping("/authentication/enterOTP")
+    public String validateOtp(HttpServletRequest request, @RequestParam("otp") int otp, Model model,
+            @ModelAttribute("newOtpForm") OTPForm newOtpForm) {
+        HttpSession session = request.getSession();
+        Integer generatedOtp = (Integer) session.getAttribute("otp");
+        Integer currentOTP = newOtpForm.getOtp();
+
+        if (generatedOtp != null && currentOTP != null && currentOTP.equals(generatedOtp)) {
+            return "redirect:/authentication/resetPassword";
         } else {
-            // OTP is incorrect, show an error message
             request.setAttribute("message", "Invalid OTP. Please try again.");
             return "authentication/enterOTP";
         }
     }
 
-    @PostMapping("/resetPassword")
+    @GetMapping("/authentication/resetPassword")
+    public String getResetPassword(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+
+        if (email == null) {
+            request.setAttribute("message",
+                    "Session expired or unauthorized access. Please go through the forgot password process again.");
+            return "redirect:/forgotpassword";
+        }
+
+        model.addAttribute("resetPasswordForm", new ResetPasswordForm());
+        return "authentication/resetPassword";
+    }
+
+    @PostMapping("/authentication/resetPassword")
     public String resetPassword(HttpServletRequest request, @RequestParam("password") String password,
             @RequestParam("confPassword") String confPassword, Model model) {
         if (password.equals(confPassword)) {
             HttpSession session = request.getSession();
             String email = (String) session.getAttribute("email");
+            String newPassword = this.passwordEncoder.encode(password);
 
-            // Update the password in the database
-            this.userService.updatePassword(email, password);
-            request.setAttribute("message", "Password successfully updated!");
-
-            return "authentication/success"; // Redirect to success page
+            if (email != null) {
+                this.userService.updatePassword(email, newPassword);
+                // Xóa session sau khi đổi mật khẩu thành công
+                session.invalidate();
+                request.setAttribute("message", "Password successfully updated!");
+                return "redirect:/authentication/success";
+            } else {
+                request.setAttribute("message", "Session expired. Please try the process again.");
+                return "authentication/forgotPassword";
+            }
         } else {
             request.setAttribute("message", "Passwords do not match!");
             return "authentication/resetPassword";
         }
+
+    }
+
+    @GetMapping("/authentication/success")
+    public String getSuccess(Model model) {
+
+        return "authentication/success";
     }
 }
