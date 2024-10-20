@@ -35,6 +35,8 @@ public class User {
     @Size(min = 3, message = "Fullname phải có tối thiểu 3 ký tự")
     private String fullName;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
     private String address;
     private String phone;
     private String avatar;
@@ -120,6 +122,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
 }

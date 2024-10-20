@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Product save(Product product);
 
-    Product findById(long id);
+    Optional<Product> findById(long id);
 
     List<Product> findAllByStatus(boolean status);
 
