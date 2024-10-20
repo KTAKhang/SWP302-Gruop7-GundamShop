@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import gruop7.gundamshop.domain.Category;
 import gruop7.gundamshop.domain.Order;
 import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.User;
+import gruop7.gundamshop.service.CategoryService;
 import gruop7.gundamshop.service.ProductService;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,15 +29,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomePageController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    public HomePageController(ProductService productService) {
+    public HomePageController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/")
     public String getHomePage(Model model) {
         List<Product> products = this.productService.fetchProducts();
+        List<Category> categories = this.categoryService.getCategoryByStatus(true);
         model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
         return "customer/homepage/show";
     }
 

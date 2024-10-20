@@ -28,13 +28,7 @@ public class Order {
     private boolean status;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderProduct> orderProducts;
-
-    @ManyToOne
-    @JoinColumn(name = "discount_id")
-    private Discount discount;
-
-    private String note;
+    private List<OrderDetail> orderDetails;
 
     public long getId() {
         return id;
@@ -76,34 +70,18 @@ public class Order {
         this.status = status;
     }
 
-    public List<OrderProduct> getOrderProducts() {
-        return orderProducts;
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     @Override
     public String toString() {
         return "Order [id=" + id + ", user=" + user + ", total=" + total + ", orderDate=" + orderDate + ", status="
-                + status + ", orderProducts=" + orderProducts + ", discount=" + discount + ", note=" + note + "]";
+                + status + ", orderDetails=" + orderDetails + "]";
     }
 
 }

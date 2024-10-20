@@ -1,6 +1,8 @@
 package gruop7.gundamshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import gruop7.gundamshop.domain.Category;
 import gruop7.gundamshop.domain.Product;
-import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.service.CategoryService;
 import gruop7.gundamshop.service.ProductService;
 import gruop7.gundamshop.service.UploadService;
@@ -69,6 +70,7 @@ public class ProductController {
 
         product.setCategory(this.productService.getCategoryByName(product.getCategory().getName()));
         String image = this.uploadService.handleSaveUploadFile(file, "product");
+        System.out.println(image);
         product.setImage(image);
         product.setStatus(true);
         product.setCreatedAt(LocalDateTime.now());
@@ -84,7 +86,7 @@ public class ProductController {
     public String getUpdateProductPage(Model model, @PathVariable long id) {
         // chú ý category sử lý chỗ này
 
-        Product currentProduct = this.productService.getProductById(id);
+        Product currentProduct = this.productService.getProductById(id).get();
 
         // Ensure customer is not null before adding to model
         if (currentProduct == null) {
@@ -106,20 +108,33 @@ public class ProductController {
     public String postUpdateProduct(Model model, @ModelAttribute("newProduct") @Valid Product product,
             BindingResult newProductBindingResult,
             @RequestParam("productFile") MultipartFile file) {
-        // // validate
-        // if (newProductBindingResult.hasErrors()) {
-        // return "admin/customer/update";
-        // }
-        Product currentProduct = this.productService.getProductById(product.getId());
-        if (currentProduct != null) {
-            // update new image
-            if (!file.isEmpty()) {
-                String img = this.uploadService.handleSaveUploadFile(file, "product");
-                currentProduct.setImage(img);
+        // validate
+        if (newProductBindingResult.hasErrors()) {
+            return "admin/customer/update";
+        }
+
+        Optional<Product> currentProductOpt = this.productService.getProductById(product.getId());
+
+        if (currentProductOpt.isPresent()) { // Correct handling of Optional
+            Product currentProduct = currentProductOpt.get(); // Unwrap the Optional
+            if (currentProduct != null) {
+                // update new image
+                if (!file.isEmpty()) {
+                    String img = this.uploadService.handleSaveUploadFile(file, "product");
+                    currentProduct.setImage(img);
+                }
+                currentProduct.setCategory(this.productService.getCategoryByName(product.getCategory().getName()));
+                currentProduct.setUpdatedAt(LocalDateTime.now());
+                currentProduct.setName(product.getName());
+                currentProduct.setPrice(product.getPrice());
+                currentProduct.setQuantity(product.getQuantity());
+                currentProduct.setDetailDesc(product.getDetailDesc());
+                currentProduct.setShortDesc(product.getShortDesc());
+                currentProduct.setFactory(product.getFactory());
+                currentProduct.setTarget(product.getTarget());
+
+                this.productService.handleSaveProduct(currentProduct);
             }
-            currentProduct.setCategory(this.productService.getCategoryByName(product.getCategory().getName()));
-            currentProduct.setUpdatedAt(LocalDateTime.now());
-            this.productService.handleSaveProduct(currentProduct);
         }
         return "redirect:/admin/product";
     }
@@ -134,7 +149,7 @@ public class ProductController {
 
     @PostMapping("/admin/product/delete")
     public String postDeleteProduct(Model model, @ModelAttribute("Product") Product product) {
-        Product currentProduct = this.productService.getProductById(product.getId());
+        Product currentProduct = this.productService.getProductById(product.getId()).get();
 
         if (currentProduct != null) {
 
@@ -147,7 +162,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/{id}")
     public String getProductDetailPage(Model model, @PathVariable long id) {
-        Product newProduct = this.productService.getProductById(id);
+        Product newProduct = this.productService.getProductById(id).get();
         model.addAttribute("newProduct", newProduct);
         model.addAttribute("id", id);
         return "admin/product/detail";
