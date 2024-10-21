@@ -141,15 +141,29 @@ public class ItemController {
         return "redirect:/checkout";
     }
 
-    @PostMapping("/place-order")
-    public String handlePlaceOrder(
-            HttpServletRequest request,
-            @RequestParam("receiverName") String receiverName,
-            @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("receiverPhone") String receiverPhone) {
-        HttpSession session = request.getSession(false);
+    // @PostMapping("/place-order")
+    // public String handlePlaceOrder(
+    // HttpServletRequest request,
+    // @RequestParam("receiverName") String receiverName,
+    // @RequestParam("receiverAddress") String receiverAddress,
+    // @RequestParam("receiverPhone") String receiverPhone) {
 
-        return "redirect:/";
+    // User currentUser = new User();// null
+    // HttpSession session = request.getSession(false);
+    // long id = (long) session.getAttribute("id");
+    // currentUser.setId(id);
+
+    // this.productService.handlePlaceOrder(currentUser, session, receiverName,
+    // receiverAddress, receiverPhone);
+
+    // return "redirect:/thanks";
+
+    // }
+
+    @GetMapping("/thanks")
+    public String getThankYouPage(Model model) {
+
+        return "client/cart/thanks";
     }
 
 }

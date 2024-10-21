@@ -9,12 +9,16 @@ import org.springframework.data.domain.Pageable;
 import gruop7.gundamshop.domain.Cart;
 import gruop7.gundamshop.domain.CartDetail;
 import gruop7.gundamshop.domain.Category;
+import gruop7.gundamshop.domain.Order;
+import gruop7.gundamshop.domain.OrderDetail;
 import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.Role;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.repository.CartDetailRepository;
 import gruop7.gundamshop.repository.CartRepository;
 import gruop7.gundamshop.repository.CategoryRepository;
+import gruop7.gundamshop.repository.OrderDetailRepository;
+import gruop7.gundamshop.repository.OrderRepository;
 import gruop7.gundamshop.repository.ProductRepository;
 import jakarta.servlet.http.HttpSession;
 
@@ -26,15 +30,21 @@ public class ProductService {
     private final CartRepository cartRepository;
     private final CartDetailRepository cartDetailRepository;
     private final UserService userService;
+    private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
             CartRepository cartRepository,
-            CartDetailRepository cartDetailRepository, UserService userService) {
+            CartDetailRepository cartDetailRepository, UserService userService,
+            OrderRepository orderRepository,
+            OrderDetailRepository orderDetailRepository) {
         this.userService = userService;
         this.cartDetailRepository = cartDetailRepository;
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.cartRepository = cartRepository;
+        this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
 
     }
 
@@ -153,5 +163,49 @@ public class ProductService {
             }
         }
     }
+
+    // public void handlePlaceOrder(
+    // User user, HttpSession session,
+    // String receiverName, String receiverAddress, String receiverPhone) {
+
+    // // create order
+    // Order order = new Order();
+    // order.setUser(user);
+    // order.setReceiverName(receiverName);
+    // order.setReceiverAddress(receiverAddress);
+    // order.setReceiverPhone(receiverPhone);
+    // order = this.orderRepository.save(order);
+
+    // // create orderDetail
+
+    // // step 1: get cart by user
+    // Cart cart = this.cartRepository.findByUser(user);
+    // if (cart != null) {
+    // List<CartDetail> cartDetails = cart.getCartDetails();
+
+    // if (cartDetails != null) {
+    // for (CartDetail cd : cartDetails) {
+    // OrderDetail orderDetail = new OrderDetail();
+    // orderDetail.setOrder(order);
+    // orderDetail.setProduct(cd.getProduct());
+    // orderDetail.setPrice(cd.getPrice());
+    // orderDetail.setQuantity(cd.getQuantity());
+
+    // this.orderDetailRepository.save(orderDetail);
+    // }
+
+    // // step 2: delete cart_detail and cart
+    // for (CartDetail cd : cartDetails) {
+    // this.cartDetailRepository.deleteById(cd.getId());
+    // }
+
+    // this.cartRepository.deleteById(cart.getId());
+
+    // // step 3 : update session
+    // session.setAttribute("sum", 0);
+    // }
+    // }
+
+    // }
 
 }
