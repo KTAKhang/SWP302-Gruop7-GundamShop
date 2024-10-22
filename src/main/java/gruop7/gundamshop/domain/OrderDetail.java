@@ -24,7 +24,7 @@ public class OrderDetail {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int quantity;
+    private long quantity;
     private double price;
 
     public long getId() {
@@ -51,14 +51,6 @@ public class OrderDetail {
         this.order = order;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -71,6 +63,14 @@ public class OrderDetail {
     public String toString() {
         return "OrderProduct [id=" + id + ", product=" + product + ", order=" + order + ", quantity=" + quantity
                 + ", price=" + price + "]";
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
 }

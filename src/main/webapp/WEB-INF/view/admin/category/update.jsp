@@ -59,7 +59,10 @@
                                             <form:form method="post" action="/admin/category/update"
                                                 modelAttribute="newCategory" class="row" enctype="multipart/form-data">
 
+                                                <form:input type="hidden" class="form-control" path="id" />
 
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Name of Category:</label>
                                                     <form:input type="text" class="form-control" path="name" />

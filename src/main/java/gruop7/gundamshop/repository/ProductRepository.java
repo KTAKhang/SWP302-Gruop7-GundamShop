@@ -22,6 +22,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Optional<Product> findById(long id);
 
+    Product findByIdAndStatus(long id, boolean status);
+
     List<Product> findAllByStatus(boolean status);
+
+    Product findByIdAndStatus(Long id, boolean status);
 
 }

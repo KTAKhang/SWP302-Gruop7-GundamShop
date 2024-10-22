@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -27,6 +28,10 @@ public class Order {
     private String receiverPhone;
 
     private String status;
+
+    private String note;
+
+    private LocalDateTime orderDate;
 
     // user id
     @ManyToOne
@@ -103,6 +108,22 @@ public class Order {
     @Override
     public String toString() {
         return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
 }

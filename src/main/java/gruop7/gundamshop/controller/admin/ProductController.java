@@ -86,8 +86,9 @@ public class ProductController {
     public String getUpdateProductPage(Model model, @PathVariable long id) {
         // chú ý category sử lý chỗ này
 
-        Product currentProduct = this.productService.getProductById(id).get();
+        Optional<Product> Product = this.productService.getProductById(id);
 
+        Product currentProduct = Product.get();
         // Ensure customer is not null before adding to model
         if (currentProduct == null) {
             // Handle the case where the user is not found
@@ -110,7 +111,7 @@ public class ProductController {
             @RequestParam("productFile") MultipartFile file) {
         // validate
         if (newProductBindingResult.hasErrors()) {
-            return "admin/customer/update";
+            return "admin/product/update";
         }
 
         Optional<Product> currentProductOpt = this.productService.getProductById(product.getId());
