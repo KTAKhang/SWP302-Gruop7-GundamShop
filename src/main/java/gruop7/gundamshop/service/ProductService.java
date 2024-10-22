@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import java.time.LocalDateTime;
 import gruop7.gundamshop.domain.Cart;
 import gruop7.gundamshop.domain.CartDetail;
 import gruop7.gundamshop.domain.Category;
@@ -61,12 +61,20 @@ public class ProductService {
         return this.productRepository.save(pr);
     }
 
+    public Product getProductByIdAndStatus(long id, boolean status) {
+        return this.productRepository.findByIdAndStatus(id, status);
+    }
+
     public List<Product> getProductByStatus(boolean status) {
         return productRepository.findAllByStatus(status);
     }
 
     public Product handleSaveProduct(Product product) {
         return this.productRepository.save(product);
+    }
+
+    public Product getByIdAndStatus(Long id, boolean status) {
+        return this.productRepository.findByIdAndStatus(id, status);
     }
 
     public Category getCategoryByName(String name) {
@@ -164,48 +172,58 @@ public class ProductService {
         }
     }
 
-    // public void handlePlaceOrder(
-    // User user, HttpSession session,
-    // String receiverName, String receiverAddress, String receiverPhone) {
+    public void handlePlaceOrder(
+            User user, HttpSession session,
+            String receiverName, String receiverAddress, String receiverPhone, String Note) {
 
-    // // create order
-    // Order order = new Order();
-    // order.setUser(user);
-    // order.setReceiverName(receiverName);
-    // order.setReceiverAddress(receiverAddress);
-    // order.setReceiverPhone(receiverPhone);
-    // order = this.orderRepository.save(order);
+        // step 1: get cart by user
+        Cart cart = this.cartRepository.findByUser(user);
+        if (cart != null) {
+            List<CartDetail> cartDetails = cart.getCartDetails();
 
-    // // create orderDetail
+            if (cartDetails != null) {
 
-    // // step 1: get cart by user
-    // Cart cart = this.cartRepository.findByUser(user);
-    // if (cart != null) {
-    // List<CartDetail> cartDetails = cart.getCartDetails();
+                // create order
+                Order order = new Order();
+                order.setUser(user);
+                order.setReceiverName(receiverName);
+                order.setReceiverAddress(receiverAddress);
+                order.setReceiverPhone(receiverPhone);
+                order.setNote(Note);
+                order.setOrderDate(LocalDateTime.now());
+                order.setStatus("PENDING");
 
-    // if (cartDetails != null) {
-    // for (CartDetail cd : cartDetails) {
-    // OrderDetail orderDetail = new OrderDetail();
-    // orderDetail.setOrder(order);
-    // orderDetail.setProduct(cd.getProduct());
-    // orderDetail.setPrice(cd.getPrice());
-    // orderDetail.setQuantity(cd.getQuantity());
+                double sum = 0;
+                for (CartDetail cd : cartDetails) {
+                    sum += cd.getPrice();
+                }
+                order.setTotalPrice(sum);
+                order = this.orderRepository.save(order);
 
-    // this.orderDetailRepository.save(orderDetail);
-    // }
+                // create orderDetail
 
-    // // step 2: delete cart_detail and cart
-    // for (CartDetail cd : cartDetails) {
-    // this.cartDetailRepository.deleteById(cd.getId());
-    // }
+                for (CartDetail cd : cartDetails) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrder(order);
+                    orderDetail.setProduct(cd.getProduct());
+                    orderDetail.setPrice(cd.getPrice());
+                    orderDetail.setQuantity(cd.getQuantity());
 
-    // this.cartRepository.deleteById(cart.getId());
+                    this.orderDetailRepository.save(orderDetail);
+                }
 
-    // // step 3 : update session
-    // session.setAttribute("sum", 0);
-    // }
-    // }
+                // step 2: delete cart_detail and cart
+                for (CartDetail cd : cartDetails) {
+                    this.cartDetailRepository.deleteById(cd.getId());
+                }
 
-    // }
+                this.cartRepository.deleteById(cart.getId());
+
+                // step 3 : update session
+                session.setAttribute("sum", 0);
+            }
+        }
+
+    }
 
 }

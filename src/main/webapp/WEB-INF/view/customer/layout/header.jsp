@@ -68,7 +68,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white justify-content-between mx-5" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <li class="nav-item logo-item"><a href="#"><img class="nav-logo" style="width: 50px"
+                            <li class="nav-item logo-item"><a href="/"><img class="nav-logo" style="width: 50px"
                                         src="/client/img/logo.jpg" alt=""></a></li>
                             <a href="/" class="nav-item nav-link active">Trang Chủ</a>
                             <li class="nav-item search-bar"><input class="nav-search" type="text"
@@ -76,7 +76,11 @@
                             <a href="/products" class="nav-item nav-link">Sản Phẩm</a>
                             <a href="" class="nav-item nav-link">lịch sử mua hàng</a>
                             <a href="" class="nav-item nav-link">Theo Dõi Vận Chuyển</a>
-                            <a href="" class="nav-item nav-link">Liên Hệ</a>
+
+                            <!-- Việt Nguyên làm chỗ này nha -->
+                            <c:if test="${not empty pageContext.request.userPrincipal}">
+                                <a href="" class="nav-item nav-link">Liên Hệ</a>
+                            </c:if>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <c:if test="${not empty pageContext.request.userPrincipal}">
