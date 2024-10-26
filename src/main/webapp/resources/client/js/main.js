@@ -165,9 +165,16 @@
 
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();
+        const availableQuantity = parseInt(button.parent().parent().find('input').attr('data-available-quantity')); // get available quantity
+        // const id = input.attr("data-cart-detail-id");
         if (button.hasClass('btn-plus')) {
-            var newVal = parseFloat(oldValue) + 1;
-            change = 1;
+            if (parseInt(oldValue) < availableQuantity) {
+                var newVal = parseFloat(oldValue) + 1;
+                change = 1;
+            } else {
+                alert('Sản phẩm đã đạt số lượng tối đa trong kho!');
+                return; // prevent further execution
+            }
         } else {
             if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
@@ -221,6 +228,17 @@
             });
         }
     });
+
+    // // Check if the product is out of stock and display a message
+    // $(document).ready(function () {
+    //     $('input[data-available-quantity]').each(function () {
+    //         if (parseInt($(this).attr('data-available-quantity')) === 0) {
+    //             const productRow = $(this).closest('tr');
+    //             productRow.find('td').last().html('<span class="text-danger">Hết hàng</span>');
+    //             productRow.find('button').prop('disabled', true); // Disable quantity buttons
+    //         }
+    //     });
+    // });
 
     function formatCurrency(value) {
         // Use the 'vi-VN' locale to format the number according to Vietnamese currency format

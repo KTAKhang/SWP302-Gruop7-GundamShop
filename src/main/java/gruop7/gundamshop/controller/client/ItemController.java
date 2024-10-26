@@ -138,6 +138,12 @@ public class ItemController {
         return "redirect:/cart";
     }
 
+    @GetMapping("/out-of-stock")
+    public String getOutOfStock(Model model) {
+
+        return "customer/cart/out-of-stock";
+    }
+
     @GetMapping("/checkout")
     public String getCheckOutPage(Model model, HttpServletRequest request) {
         User currentUser = new User();// null
@@ -148,6 +154,12 @@ public class ItemController {
         Cart cart = this.productService.fetchByUser(currentUser);
 
         List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+        // Kiểm tra sản phẩm có số lượng bằng 0
+        for (CartDetail cd : cartDetails) {
+            if (cd.getProduct().getQuantity() == 0) {
+                return "redirect:/out-of-stock"; // Redirect to an out-of-stock page
+            }
+        }
 
         double totalPrice = 0;
         for (CartDetail cd : cartDetails) {

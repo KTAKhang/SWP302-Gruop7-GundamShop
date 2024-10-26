@@ -81,6 +81,7 @@
                                         <div class="col-lg-12">
                                             <div class="row g-4">
                                                 <!-- vòng lập -->
+
                                                 <c:forEach var="product" items="${products}" begin="0" end="3">
     <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="rounded position-relative fruite-item">
@@ -119,6 +120,7 @@
         </div>
     </div>
 </c:forEach>
+
 
                                             </div>
                                         </div>

@@ -109,12 +109,20 @@
                                                                 <i class="fa fa-minus"></i>
                                                             </button>
                                                         </div>
+                                                        <!-- <input type="text"
+                                                            class="form-control form-control-sm text-center border-0"
+                                                            value="${cartDetail.quantity}"
+                                                            data-cart-detail-id="${cartDetail.id}"
+                                                            data-cart-detail-price="${cartDetail.price}"
+                                                            data-cart-detail-index="${status.index}"> -->
                                                         <input type="text"
                                                             class="form-control form-control-sm text-center border-0"
                                                             value="${cartDetail.quantity}"
                                                             data-cart-detail-id="${cartDetail.id}"
                                                             data-cart-detail-price="${cartDetail.price}"
-                                                            data-cart-detail-index="${status.index}">
+                                                            data-cart-detail-index="${status.index}"
+                                                            data-available-quantity="${cartDetail.product.quantity}"
+                                                            readonly>
                                                         <div class="input-group-btn">
                                                             <button
                                                                 class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -129,15 +137,23 @@
                                                             value="${cartDetail.price * cartDetail.quantity}" /> đ
                                                     </p>
                                                 </td>
+
+
                                                 <td>
                                                     <form method="post" action="/delete-cart-product/${cartDetail.id}">
                                                         <input type="hidden" name="${_csrf.parameterName}"
                                                             value="${_csrf.token}" />
-                                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
+                                                        <button
+                                                            class="btn btn-md rounded-circle bg-light border mt-4 mr-4">
                                                             <i class="fa fa-times text-danger"></i>
                                                         </button>
                                                     </form>
                                                 </td>
+                                                <c:if test="${cartDetail.product.quantity == 0}">
+                                                    <td colspan="6" class="align-middle">
+                                                        <span class="text-danger">Hết hàng</span>
+                                                    </td>
+                                                </c:if>
                                             </tr>
                                         </c:forEach>
 
