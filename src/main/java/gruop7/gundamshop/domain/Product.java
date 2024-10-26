@@ -1,6 +1,5 @@
 package gruop7.gundamshop.domain;
 
-
 import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Entity;
@@ -17,7 +16,6 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 @Entity
 @Table(name = "products")
@@ -36,8 +34,8 @@ public class Product {
     private String image;
     private String detailDesc;
     private String shortDesc;
-    private int quantity;
-    private int sold;
+    private long quantity;
+    private long sold;
     private String factory;
     private String target;
     private LocalDateTime createdAt;
@@ -100,23 +98,21 @@ public class Product {
         this.shortDesc = shortDesc;
     }
 
-    public int getQuantity() {
+    public long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(long quantity) {
         this.quantity = quantity;
     }
 
-
-    public int getSold() {
+    public long getSold() {
         return sold;
     }
 
-    public void setSold(int sold) {
+    public void setSold(long sold) {
         this.sold = sold;
     }
-
 
     public String getFactory() {
         return factory;

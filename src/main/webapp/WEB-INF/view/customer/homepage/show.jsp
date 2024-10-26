@@ -93,15 +93,16 @@
                                                                 style="top: 10px; left: 10px;">Gun Dam</div>
                                                             <div
                                                                 class="p-4 border border-secondary border-top-0 rounded-bottom">
-
-                                                                <h4 style="font-size: 15px;">
-                                                                    <!-- ID và Tên Sản Phẩm/ nó sẽ truyền trực tiếp đến sản phẩm chi tiết  -->
-                                                                    <a href="/product/${product.id}">
-                                                                        ${product.name}
-                                                                    </a>
-                                                                </h4>
-                                                                <!-- mô tả ngắn -->
-                                                                <p style="font-size: 13px;">${product.shortDesc}</p>
+                                                                <div class="blog-title">
+                                                                    <h4 style="font-size: 15px;">
+                                                                        <!-- ID và Tên Sản Phẩm/ nó sẽ truyền trực tiếp đến sản phẩm chi tiết  -->
+                                                                        <a href="/product/${product.id}">
+                                                                            ${product.name}
+                                                                        </a>
+                                                                    </h4>
+                                                                    <!-- mô tả ngắn -->
+                                                                    <p style="font-size: 13px;">${product.shortDesc}</p>
+                                                                </div>
                                                                 <div
                                                                     class="d-flex  flex-lg-wrap justify-content-center flex-column">
                                                                     <p style="font-size: 15px; text-align: center; width: 100%;"
