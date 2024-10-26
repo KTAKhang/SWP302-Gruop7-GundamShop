@@ -107,7 +107,7 @@
                                                         <form:option value="CHUYEN-GIA">Chuyên gia</form:option>
                                                         <form:option value="SUU-TAM">Sưu tầm</form:option>
                                                         <form:option value="LAP-DE">Lắp dễ</form:option>
-                                                        <form:option value="KICH-THUOC">Kích thước</form:option>
+                                                        <form:option value="LAP-SAN">Lắp sẵn</form:option>
                                                     </form:select>
                                                 </div>
 

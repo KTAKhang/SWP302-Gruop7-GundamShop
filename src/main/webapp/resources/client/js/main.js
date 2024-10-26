@@ -145,6 +145,21 @@
 
 
 
+    // Product Quantity
+    // $('.quantity button').on('click', function () {
+    //     var button = $(this);
+    //     var oldValue = button.parent().parent().find('input').val();
+    //     if (button.hasClass('btn-plus')) {
+    //         var newVal = parseFloat(oldValue) + 1;
+    //     } else {
+    //         if (oldValue > 0) {
+    //             var newVal = parseFloat(oldValue) - 1;
+    //         } else {
+    //             newVal = 0;
+    //         }
+    //     }
+    //     button.parent().parent().find('input').val(newVal);
+    // });
     $('.quantity button').on('click', function () {
         let change = 0;
 
@@ -238,8 +253,6 @@
         formatted = formatted.replace(/\./g, ',');
         return formatted;
     }
-
-
 
     //handle filter products
     $('#btnFilter').click(function (event) {

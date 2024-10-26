@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Sản Phẩm - Gundamshop</title>
+                    <title> Sản Phẩm - Laptopshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -74,47 +74,24 @@
                                         <div class="row g-4">
                                             <div class="col-12" id="factoryFilter">
                                                 <div class="mb-2"><b>Hãng sản xuất</b></div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="factory-1"
-                                                        value="BanDai">
-                                                    <label class="form-check-label" for="factory-1">BanDai</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="factory-2"
-                                                        value="Banpresto">
-                                                    <label class="form-check-label" for="factory-2">Banpresto</label>
-                                                </div>
-
-                                               
-
+                                                <c:forEach var="factory" items="${factories}">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="factory-${factory}" value="${factory}">
+                                                        <label class="form-check-label" for="factory-${factory}">${factory}</label>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
+                                            
                                             <div class="col-12" id="targetFilter">
-                                                <div class="mb-2"><b>Mẫu Mô Hình</b></div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="target-1"
-                                                        value="GUNDAM">
-                                                    <label class="form-check-label" for="target-1">GunDam</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="target-2"
-                                                        value="LBX">
-                                                    <label class="form-check-label" for="target-2">LBX</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="target-3"
-                                                        value="Gunpla">
-                                                    <label class="form-check-label" for="target-3">Gunpla</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="target-4"
-                                                        value="Metal build">
-                                                    <label class="form-check-label" for="target-4">Metal build</label>
-                                                </div>
-                                               
-
-
+                                                <div class="mb-2"><b>Mục đích sử dụng</b></div>
+                                                <c:forEach var="target" items="${targets}">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="target-${target}" value="${target}">
+                                                        <label class="form-check-label" for="target-${target}">${target}</label>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
+                                            
                                             <div class="col-12" id="priceFilter">
                                                 <div class="mb-2"><b>Mức giá</b></div>
 
@@ -145,25 +122,29 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="mb-2"><b>Sắp xếp</b></div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="sort-1"
-                                                        value="gia-tang-dan" name="radio-sort">
-                                                    <label class="form-check-label" for="sort-1">Giá tăng dần</label>
+                                                <div class="col-12">
+                                                    <div class="mb-2"><b>Sắp xếp</b></div>
+                                                
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" id="sort-1"
+                                                            value="gia-tang-dan" name="radio-sort">
+                                                        <label class="form-check-label" for="sort-1">Giá tăng dần</label>
+                                                    </div>
+                                                
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" id="sort-2"
+                                                            value="gia-giam-dan" name="radio-sort">
+                                                        <label class="form-check-label" for="sort-2">Giá giảm dần</label>
+                                                    </div>
+                                                
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" id="sort-3"
+                                                            value="gia-nothing" name="radio-sort" checked>
+                                                        <label class="form-check-label" for="sort-3">Không sắp xếp</label>
+                                                    </div>
                                                 </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="sort-2"
-                                                        value="gia-giam-dan" name="radio-sort">
-                                                    <label class="form-check-label" for="sort-2">Giá giảm dần</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="sort-3" checked
-                                                        value="gia-nothing" name="radio-sort">
-                                                    <label class="form-check-label" for="sort-3">Không sắp xếp</label>
-                                                </div>
+                                                
+                                                
 
                                             </div>
                                             <div class="col-12">
@@ -181,49 +162,42 @@
                                                 <div>Không tìm thấy sản phẩm</div>
                                             </c:if>
                                             <c:forEach var="product" items="${products}">
-                                                <div class="col-md-6 col-lg-4">
-                                                    <div class="rounded position-relative fruite-item">
-                                                        <div class="fruite-img">
-                                                            <img src="/images/product/${product.image}"
-                                                                class="img-fluid w-100 rounded-top" alt="">
-                                                        </div>
-                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                            style="top: 10px; left: 10px;">___
-                                                        </div>
-                                                        <div
-                                                            class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4 style="font-size: 15px;">
-                                                                <a href="/product/${product.id}">
-                                                                    ${product.name}
-                                                                </a>
+    <c:if test="${product.status == true}">
+        <div class="col-md-6 col-lg-4">
+            <div class="rounded position-relative fruite-item">
+                <div class="fruite-img">
+                    <img src="/images/product/${product.image}" class="img-fluid w-100 rounded-top" alt="">
+                </div>
+                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Gundam
+                </div>
+                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                    <h4 style="font-size: 15px;">
+                        <a href="/product/${product.id}">${product.name}</a>
+                    </h4>
+                    <p style="font-size: 13px;">${product.shortDesc}</p>
+                    <div class="d-flex flex-lg-wrap justify-content-center flex-column">
+                        <p style="font-size: 15px; text-align: center; width: 100%;" class="text-dark fw-bold mb-3">
+                            <fmt:formatNumber type="number" value="${product.price}" /> đ
+                        </p>
+                        <c:choose>
+    <c:when test="${product.quantity > 0}">
+        <button data-product-id="${product.id}"
+            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+        </button>
+    </c:when>
+    <c:otherwise>
+        <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4" disabled>Hết hàng</button>
+    </c:otherwise>
+</c:choose>
 
-                                                            </h4>
-                                                            <p style="font-size: 13px;">
-                                                                ${product.shortDesc}</p>
-                                                            <div
-                                                                class="d-flex  flex-lg-wrap justify-content-center flex-column">
-                                                                <p style="font-size: 15px; text-align: center; width: 100%;"
-                                                                    class="text-dark  fw-bold mb-3">
-                                                                    <fmt:formatNumber type="number"
-                                                                        value="${product.price}" />
-                                                                    đ
-                                                                </p>
-                                                                <form action="/add-product-to-cart/${product.id}"
-                                                                    method="post">
-                                                                    <input type="hidden" name="${_csrf.parameterName}"
-                                                                        value="${_csrf.token}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:if>
+</c:forEach>
 
-                                                                    <button
-                                                                        class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                        Add to cart
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </c:forEach>
 
 
                                             <c:if test="${totalPages > 0}">
