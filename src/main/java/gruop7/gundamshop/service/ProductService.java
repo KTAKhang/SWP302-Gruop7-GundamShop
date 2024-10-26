@@ -195,7 +195,7 @@ public class ProductService {
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice();
+                    sum += cd.getPrice() * cd.getQuantity();
                 }
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
@@ -210,6 +210,14 @@ public class ProductService {
                     orderDetail.setQuantity(cd.getQuantity());
 
                     this.orderDetailRepository.save(orderDetail);
+
+                    // Deduct product quantity and increase sold count
+                    Product product = cd.getProduct();
+                    product.setQuantity(product.getQuantity() - cd.getQuantity()); // Deduct quantity
+                    product.setSold(product.getSold() + cd.getQuantity()); // Increase sold count
+
+                    // Save updated product
+                    this.productRepository.save(product);
                 }
 
                 // step 2: delete cart_detail and cart

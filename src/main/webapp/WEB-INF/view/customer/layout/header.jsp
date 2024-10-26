@@ -70,16 +70,16 @@
                         <div class="navbar-nav">
                             <li class="nav-item logo-item"><a href="/"><img class="nav-logo" style="width: 50px"
                                         src="/client/img/logo.jpg" alt=""></a></li>
-                            <a href="/" class="nav-item nav-link active">Trang Chủ</a>
+                            <a href="/" class="nav-item nav-link active fw-bold pr-2">Trang Chủ</a>
                             <li class="nav-item search-bar"><input class="nav-search" type="text"
                                     placeholder="bạn cần gì..."></i></li>
-                            <a href="/products" class="nav-item nav-link">Sản Phẩm</a>
-                            <a href="" class="nav-item nav-link">lịch sử mua hàng</a>
-                            <a href="" class="nav-item nav-link">Theo Dõi Vận Chuyển</a>
+                            <a href="/products" class="nav-item nav-link fw-bold">Sản Phẩm</a>
+                            <a href="" class="nav-item nav-link fw-bold">lịch sử mua hàng</a>
+                            <a href="" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
 
                             <!-- Việt Nguyên làm chỗ này nha -->
                             <c:if test="${not empty pageContext.request.userPrincipal}">
-                                <a href="" class="nav-item nav-link">Liên Hệ</a>
+                                <a href="" class="nav-item nav-link fw-bold">Liên Hệ</a>
                             </c:if>
                         </div>
                         <div class="d-flex m-3 me-0">

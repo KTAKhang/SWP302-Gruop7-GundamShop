@@ -92,6 +92,7 @@ public class ProductController {
         // Ensure customer is not null before adding to model
         if (currentProduct == null) {
             // Handle the case where the user is not found
+
             return "redirect:/admin/product"; // Redirect or show an error page
         }
         // Ensure customer is not null before adding to model
@@ -111,6 +112,7 @@ public class ProductController {
             @RequestParam("productFile") MultipartFile file) {
         // validate
         if (newProductBindingResult.hasErrors()) {
+
             return "admin/product/update";
         }
 
