@@ -117,17 +117,19 @@
                                             </div>
                                             <!-- <form action="/add-product-from-view-detail" method="post"
                                                 modelAttribute="product"> -->
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <input class="form-control d-none" type="text" value="${product.id}"
-                                                name="id" />
-
-                                            <input class="form-control d-none" type="text" name="quantity"
-                                                id="cartDetails0.quantity" value="1" />
-                                            <button data-product-id="${product.id}"
-                                                class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                Add to cart
-                                            </button>
+                                                <c:choose>
+                                                    <c:when test="${product.quantity > 0}">
+                                                        <button data-product-id="${product.id}"
+                                                            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4" disabled>Hết hàng</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                
+                                                    
                                             <!-- </form> -->
 
                                         </div>
@@ -157,23 +159,8 @@
                                 <div class="col-lg-4 col-xl-3">
                                     <div class="row g-4 fruite">
                                         <div class="col-lg-12">
-
-                                            <div class="mb-4">
-                                                <h4>Categories</h4>
-                                                <ul class="list-unstyled fruite-categorie">
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Gundam</a>
-                                                            <span>(3)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>LBX</a>
-                                                            <span>(5)</span>
-                                                        </div>
-                                                    </li>
-                                            </div>
+                                        <!-- ssss -->
+                                            
                                         </div>
                                     </div>
                                 </div>

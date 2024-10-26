@@ -32,8 +32,8 @@
                                 <i class="fas fa-exchange-alt fa-3x text-white"></i>
                             </div>
                             <div class="featurs-content text-center">
-                                <h5>30 Day Return</h5>
-                                <p class="mb-0">Đổi trả miễn phí</p>
+                                <h5>Quality Reputation</h5>
+                                <p class="mb-0">Uy Tín Vầ Chất Lượng</p>
                             </div>
                         </div>
                     </div>

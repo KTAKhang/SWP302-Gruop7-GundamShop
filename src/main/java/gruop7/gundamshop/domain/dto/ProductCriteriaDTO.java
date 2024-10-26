@@ -4,11 +4,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProductCriteriaDTO {
-    private Optional<String> page;
-    private Optional<List<String>> factory;
-    private Optional<List<String>> target;
-    private Optional<List<String>> price;
-    private Optional<String> sort;
+    private Optional<String> page = Optional.empty();
+    private Optional<List<String>> factory = Optional.empty();
+    private Optional<List<String>> target = Optional.empty();
+    private Optional<List<String>> price = Optional.empty();
+    private Optional<String> sort = Optional.empty();  // Đảm bảo sort luôn khởi tạo với Optional.empty()
+
+    public ProductCriteriaDTO() {
+        // Bảo đảm tất cả các trường Optional được khởi tạo với Optional.empty()
+        this.page = Optional.empty();
+        this.factory = Optional.empty();
+        this.target = Optional.empty();
+        this.price = Optional.empty();
+        this.sort = Optional.empty();  // Quan trọng nhất là dòng này
+    }
 
     public Optional<String> getPage() {
         return page;
@@ -49,5 +58,4 @@ public class ProductCriteriaDTO {
     public void setSort(Optional<String> sort) {
         this.sort = sort;
     }
-
 }

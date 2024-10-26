@@ -47,23 +47,49 @@ public class ItemController {
         int page = 1;
         try {
             if (productCriteriaDTO.getPage().isPresent()) {
-                // convert from String to int
                 page = Integer.parseInt(productCriteriaDTO.getPage().get());
-            } else {
-                // page = 1
             }
         } catch (Exception e) {
             // page = 1
-            // TODO: handle exception
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.fetchProducts(pageable);
-        List<Product> products = prs.getContent();
+        Pageable pageable;
+
+        // Kiểm tra xem sort có phải là null hoặc Optional trống không
+        if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()) {
+            String sort = productCriteriaDTO.getSort().get();
+            if ("gia-tang-dan".equals(sort)) {
+                pageable = PageRequest.of(page - 1, 10, org.springframework.data.domain.Sort.by("price").ascending());
+            } else if ("gia-giam-dan".equals(sort)) {
+                pageable = PageRequest.of(page - 1, 10, org.springframework.data.domain.Sort.by("price").descending());
+            } else {
+                pageable = PageRequest.of(page - 1, 10); // không sắp xếp
+            }
+        } else {
+            pageable = PageRequest.of(page - 1, 10); // không sắp xếp nếu không có sort
+        }
+
+        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
+        List<Product> products = prs.getContent().size() > 0 ? prs.getContent()
+                : new ArrayList<Product>();
+
+        // Lấy danh sách factory và target từ ProductService
+        List<String> factories = productService.getAllFactories();
+        List<String> targets = productService.getAllTargets();
+
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            qs = qs.replace("page=" + page, "");
+        }
 
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("queryString", qs);
+
+        // Thêm dữ liệu cho bộ lọc
+        model.addAttribute("factories", factories);
+        model.addAttribute("targets", targets);
 
         return "customer/product/show";
     }

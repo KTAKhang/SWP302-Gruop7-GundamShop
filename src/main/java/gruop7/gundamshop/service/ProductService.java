@@ -2,9 +2,13 @@ package gruop7.gundamshop.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 import java.time.LocalDateTime;
 import gruop7.gundamshop.domain.Cart;
 import gruop7.gundamshop.domain.CartDetail;
@@ -14,12 +18,14 @@ import gruop7.gundamshop.domain.OrderDetail;
 import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.Role;
 import gruop7.gundamshop.domain.User;
+import gruop7.gundamshop.domain.dto.ProductCriteriaDTO;
 import gruop7.gundamshop.repository.CartDetailRepository;
 import gruop7.gundamshop.repository.CartRepository;
 import gruop7.gundamshop.repository.CategoryRepository;
 import gruop7.gundamshop.repository.OrderDetailRepository;
 import gruop7.gundamshop.repository.OrderRepository;
 import gruop7.gundamshop.repository.ProductRepository;
+import gruop7.gundamshop.service.specification.ProductSpecs;
 import jakarta.servlet.http.HttpSession;
 
 @Service
@@ -46,6 +52,80 @@ public class ProductService {
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
 
+    }
+
+    public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
+        Specification<Product> combinedSpec = Specification.where(ProductSpecs.matchStatus(true)); // Chỉ lấy sản phẩm
+                                                                                                   // có status = 1
+
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.matchListTarget(productCriteriaDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.matchListFactory(productCriteriaDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
+            Specification<Product> currentSpecs = this.buildPriceSpecification(productCriteriaDTO.getPrice().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+
+        return this.productRepository.findAll(combinedSpec, page);
+    }
+
+    public List<String> getAllFactories() {
+        return productRepository.findAll()
+                .stream()
+                .map(Product::getFactory)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getAllTargets() {
+        return productRepository.findAll()
+                .stream()
+                .map(Product::getTarget)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    // case 6
+    public Specification<Product> buildPriceSpecification(List<String> price) {
+        Specification<Product> combinedSpec = Specification.where(null); // disconjunction
+        for (String p : price) {
+            double min = 0;
+            double max = 0;
+
+            // Set the appropriate min and max based on the price range string
+            switch (p) {
+                case "duoi-10-trieu":
+                    min = 1;
+                    max = 10000000;
+                    break;
+                case "10-15-trieu":
+                    min = 10000000;
+                    max = 15000000;
+                    break;
+                case "15-20-trieu":
+                    min = 15000000;
+                    max = 20000000;
+                    break;
+                case "tren-20-trieu":
+                    min = 20000000;
+                    max = 200000000;
+                    break;
+            }
+
+            if (min != 0 && max != 0) {
+                Specification<Product> rangeSpec = ProductSpecs.matchMultiplePrice(min, max);
+                combinedSpec = combinedSpec.or(rangeSpec);
+            }
+        }
+
+        return combinedSpec;
     }
 
     public List<Product> fetchProducts() {
