@@ -69,17 +69,17 @@ public class SecurityConfiguration {
                                                                 DispatcherType.INCLUDE)
                                                 .permitAll()
 
-                                                .requestMatchers("/", "/login", "/client/**", "/css/**", "/js/**",
-                                                                "/images/**", "/authentication/**", "/forgotpassword",
-                                                                "/authentication/**", "/product/**",
-                                                                "/products")
+                                                .requestMatchers("/", "/login", "/register", "/client/**", "/css/**",
+                                                                "/js/**", "/images/**", "/forgotpassword",
+                                                                "/authentication/**", "/product/**", "/products",
+                                                                "/authentication/enterRegisterOTP")
                                                 .permitAll()
 
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
 
                                                 .anyRequest().authenticated())
                                 .sessionManagement((sessionManagement) -> sessionManagement
-                                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                                                 .invalidSessionUrl("/logout?expired")
                                                 .maximumSessions(1)
                                                 .maxSessionsPreventsLogin(false))

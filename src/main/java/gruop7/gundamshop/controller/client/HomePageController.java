@@ -17,13 +17,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import gruop7.gundamshop.domain.Category;
-import gruop7.gundamshop.domain.Order;
+
 import gruop7.gundamshop.domain.Product;
-import gruop7.gundamshop.domain.User;
+
 import gruop7.gundamshop.service.CategoryService;
 import gruop7.gundamshop.service.ProductService;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {

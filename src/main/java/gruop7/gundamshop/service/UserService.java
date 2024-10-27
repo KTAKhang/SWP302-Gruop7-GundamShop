@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import gruop7.gundamshop.domain.Role;
 import gruop7.gundamshop.domain.User;
+import gruop7.gundamshop.domain.dto.RegisterDTO;
 import gruop7.gundamshop.repository.RoleRepository;
 import gruop7.gundamshop.repository.UserRepository;
 
@@ -42,6 +43,14 @@ public class UserService {
 
     public User getUserById(long id) {
         return this.userRepository.findById(id);
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+        return user;
     }
 
     public List<User> getAllUsersByEmail(String email) {

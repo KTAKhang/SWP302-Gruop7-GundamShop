@@ -41,7 +41,7 @@ public class ForgotPasswordController {
     @GetMapping("/forgotpassword")
     public String getForgotPassword(Model model) {
         model.addAttribute("newUser", new User());
-        return "authentication/forgotPassword";
+        return "authentication/forgotpassword";
     }
 
     @PostMapping("/authentication/forgotPassword")
@@ -93,7 +93,7 @@ public class ForgotPasswordController {
             return "redirect:/authentication/enterOTP"; // Change to redirect
         } else {
             request.setAttribute("message", "Invalid email address!");
-            return "authentication/forgotPassword";
+            return "authentication/forgotpassword";
         }
     }
 
