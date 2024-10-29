@@ -50,7 +50,7 @@
     <div class="container otp-container">
         <h1 class="text-center">Verify OTP</h1>
         <p class="text-center">Check your email and collect OTP to insert</p>
-        <form method="post" action="/authentication/enterOTP" modelAttribute="newOtpForm">
+        <form method="post" action="/authentication/enterRegisterOTP" modelAttribute="newOtpForm">
             <div class="form-group">
                 <label for="otp">Enter OTP</label>
                 <input type="text" id="otp" name="otp" placeholder="Enter OTP" class="form-control"

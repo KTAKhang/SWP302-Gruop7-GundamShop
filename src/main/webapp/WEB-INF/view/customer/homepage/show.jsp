@@ -83,43 +83,60 @@
                                                 <!-- vòng lập -->
 
                                                 <c:forEach var="product" items="${products}" begin="0" end="3">
-    <div class="col-md-6 col-lg-4 col-xl-3">
-        <div class="rounded position-relative fruite-item">
-            <div class="fruite-img">
-                <!-- hình ảnh -->
-                <img src="/images/product/${product.image}" class="img-fluid w-100 rounded-top" alt="">
-            </div>
-            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Gun Dam</div>
-            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                <h4 style="font-size: 15px;">
-                    <!-- ID và Tên Sản Phẩm/ nó sẽ truyền trực tiếp đến sản phẩm chi tiết  -->
-                    <a href="/product/${product.id}">${product.name}</a>
-                </h4>
-                <!-- mô tả ngắn -->
-                <p style="font-size: 13px;">${product.shortDesc}</p>
-                <div class="d-flex flex-lg-wrap justify-content-center flex-column">
-                    <p style="font-size: 15px; text-align: center; width: 100%;" class="text-dark fw-bold mb-3">
-                        <!-- giá cả -->
-                        <fmt:formatNumber type="number" value="${product.price}" /> đ
-                    </p>
+                                                    <div class="col-md-6 col-lg-4 col-xl-3">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <!-- hình ảnh -->
+                                                                <img src="/images/product/${product.image}"
+                                                                    class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                                style="top: 10px; left: 10px;">Gun Dam</div>
+                                                            <div
+                                                                class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4 style="font-size: 15px;">
+                                                                    <!-- ID và Tên Sản Phẩm/ nó sẽ truyền trực tiếp đến sản phẩm chi tiết  -->
+                                                                    <a href="/product/${product.id}">${product.name}</a>
+                                                                </h4>
+                                                                <!-- mô tả ngắn -->
+                                                                <p style="font-size: 13px;">${product.shortDesc}</p>
+                                                                <div
+                                                                    class="d-flex flex-lg-wrap justify-content-center flex-column">
+                                                                    <p style="font-size: 15px; text-align: center; width: 100%;"
+                                                                        class="text-dark fw-bold mb-3">
+                                                                        <!-- giá cả -->
+                                                                        <fmt:formatNumber type="number"
+                                                                            value="${product.price}" /> đ
+                                                                    </p>
 
-                    <c:choose>
-    <c:when test="${product.quantity > 0}">
-        <button data-product-id="${product.id}"
-            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-        </button>
-    </c:when>
-    <c:otherwise>
-        <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4" disabled>Hết hàng</button>
-    </c:otherwise>
-</c:choose>
+                                                                    <c:choose>
+                                                                        <c:when test="${product.quantity > 0}">
+                                                                            <form
+                                                                                action="/add-product-to-cart/${product.id}"
+                                                                                method="post">
+                                                                                <input type="hidden"
+                                                                                    name="${_csrf.parameterName}"
+                                                                                    value="${_csrf.token}" />
 
-                </div>
-            </div>
-        </div>
-    </div>
-</c:forEach>
+                                                                                <button
+                                                                                    class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                                    Add to cart
+                                                                                </button>
+                                                                            </form>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <button
+                                                                                class="btn btn-secondary rounded-pill px-4 py-2 mb-4"
+                                                                                disabled>Hết hàng</button>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
 
 
                                             </div>
