@@ -1,7 +1,6 @@
 package gruop7.gundamshop.domain;
 
 import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +10,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+//bổ sung thu viện mới
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -41,6 +43,18 @@ public class Order {
     @OneToMany(mappedBy = "order")
     List<OrderDetail> orderDetails;
 
+    // Các hằng số cho các trạng thái đơn hàng
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_CONFIRMED = "CONFIRMED";
+    public static final String STATUS_SHIPPING = "SHIPPING";
+    public static final String STATUS_COMPLETED = "COMPLETED";
+
+    // thêm cái này để get ngày tháng không bị lỗi
+    public Date getConvertedOrderDate() {
+        return Date.from(this.orderDate.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    // Getter và setter
     public long getId() {
         return id;
     }
@@ -125,5 +139,4 @@ public class Order {
     public void setNote(String note) {
         this.note = note;
     }
-
 }

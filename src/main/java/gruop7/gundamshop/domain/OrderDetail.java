@@ -1,46 +1,39 @@
 package gruop7.gundamshop.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "order_detail")
 public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private long quantity;
-    private double price;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    public long getId() {
+    private int quantity;
+
+    private BigDecimal price;
+
+    // Thêm quan hệ với ProductReview
+    @OneToOne(mappedBy = "orderDetail", cascade = CascadeType.ALL)
+    private ProductReview productReview;
+
+    // Getters và Setters
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public Order getOrder() {
@@ -51,26 +44,35 @@ public class OrderDetail {
         this.order = order;
     }
 
-    public double getPrice() {
-        return price;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    @Override
-    public String toString() {
-        return "OrderProduct [id=" + id + ", product=" + product + ", order=" + order + ", quantity=" + quantity
-                + ", price=" + price + "]";
-    }
-
-    public long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public ProductReview getProductReview() {
+        return productReview;
+    }
+
+    public void setProductReview(ProductReview productReview) {
+        this.productReview = productReview;
+    }
 }

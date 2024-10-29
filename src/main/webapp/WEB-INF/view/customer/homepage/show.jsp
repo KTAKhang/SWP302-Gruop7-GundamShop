@@ -83,6 +83,8 @@
                                                 <!-- vòng lập -->
 
                                                 <c:forEach var="product" items="${products}" begin="0" end="3">
+
+
                                                     <div class="col-md-6 col-lg-4 col-xl-3">
                                                         <div class="rounded position-relative fruite-item">
                                                             <div class="fruite-img">
@@ -112,6 +114,7 @@
                                                                     <c:choose>
                                                                         <c:when test="${product.quantity > 0}">
                                                                             <form
+
                                                                                 action="/add-product-to-cart/${product.id}"
                                                                                 method="post">
                                                                                 <input type="hidden"
@@ -124,6 +127,7 @@
                                                                                     Add to cart
                                                                                 </button>
                                                                             </form>
+
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <button
@@ -137,6 +141,7 @@
                                                         </div>
                                                     </div>
                                                 </c:forEach>
+
 
 
                                             </div>

@@ -74,8 +74,11 @@
                             <li class="nav-item search-bar"><input class="nav-search" type="text"
                                     placeholder="bạn cần gì..."></i></li>
                             <a href="/products" class="nav-item nav-link fw-bold">Sản Phẩm</a>
-                            <a href="" class="nav-item nav-link fw-bold">lịch sử mua hàng</a>
-                            <a href="/register" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
+
+                            <a href="/order-history" class="nav-item nav-link">Lịch sử mua hàng</a>
+
+                            <a href="" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
+
 
                             <!-- Việt Nguyên làm chỗ này nha -->
                             <c:if test="${not empty pageContext.request.userPrincipal}">

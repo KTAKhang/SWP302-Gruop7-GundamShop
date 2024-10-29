@@ -3,13 +3,12 @@ package gruop7.gundamshop.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import gruop7.gundamshop.domain.Cart;
 import gruop7.gundamshop.domain.CartDetail;
 import gruop7.gundamshop.domain.Category;
@@ -51,7 +50,10 @@ public class ProductService {
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
+    }
 
+    public Optional<OrderDetail> getOrderDetailById(long id) {
+        return orderDetailRepository.findById(id);
     }
 
     public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
@@ -133,7 +135,6 @@ public class ProductService {
     }
 
     public Page<Product> fetchProducts(Pageable page) {
-        // TODO Auto-generated method stub
         return this.productRepository.findAll(page);
     }
 
@@ -169,28 +170,21 @@ public class ProductService {
 
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
-            // check user đã có Cart chưa ? nếu chưa -> tạo mới
             Cart cart = this.cartRepository.findByUser(user);
 
             if (cart == null) {
-                // tạo mới cart
                 Cart otherCart = new Cart();
                 otherCart.setUser(user);
                 otherCart.setSum(0);
-
                 cart = this.cartRepository.save(otherCart);
             }
-
-            // save cart_detail
-            // tìm product by id
 
             Optional<Product> productOptional = this.productRepository.findById(productId);
             if (productOptional.isPresent()) {
                 Product realProduct = productOptional.get();
 
-                // check sản phẩm đã từng được thêm vào giỏ hàng trước đây chưa ?
                 CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart, realProduct);
-                //
+
                 if (oldDetail == null) {
                     CartDetail cd = new CartDetail();
                     cd.setCart(cart);
@@ -199,7 +193,6 @@ public class ProductService {
                     cd.setQuantity(1);
                     this.cartDetailRepository.save(cd);
 
-                    // update cart (sum);
                     int s = cart.getSum() + 1;
                     cart.setSum(s);
                     this.cartRepository.save(cart);
@@ -210,7 +203,6 @@ public class ProductService {
                 }
             }
         }
-
     }
 
     public Cart fetchByUser(User user) {
@@ -223,18 +215,14 @@ public class ProductService {
             CartDetail cartDetail = cartDetailOptional.get();
 
             Cart currentCart = cartDetail.getCart();
-            // delete cart-detail
             this.cartDetailRepository.deleteById(cartDetailId);
 
-            // update cart
             if (currentCart.getSum() > 1) {
-                // update current cart
                 int s = currentCart.getSum() - 1;
                 currentCart.setSum(s);
                 session.setAttribute("sum", s);
                 this.cartRepository.save(currentCart);
             } else {
-                // delete cart (sum = 1)
                 this.cartRepository.deleteById(currentCart.getId());
                 session.setAttribute("sum", 0);
             }
@@ -252,18 +240,14 @@ public class ProductService {
         }
     }
 
-    public void handlePlaceOrder(
-            User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone, String Note) {
+    public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverAddress,
+            String receiverPhone, String Note) {
 
-        // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = cart.getCartDetails();
 
             if (cartDetails != null) {
-
-                // create order
                 Order order = new Order();
                 order.setUser(user);
                 order.setReceiverName(receiverName);
@@ -280,38 +264,31 @@ public class ProductService {
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 
-                // create orderDetail
-
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
                     orderDetail.setProduct(cd.getProduct());
-                    orderDetail.setPrice(cd.getPrice());
-                    orderDetail.setQuantity(cd.getQuantity());
+
+                    // Chuyển đổi BigDecimal và ép kiểu int
+                    orderDetail.setPrice(BigDecimal.valueOf(cd.getPrice()));
+                    orderDetail.setQuantity((int) cd.getQuantity());
 
                     this.orderDetailRepository.save(orderDetail);
 
-                    // Deduct product quantity and increase sold count
                     Product product = cd.getProduct();
-                    product.setQuantity(product.getQuantity() - cd.getQuantity()); // Deduct quantity
-                    product.setSold(product.getSold() + cd.getQuantity()); // Increase sold count
+                    product.setQuantity(product.getQuantity() - cd.getQuantity());
+                    product.setSold(product.getSold() + cd.getQuantity());
 
-                    // Save updated product
                     this.productRepository.save(product);
                 }
 
-                // step 2: delete cart_detail and cart
                 for (CartDetail cd : cartDetails) {
                     this.cartDetailRepository.deleteById(cd.getId());
                 }
 
                 this.cartRepository.deleteById(cart.getId());
-
-                // step 3 : update session
                 session.setAttribute("sum", 0);
             }
         }
-
     }
-
 }
