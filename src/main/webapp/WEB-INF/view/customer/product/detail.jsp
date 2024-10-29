@@ -90,10 +90,12 @@
 
                                             </h5>
                                             <h5 class="fw-bold mb-3">
-        
-                                                <fmt:formatNumber value="${averageRating}" type="number" maxFractionDigits="1" />
+
+                                                <fmt:formatNumber value="${averageRating}" type="number"
+                                                    maxFractionDigits="1" />
                                                 <c:forEach var="i" begin="1" end="5">
-                                                    <i class="fa fa-star ${i <= averageRating ? 'text-secondary' : ''}"></i>
+                                                    <i
+                                                        class="fa fa-star ${i <= averageRating ? 'text-secondary' : ''}"></i>
                                                 </c:forEach>
                                             </h5>
                                             <p class="mb-4">
@@ -117,19 +119,20 @@
                                             </div>
                                             <!-- <form action="/add-product-from-view-detail" method="post"
                                                 modelAttribute="product"> -->
-                                                <c:choose>
-                                                    <c:when test="${product.quantity > 0}">
-                                                        <button data-product-id="${product.id}"
-                                                            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                        </button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4" disabled>Hết hàng</button>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                
-                                                    
+                                            <c:choose>
+                                                <c:when test="${product.quantity > 0}">
+                                                    <button data-product-id="${product.id}"
+                                                        class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    </button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4"
+                                                        disabled>Hết hàng</button>
+                                                </c:otherwise>
+                                            </c:choose>
+
+
                                             <!-- </form> -->
 
                                         </div>
@@ -153,23 +156,27 @@
 
                                             </div>
 
-                                              <!-- Bình luận của khách hàng -->
-                                              <h4 class="fw-bold mb-4">Bình luận của khách hàng:</h4>
-                                              <c:forEach var="review" items="${reviews}">
-                                                  <div class="review-item d-flex align-items-start mb-3">
-                                                      <!-- Hiển thị ảnh đại diện của người dùng -->
-                                                      <img src="${review.user.avatar}" alt="${review.user.username} Avatar" class="rounded-circle" width="50" height="50" style="margin-right: 15px;">
-                                                      
-                                                      <div>
-                                                          <p><strong>${review.user.fullName} :</strong> đã đánh giá: 
-                                                              <span>${review.rating} <i class="fa fa-star text-secondary"></i></span></p>
-                                                          <p>${review.reviewContent}</p>
-                                                      </div>
-                                                  </div>
-                                                  <hr/>
-                                              </c:forEach>
-                                              
-                                            
+                                            <!-- Bình luận của khách hàng -->
+                                            <h4 class="fw-bold mb-4">Bình luận của khách hàng:</h4>
+                                            <c:forEach var="review" items="${reviews}">
+                                                <div class="review-item d-flex align-items-start mb-3">
+                                                    <!-- Hiển thị ảnh đại diện của người dùng -->
+                                                    <img src="/images/avatar/${review.user.avatar}"
+                                                        alt="${review.user.fullName} Avatar" class="rounded-circle"
+                                                        width="50" height="50" style="margin-right: 15px;">
+
+                                                    <div>
+                                                        <p><strong>${review.user.fullName} :</strong> đã đánh giá:
+                                                            <span>${review.rating} <i
+                                                                    class="fa fa-star text-secondary"></i></span>
+                                                        </p>
+                                                        <p>${review.reviewContent}</p>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </c:forEach>
+
+
                                         </div>
 
                                     </div>
@@ -177,8 +184,8 @@
                                 <div class="col-lg-4 col-xl-3">
                                     <div class="row g-4 fruite">
                                         <div class="col-lg-12">
-                                        <!-- ssss -->
-                                            
+                                            <!-- ssss -->
+
                                         </div>
                                     </div>
                                 </div>

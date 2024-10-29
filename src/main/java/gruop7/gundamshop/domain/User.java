@@ -32,11 +32,6 @@ public class User {
     @Size(min = 3, message = "Fullname phải có tối thiểu 3 ký tự")
     private String fullName;
 
-    // Thêm thuộc tính username
-    @NotNull
-    @Size(min = 3, message = "Username phải có tối thiểu 3 ký tự")
-    private String username;
-
     @OneToOne(mappedBy = "user")
     private Cart cart;
 
@@ -81,15 +76,6 @@ public class User {
         this.fullName = fullName;
     }
 
-    // Getter và Setter cho username
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -120,13 +106,6 @@ public class User {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
-                + ", username=" + username + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar
-                + ", status=" + status + "]";
     }
 
     public Role getRole() {

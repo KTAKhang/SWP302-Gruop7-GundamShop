@@ -43,12 +43,6 @@ public class Order {
     @OneToMany(mappedBy = "order")
     List<OrderDetail> orderDetails;
 
-    // Các hằng số cho các trạng thái đơn hàng
-    public static final String STATUS_PENDING = "PENDING";
-    public static final String STATUS_CONFIRMED = "CONFIRMED";
-    public static final String STATUS_SHIPPING = "SHIPPING";
-    public static final String STATUS_COMPLETED = "COMPLETED";
-
     // thêm cái này để get ngày tháng không bị lỗi
     public Date getConvertedOrderDate() {
         return Date.from(this.orderDate.atZone(ZoneId.systemDefault()).toInstant());
