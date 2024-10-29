@@ -1,49 +1,69 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-            <!DOCTYPE html>
-            <html>
+<!DOCTYPE html>
+<html lang="en">
 
-            <head>
-                <!-- Sử dụng HTTPS cho Bootstrap và jQuery -->
-                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"
-                    id="bootstrap-css">
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-                <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>OTP Verification</title>
 
-                <link rel="stylesheet"
-                    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+        body {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
 
-                <style type="text/css">
-                    .form-gap {
-                        padding-top: 70px;
-                    }
-                </style>
-            </head>
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../images/FhOraKA.jpg') center/cover;
+            filter: blur(1px);
+            z-index: -1;
+        }
 
-            <body>
-                <div class="form-gap"></div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="text-center">
-                                        <form:form method="post" action="/authentication/enterRegisterOTP"
-                                            modelAttribute="newOtpForm">
-                                            <div class="form-group">
-                                                <form:input path="otp" placeholder="Enter OTP" cssClass="form-control"
-                                                    required="required" />
-                                            </div>
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <button type="submit" class="btn btn-primary">Submit OTP</button>
-                                        </form:form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </body>
+        .otp-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+        }
 
-            </html>
+        .form-gap {
+            height: 30px;
+            /* Add space above the form */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-gap"></div>
+    <div class="container otp-container">
+        <h1 class="text-center">Verify OTP</h1>
+        <p class="text-center">Check your email and collect OTP to insert</p>
+        <form method="post" action="/authentication/enterRegisterOTP" modelAttribute="newOtpForm">
+            <div class="form-group">
+                <label for="otp">Enter OTP</label>
+                <input type="text" id="otp" name="otp" placeholder="Enter OTP" class="form-control"
+                    required="required" />
+            </div>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <button type="submit" class="btn btn-primary btn-block">Submit OTP</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

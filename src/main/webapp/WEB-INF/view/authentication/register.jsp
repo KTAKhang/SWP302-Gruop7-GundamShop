@@ -24,6 +24,11 @@
                                         <div class="card shadow-lg border-0 rounded-lg mt-5">
                                             <div class="card-header">
                                                 <h3 class="text-center font-weight-light my-4">Create Account</h3>
+                                                <c:if test="${param.exist != null}">
+                                                    <div class="my-2" style="color: red;">Email is already registered.
+                                                        Try logging in.
+                                                    </div>
+                                                </c:if>
                                             </div>
                                             <div class="card-body">
                                                 <form:form method="post" action="/register"

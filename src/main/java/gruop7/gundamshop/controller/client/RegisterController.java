@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import gruop7.gundamshop.domain.OTPForm;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.dto.RegisterDTO;
@@ -31,10 +34,12 @@ import jakarta.validation.Valid;
 public class RegisterController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final ObjectMapper objectMapper;
 
-    public RegisterController(UserService userService, PasswordEncoder passwordEncoder) {
+    public RegisterController(UserService userService, PasswordEncoder passwordEncoder, ObjectMapper objectMapper) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/register")
@@ -52,17 +57,26 @@ public class RegisterController {
 
         if (userService.checkEmailExist(registerDTO.getEmail())) {
             request.setAttribute("message", "Email is already registered. Try logging in.");
-            return "redirect:/register";
+            return "redirect:/register?exist";
         }
 
         HttpSession mySession = request.getSession();
         int otpValue = new Random().nextInt(999999);
         String email = registerDTO.getEmail();
 
-        // Lưu OTP và registerDTO vào session
+        // Chuyển đổi RegisterDTO thành JSON và lưu vào session
+        try {
+            String registerDTOJson = objectMapper.writeValueAsString(registerDTO);
+            mySession.setAttribute("registerDTO", registerDTOJson);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            request.setAttribute("message", "Error processing registration. Please try again.");
+            return "authentication/register";
+        }
+
+        // Lưu OTP và email vào session
         mySession.setAttribute("otp", otpValue);
         mySession.setAttribute("email", email);
-        mySession.setAttribute("registerDTO", registerDTO);
 
         // Thiết lập thuộc tính mail
         Properties props = new Properties();
@@ -93,16 +107,15 @@ public class RegisterController {
             return "authentication/register";
         }
 
-        model.addAttribute("registerUser", registerDTO);
         return "redirect:/authentication/enterRegisterOTP";
     }
 
     @GetMapping("/authentication/enterRegisterOTP")
     public String getOTPPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("email");
+        String registerDTOJson = (String) session.getAttribute("registerDTO"); // Lấy JSON từ session
 
-        if (email == null) {
+        if (registerDTOJson == null) {
             request.setAttribute("message", "Session expired. Please register again.");
             return "redirect:/register";
         }
@@ -115,13 +128,24 @@ public class RegisterController {
     public String validateOtp(HttpServletRequest request, @RequestParam("otp") int otp, Model model) {
         HttpSession session = request.getSession();
         Integer generatedOtp = (Integer) session.getAttribute("otp");
-        RegisterDTO registerDTO = (RegisterDTO) session.getAttribute("registerDTO"); // Lấy registerDTO từ session
+        String registerDTOJson = (String) session.getAttribute("registerDTO"); // Lấy JSON từ session
+
+        RegisterDTO registerDTO = null;
+        try {
+            // Chuyển đổi JSON thành RegisterDTO
+            registerDTO = objectMapper.readValue(registerDTOJson, RegisterDTO.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            request.setAttribute("message", "Session error. Please try again.");
+            return "authentication/register";
+        }
 
         if (generatedOtp != null && generatedOtp.equals(otp) && registerDTO != null) {
             User user = this.userService.registerDTOtoUser(registerDTO);
             String hashPassword = this.passwordEncoder.encode(registerDTO.getPassword());
             user.setPassword(hashPassword);
-            user.setRole(this.userService.getRoleByName("USER"));
+            user.setRole(this.userService.getRoleByName("CUSTOMER"));
+            user.setStatus(true);
 
             this.userService.handleSaveUser(user);
             session.invalidate();

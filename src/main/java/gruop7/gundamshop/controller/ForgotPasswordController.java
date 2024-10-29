@@ -101,8 +101,10 @@ public class ForgotPasswordController {
     public String getOTP(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
+        Integer generatedOtp = (Integer) session.getAttribute("otp");
 
-        if (email == null) {
+        // Check if the email and OTP are present in the session
+        if (email == null || generatedOtp == null) {
             request.setAttribute("message",
                     "Session expired or unauthorized access. Please go through the forgot password process again.");
             return "redirect:/forgotpassword";
@@ -130,8 +132,10 @@ public class ForgotPasswordController {
     public String getResetPassword(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
+        Integer generatedOtp = (Integer) session.getAttribute("otp");
 
-        if (email == null) {
+        // Check if the email and OTP are present in the session
+        if (email == null || generatedOtp == null) {
             request.setAttribute("message",
                     "Session expired or unauthorized access. Please go through the forgot password process again.");
             return "redirect:/forgotpassword";
