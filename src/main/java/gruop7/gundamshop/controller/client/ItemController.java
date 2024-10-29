@@ -2,6 +2,7 @@ package gruop7.gundamshop.controller.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.data.domain.Page;
@@ -17,27 +18,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import gruop7.gundamshop.domain.Cart;
 import gruop7.gundamshop.domain.CartDetail;
 import gruop7.gundamshop.domain.Product;
+import gruop7.gundamshop.domain.ProductReview;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.dto.ProductCriteriaDTO;
 import gruop7.gundamshop.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import gruop7.gundamshop.service.ProductReviewService;
 
 @Controller
 public class ItemController {
 
     private final ProductService productService;
+    private final ProductReviewService productReviewService; // Thêm ProductReviewService
 
-    public ItemController(ProductService productService) {
+    public ItemController(ProductService productService, ProductReviewService productReviewService) {
         this.productService = productService;
+        this.productReviewService = productReviewService;
     }
 
     @GetMapping("/product/{id}")
-    public String getProductPage(Model model, @PathVariable long id) {
-        Product pr = this.productService.getProductById(id).get();
-        model.addAttribute("product", pr);
-        model.addAttribute("id", id);
-        return "customer/product/detail";
+    public String getProductPage(@PathVariable long id, Model model) {
+        Optional<Product> productOptional = productService.getProductById(id);
+        if (productOptional.isEmpty()) {
+            return "error/404"; // Nếu không tìm thấy sản phẩm, trả về lỗi
+        }
+        Product product = productOptional.get();
+
+        // Lấy các đánh giá sản phẩm
+        List<ProductReview> reviews = productReviewService.findReviewsByProductId(id);
+        double averageRating = reviews.stream().mapToInt(ProductReview::getRating).average().orElse(0);
+
+        // Đưa dữ liệu vào model
+        model.addAttribute("product", product);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("averageRating", averageRating);
+
+        return "customer/product/detail"; // Trả về trang chi tiết sản phẩm
     }
 
     @GetMapping("/products")

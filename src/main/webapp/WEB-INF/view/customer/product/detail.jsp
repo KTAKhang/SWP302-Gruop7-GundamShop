@@ -89,13 +89,13 @@
                                                 <fmt:formatNumber type="number" value="${product.price}" /> đ
 
                                             </h5>
-                                            <div class="d-flex mb-4">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
+                                            <h5 class="fw-bold mb-3">
+        
+                                                <fmt:formatNumber value="${averageRating}" type="number" maxFractionDigits="1" />
+                                                <c:forEach var="i" begin="1" end="5">
+                                                    <i class="fa fa-star ${i <= averageRating ? 'text-secondary' : ''}"></i>
+                                                </c:forEach>
+                                            </h5>
                                             <p class="mb-4">
                                                 ${product.shortDesc}
                                             </p>
@@ -152,6 +152,24 @@
                                                 </div>
 
                                             </div>
+
+                                              <!-- Bình luận của khách hàng -->
+                                              <h4 class="fw-bold mb-4">Bình luận của khách hàng:</h4>
+                                              <c:forEach var="review" items="${reviews}">
+                                                  <div class="review-item d-flex align-items-start mb-3">
+                                                      <!-- Hiển thị ảnh đại diện của người dùng -->
+                                                      <img src="${review.user.avatar}" alt="${review.user.username} Avatar" class="rounded-circle" width="50" height="50" style="margin-right: 15px;">
+                                                      
+                                                      <div>
+                                                          <p><strong>${review.user.fullName} :</strong> đã đánh giá: 
+                                                              <span>${review.rating} <i class="fa fa-star text-secondary"></i></span></p>
+                                                          <p>${review.reviewContent}</p>
+                                                      </div>
+                                                  </div>
+                                                  <hr/>
+                                              </c:forEach>
+                                              
+                                            
                                         </div>
 
                                     </div>

@@ -105,10 +105,19 @@
 
                     <c:choose>
     <c:when test="${product.quantity > 0}">
-        <button data-product-id="${product.id}"
-            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-        </button>
+        <form
+                                                                                action="/add-product-to-cart/${product.id}"
+                                                                                method="post">
+                                                                                <input type="hidden"
+                                                                                    name="${_csrf.parameterName}"
+                                                                                    value="${_csrf.token}" />
+
+                                                                                <button
+                                                                                    class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                                    Add to cart
+                                                                                </button>
+                                                                            </form>
     </c:when>
     <c:otherwise>
         <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4" disabled>Hết hàng</button>

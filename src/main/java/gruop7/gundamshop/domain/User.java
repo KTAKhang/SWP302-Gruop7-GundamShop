@@ -1,14 +1,11 @@
 package gruop7.gundamshop.domain;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -35,8 +32,14 @@ public class User {
     @Size(min = 3, message = "Fullname phải có tối thiểu 3 ký tự")
     private String fullName;
 
+    // Thêm thuộc tính username
+    @NotNull
+    @Size(min = 3, message = "Username phải có tối thiểu 3 ký tự")
+    private String username;
+
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
     private String address;
     private String phone;
     private String avatar;
@@ -78,6 +81,15 @@ public class User {
         this.fullName = fullName;
     }
 
+    // Getter và Setter cho username
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -113,7 +125,8 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
-                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", status=" + status + "]";
+                + ", username=" + username + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar
+                + ", status=" + status + "]";
     }
 
     public Role getRole() {

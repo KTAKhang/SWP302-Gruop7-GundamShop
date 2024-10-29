@@ -12,7 +12,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import gruop7.gundamshop.domain.Order;
+import gruop7.gundamshop.domain.User;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import gruop7.gundamshop.domain.Order;
+import gruop7.gundamshop.domain.User;
+import gruop7.gundamshop.service.OrderService;
+import java.util.List;
+import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -27,13 +43,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {
-
+    private final OrderService orderService;
     private final ProductService productService;
     private final CategoryService categoryService;
 
-    public HomePageController(ProductService productService, CategoryService categoryService) {
+    public HomePageController(ProductService productService, CategoryService categoryService,
+            OrderService orderService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -54,4 +72,19 @@ public class HomePageController {
     public String getDeny(Model model) {
         return "authentication/deny";
     }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            long userId = (long) session.getAttribute("id");
+            User currentUser = new User();
+            currentUser.setId(userId);
+
+            List<Order> orders = orderService.getOrdersByUser(currentUser);
+            model.addAttribute("orders", orders);
+        }
+        return "customer/order/history";
+    }
+
 }
