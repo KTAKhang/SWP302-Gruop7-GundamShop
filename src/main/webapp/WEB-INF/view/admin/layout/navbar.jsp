@@ -19,8 +19,8 @@
                             class="bi bi-tags-fill"></i> Manage Customer</a></li>
                 <li><a href="/admin/employee" class="btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-clipboard-fill"></i> Manage Employee</a></li>
-                <li><a href="working-schedule.html" class="btn btn-light w-100 text-start mb-3"><i
-                            class="bi bi-calendar-fill"></i> Working Schedule</a></li>
+                <li><a href="/admin/order" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-calendar-fill"></i> Manage Order</a></li>
                 <li><a href="feedback.html" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-chat-fill"></i>
                         View Feedback</a></li>
                 <li>

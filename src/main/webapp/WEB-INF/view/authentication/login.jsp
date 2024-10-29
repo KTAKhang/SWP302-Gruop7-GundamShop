@@ -49,12 +49,13 @@
                                 <p>
                                     Register with your personal details to use all of site features
                                 </p>
-                                <button class="hidden" id="register"><a href="/register">Sign Up</a></button>
+                                <a href="/register"><button class="hidden" id="register">Sign Up</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                    crossorigin="anonymous"></script>
                 <script src="/js/script.js"></script>
             </body>
 
