@@ -52,12 +52,17 @@ public class RegisterController {
     public String registerUser(Model model, @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
             BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
+
             return "authentication/register";
         }
 
         if (userService.checkEmailExist(registerDTO.getEmail())) {
             request.setAttribute("message", "Email is already registered. Try logging in.");
             return "redirect:/register?exist";
+        }
+
+        if (registerDTO.getConfirmPassword().equals(registerDTO.getPassword())) {
+            return "redirect:/register?password";
         }
 
         HttpSession mySession = request.getSession();

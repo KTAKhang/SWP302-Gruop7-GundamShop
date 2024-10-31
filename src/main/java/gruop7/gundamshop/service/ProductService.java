@@ -134,10 +134,6 @@ public class ProductService {
         return this.productRepository.findAllByStatus(true);
     }
 
-    public Page<Product> fetchProducts(Pageable page) {
-        return this.productRepository.findAll(page);
-    }
-
     public Product createProduct(Product pr) {
         return this.productRepository.save(pr);
     }
@@ -152,6 +148,10 @@ public class ProductService {
 
     public Product handleSaveProduct(Product product) {
         return this.productRepository.save(product);
+    }
+
+    public Page<Product> fetchProducts(Pageable page) {
+        return this.productRepository.findAll(page);
     }
 
     public Product getByIdAndStatus(Long id, boolean status) {

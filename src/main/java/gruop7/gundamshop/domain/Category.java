@@ -19,9 +19,7 @@ public class Category {
     private long id;
 
     @NotNull
-
     @Size(min = 3, message = "name phải có tối thiểu 3 ký tự")
-
     private String name;
 
     @OneToMany(mappedBy = "category")

@@ -2,7 +2,9 @@ package gruop7.gundamshop.domain.dto;
 
 import java.io.Serializable;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.AssertTrue;
 
 // @RegisterChecked
 public class RegisterDTO {
@@ -10,15 +12,20 @@ public class RegisterDTO {
     @Size(min = 3, message = "FirstName phải có tối thiểu 3 ký tự")
     private String firstName;
 
+    @Size(min = 3, message = "LastName phải có tối thiểu 3 ký tự")
     private String lastName;
 
     @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
-
+    @Size(min = 3, message = "Password phải có tối thiểu 3 ký tự")
     private String password;
 
-    @Size(min = 3, message = "confirmPassword phải có tối thiểu 3 ký tự")
     private String confirmPassword;
+
+    @AssertTrue(message = "Password và ConfirmPassword phải trùng khớp")
+    public boolean isPasswordMatching() {
+        return password != null && password.equals(confirmPassword);
+    }
 
     public String getFirstName() {
         return firstName;

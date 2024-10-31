@@ -76,22 +76,26 @@
                                                 <div class="mb-2"><b>Hãng sản xuất</b></div>
                                                 <c:forEach var="factory" items="${factories}">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="checkbox" id="factory-${factory}" value="${factory}">
-                                                        <label class="form-check-label" for="factory-${factory}">${factory}</label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="factory-${factory}" value="${factory}">
+                                                        <label class="form-check-label"
+                                                            for="factory-${factory}">${factory}</label>
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            
+
                                             <div class="col-12" id="targetFilter">
                                                 <div class="mb-2"><b>Mục đích sử dụng</b></div>
                                                 <c:forEach var="target" items="${targets}">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="checkbox" id="target-${target}" value="${target}">
-                                                        <label class="form-check-label" for="target-${target}">${target}</label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="target-${target}" value="${target}">
+                                                        <label class="form-check-label"
+                                                            for="target-${target}">${target}</label>
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            
+
                                             <div class="col-12" id="priceFilter">
                                                 <div class="mb-2"><b>Mức giá</b></div>
 
@@ -124,27 +128,30 @@
                                             <div class="col-12">
                                                 <div class="col-12">
                                                     <div class="mb-2"><b>Sắp xếp</b></div>
-                                                
+
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="sort-1"
                                                             value="gia-tang-dan" name="radio-sort">
-                                                        <label class="form-check-label" for="sort-1">Giá tăng dần</label>
+                                                        <label class="form-check-label" for="sort-1">Giá tăng
+                                                            dần</label>
                                                     </div>
-                                                
+
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="sort-2"
                                                             value="gia-giam-dan" name="radio-sort">
-                                                        <label class="form-check-label" for="sort-2">Giá giảm dần</label>
+                                                        <label class="form-check-label" for="sort-2">Giá giảm
+                                                            dần</label>
                                                     </div>
-                                                
+
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="sort-3"
                                                             value="gia-nothing" name="radio-sort" checked>
-                                                        <label class="form-check-label" for="sort-3">Không sắp xếp</label>
+                                                        <label class="form-check-label" for="sort-3">Không sắp
+                                                            xếp</label>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
 
                                             </div>
                                             <div class="col-12">
@@ -162,41 +169,58 @@
                                                 <div>Không tìm thấy sản phẩm</div>
                                             </c:if>
                                             <c:forEach var="product" items="${products}">
-    <c:if test="${product.status == true}">
-        <div class="col-md-6 col-lg-4">
-            <div class="rounded position-relative fruite-item">
-                <div class="fruite-img">
-                    <img src="/images/product/${product.image}" class="img-fluid w-100 rounded-top" alt="">
-                </div>
-                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Gundam
-                </div>
-                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                    <h4 style="font-size: 15px;">
-                        <a href="/product/${product.id}">${product.name}</a>
-                    </h4>
-                    <p style="font-size: 13px;">${product.shortDesc}</p>
-                    <div class="d-flex flex-lg-wrap justify-content-center flex-column">
-                        <p style="font-size: 15px; text-align: center; width: 100%;" class="text-dark fw-bold mb-3">
-                            <fmt:formatNumber type="number" value="${product.price}" /> đ
-                        </p>
-                        <c:choose>
-    <c:when test="${product.quantity > 0}">
-        <button data-product-id="${product.id}"
-            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-        </button>
-    </c:when>
-    <c:otherwise>
-        <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4" disabled>Hết hàng</button>
-    </c:otherwise>
-</c:choose>
+                                                <c:if test="${product.status == true}">
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="/images/product/${product.image}"
+                                                                    class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                                style="top: 10px; left: 10px;">Gundam
+                                                            </div>
+                                                            <div
+                                                                class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4 style="font-size: 15px;">
+                                                                    <a href="/product/${product.id}">${product.name}</a>
+                                                                </h4>
+                                                                <p style="font-size: 13px;">${product.shortDesc}</p>
+                                                                <div
+                                                                    class="d-flex flex-lg-wrap justify-content-center flex-column">
+                                                                    <p style="font-size: 15px; text-align: center; width: 100%;"
+                                                                        class="text-dark fw-bold mb-3">
+                                                                        <fmt:formatNumber type="number"
+                                                                            value="${product.price}" /> đ
+                                                                    </p>
+                                                                    <c:choose>
+                                                                        <c:when test="${product.quantity > 0}">
+                                                                            <form
+                                                                                action="/add-product-to-cart/${product.id}"
+                                                                                method="post">
+                                                                                <input type="hidden"
+                                                                                    name="${_csrf.parameterName}"
+                                                                                    value="${_csrf.token}" />
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </c:if>
-</c:forEach>
+                                                                                <button
+                                                                                    class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                                    Add to cart
+                                                                                </button>
+                                                                            </form>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <button
+                                                                                class="btn btn-secondary rounded-pill px-4 py-2 mb-4"
+                                                                                disabled>Hết hàng</button>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
 
 
 
