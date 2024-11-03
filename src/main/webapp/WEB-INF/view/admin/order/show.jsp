@@ -40,8 +40,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
-                                                        <th>Total Price</th>
                                                         <th>User</th>
+                                                        <th>Total Price</th>
+                                                        <th>Date</th>
                                                         <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -50,19 +51,51 @@
                                                     <c:forEach var="order" items="${orders}">
                                                         <tr>
                                                             <th>${order.id}</th>
+                                                            <td>${order.user.fullName}</td>
+                                                            <td>
+                                                                <fmt:formatDate value="${order.convertedOrderDate}"
+                                                                    pattern="dd/MM/yyyy HH:mm:ss" />
                                                             <td>
                                                                 <fmt:formatNumber type="number"
                                                                     value="${order.totalPrice}" /> đ
                                                             </td>
-                                                            <td>${order.user.fullName}</td>
+
                                                             <td>${order.status}</td>
                                                             <td>
-                                                                <a href="/admin/order/${order.id}"
+                                                                <c:if test="${order.status == 'COMPLETE'}">
+                                                                    <a href="/admin/order/${order.id}"
+                                                                        class="btn btn-success">View</a>
+                                                                </c:if>
+                                                                <c:if test="${order.status == 'CONFIRM'}">
+                                                                    <a href="/admin/order/${order.id}"
+                                                                        class="btn btn-success">View</a>
+                                                                    <a href="/admin/order/update/${order.id}"
+                                                                        class="btn btn-warning  mx-2">Update</a>
+                                                                </c:if>
+                                                                <c:if test="${order.status == 'SHIPPING'}">
+                                                                    <a href="/admin/order/${order.id}"
+                                                                        class="btn btn-success">View</a>
+                                                                    <a href="/admin/order/update/${order.id}"
+                                                                        class="btn btn-warning  mx-2">Update</a>
+                                                                </c:if>
+                                                                <c:if test="${order.status == 'PENDING'}">
+                                                                    <a href="/admin/order/${order.id}"
+                                                                        class="btn btn-success">View</a>
+                                                                    <a href="/admin/order/update/${order.id}"
+                                                                        class="btn btn-warning  mx-2">Update</a>
+                                                                </c:if>
+                                                                <c:if test="${order.status == 'CANCEL'}">
+                                                                    <a href="/admin/order/${order.id}"
+                                                                        class="btn btn-success">View</a>
+                                                                    <a href="/admin/order/delete/${order.id}"
+                                                                        class="btn btn-danger mx-2">Delete</a>
+                                                                </c:if>
+                                                                <!-- <a href="/admin/order/${order.id}"
                                                                     class="btn btn-success">View</a>
                                                                 <a href="/admin/order/update/${order.id}"
                                                                     class="btn btn-warning  mx-2">Update</a>
                                                                 <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger">Delete</a>
+                                                                    class="btn btn-danger">Delete</a> -->
                                                             </td>
                                                         </tr>
 
