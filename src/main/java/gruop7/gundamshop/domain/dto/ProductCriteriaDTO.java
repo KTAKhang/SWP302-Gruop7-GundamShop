@@ -8,7 +8,9 @@ public class ProductCriteriaDTO {
     private Optional<List<String>> factory = Optional.empty();
     private Optional<List<String>> target = Optional.empty();
     private Optional<List<String>> price = Optional.empty();
-    private Optional<String> sort = Optional.empty();  // Đảm bảo sort luôn khởi tạo với Optional.empty()
+    private Optional<String> sort = Optional.empty(); // Đảm bảo sort luôn khởi tạo với Optional.empty()
+    private Optional<String> searchKeyword = Optional.empty(); // Thêm trường tìm kiếm
+    private Optional<String> categoryId = Optional.empty(); // Thêm trường danh mục
 
     public ProductCriteriaDTO() {
         // Bảo đảm tất cả các trường Optional được khởi tạo với Optional.empty()
@@ -16,7 +18,9 @@ public class ProductCriteriaDTO {
         this.factory = Optional.empty();
         this.target = Optional.empty();
         this.price = Optional.empty();
-        this.sort = Optional.empty();  // Quan trọng nhất là dòng này
+        this.sort = Optional.empty(); // Quan trọng nhất là dòng này
+        this.searchKeyword = Optional.empty(); // Khởi tạo với Optional.empty()
+        this.categoryId = Optional.empty(); // Khởi tạo với Optional.empty()
     }
 
     public Optional<String> getPage() {
@@ -57,5 +61,21 @@ public class ProductCriteriaDTO {
 
     public void setSort(Optional<String> sort) {
         this.sort = sort;
+    }
+
+    public Optional<String> getSearchKeyword() {
+        return searchKeyword; // Getter cho searchKeyword
+    }
+
+    public void setSearchKeyword(Optional<String> searchKeyword) {
+        this.searchKeyword = searchKeyword; // Setter cho searchKeyword
+    }
+
+    public Optional<String> getCategoryId() {
+        return categoryId; // Getter cho categoryId
+    }
+
+    public void setCategoryId(Optional<String> categoryId) {
+        this.categoryId = categoryId; // Setter cho categoryId
     }
 }
