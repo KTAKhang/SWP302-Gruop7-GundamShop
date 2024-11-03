@@ -9,7 +9,7 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <span style="color: white;">Welcome,
-                    <c:out value="${sessionScope.username}" />
+                    <c:out value="${sessionScope.id}" />
 
 
                 </span>
