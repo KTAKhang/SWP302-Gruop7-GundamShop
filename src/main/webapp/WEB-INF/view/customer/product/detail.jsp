@@ -106,7 +106,7 @@
 
                                             <c:choose>
                                                 <c:when test="${product.quantity > 0}">
-                                                    <div class="input-group quantity mb-5" style="width: 100px;">
+                                                    <div class="input-group quantityDetail mb-5" style="width: 100px;">
                                                         <div class="input-group-btn">
                                                             <button
                                                                 class="btn btn-sm btn-minus rounded-circle bg-light border">
@@ -115,7 +115,10 @@
                                                         </div>
                                                         <input type="text"
                                                             class="form-control form-control-sm text-center border-0"
-                                                            value="1" data-cart-detail-index="0">
+                                                            value="1"
+                                                            data-available-quantity="${cartDetail.product.quantity}"
+                                                            data-cart-detail-index="0"
+                                                            cartDetail-available-quantity="${cartDetail.quantity}">
                                                         <div class="input-group-btn">
                                                             <button
                                                                 class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -133,7 +136,7 @@
                                                         <input class="form-control d-none" type="text" name="quantity"
                                                             id="cartDetails0.quantity" value="1" />
                                                         <button data-product-id="${product.id}"
-                                                            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
+                                                            class=" btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
                                                                 class="fa fa-shopping-bag me-2 text-primary"></i>
                                                             Add to cart
                                                         </button>

@@ -229,16 +229,43 @@
         }
     });
 
-    // // Check if the product is out of stock and display a message
-    // $(document).ready(function () {
-    //     $('input[data-available-quantity]').each(function () {
-    //         if (parseInt($(this).attr('data-available-quantity')) === 0) {
-    //             const productRow = $(this).closest('tr');
-    //             productRow.find('td').last().html('<span class="text-danger">Hết hàng</span>');
-    //             productRow.find('button').prop('disabled', true); // Disable quantity buttons
-    //         }
-    //     });
-    // });
+    $('.quantityDetail button').on('click', function () {
+        let change = 0;
+
+        var button = $(this);
+        var oldValue = button.parent().parent().find('input').val();
+        const availableQuantity = parseInt(button.parent().parent().find('input').attr('data-available-quantity')); // get available quantity
+
+        const cartDetailAvailableQuantity = parseInt(button.parent().parent().find('input').attr('cartDetail-available-quantity')); // get available quantity in cart detail
+
+        // Calculate the combined quantity
+        const combinedQuantity = +oldValue + +cartDetailAvailableQuantity;
+        if (button.hasClass('btn-plus')) {
+
+            var newVal = parseFloat(oldValue) + 1; // Increment the quantity
+            change = 1; // Set change to 1
+
+        } else {
+            if (oldValue > 1) {
+                var newVal = parseFloat(oldValue) - 1;
+                change = -1;
+            } else {
+                newVal = 1;
+            }
+        }
+
+        const input = button.parent().parent().find('input');
+        input.val(newVal);
+        console.log("Updated availableQuantity:", availableQuantity);
+        console.log("Updated Quantity:", oldValue);
+        console.log("Updated combinedQuantity:", combinedQuantity);
+        //set form index
+        const index = input.attr("data-cart-detail-index")
+        const el = document.getElementById(`cartDetails${index}.quantity`);
+        $(el).val(newVal);
+        //reset change
+        change = 0;
+    });
 
     function formatCurrency(value) {
         // Use the 'vi-VN' locale to format the number according to Vietnamese currency format
@@ -362,7 +389,7 @@
         const header = $("meta[name='_csrf_header']").attr("content");
 
         $.ajax({
-            url: `${window.location.origin}/api/add-product-to-cart`,
+            url: `${window.location.origin}/add-product-to-cart`,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
@@ -408,7 +435,7 @@
         const header = $("meta[name='_csrf_header']").attr("content");
         const quantity = $("#cartDetails0\\.quantity").val();
         $.ajax({
-            url: `${window.location.origin}/api/add-product-to-cart`,
+            url: `${window.location.origin}/add-product-to-cart`,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
