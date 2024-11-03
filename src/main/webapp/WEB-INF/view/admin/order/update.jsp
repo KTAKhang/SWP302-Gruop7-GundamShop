@@ -68,7 +68,6 @@
                                                         <label class="form-label">Status:</label>
                                                         <form:select class="form-select" path="status">
                                                             <form:option value="PENDING">PENDING</form:option>
-                                                            <form:option value="CONFIRM">CONFIRM</form:option>
                                                             <form:option value="SHIPPING">SHIPPING</form:option>
                                                             <form:option value="COMPLETE">COMPLETE</form:option>
                                                             <form:option value="CANCEL">CANCEL</form:option>
