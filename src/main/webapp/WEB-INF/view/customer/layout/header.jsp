@@ -77,7 +77,7 @@
 
                             <a href="/order-history" class="nav-item nav-link">Lịch sử mua hàng</a>
 
-                            <a href="" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
+                            <a href="/order-tracking" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
 
 
                             <!-- Việt Nguyên làm chỗ này nha -->
