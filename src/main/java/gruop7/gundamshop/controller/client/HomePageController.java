@@ -1,24 +1,43 @@
 package gruop7.gundamshop.controller.client;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import gruop7.gundamshop.domain.Category;
 import gruop7.gundamshop.domain.Order;
-import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.User;
-import gruop7.gundamshop.service.CategoryService;
-import gruop7.gundamshop.service.OrderService;
-import gruop7.gundamshop.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import gruop7.gundamshop.domain.Order;
+import gruop7.gundamshop.domain.User;
+import gruop7.gundamshop.service.OrderService;
+import java.util.List;
+import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import gruop7.gundamshop.domain.Category;
+
+import gruop7.gundamshop.domain.Product;
+
+import gruop7.gundamshop.service.CategoryService;
+import gruop7.gundamshop.service.ProductService;
 
 @Controller
 public class HomePageController {
@@ -64,33 +83,6 @@ public class HomePageController {
             model.addAttribute("orders", orders);
         }
         return "customer/order/history";
-    }
-
-    @GetMapping("/order-tracking")
-    public String getOrderTracking(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            long userId = (long) session.getAttribute("id");
-            User currentUser = new User();
-            currentUser.setId(userId);
-
-            List<Order> orders = orderService.getOrdersByUserAndStatusNot(currentUser, "COMPLETE");
-            model.addAttribute("orders", orders);
-        }
-        return "customer/order/tracking";
-    }
-
-    @GetMapping("/customer/order-delete/{id}")
-    public String getOrderDelete(Model model, @PathVariable long id) {
-        Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
-        model.addAttribute("newOrder", currentOrder.get());
-        return "customer/order/delete";
-    }
-
-    @PostMapping("/customer/order/delete")
-    public String postOrderDelete(@ModelAttribute("newOrder") Order order) {
-        this.orderService.updateOrder(order);
-        return "redirect:/order-tracking";
     }
 
 }
