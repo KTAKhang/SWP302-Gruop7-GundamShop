@@ -67,7 +67,7 @@
                                                             <a href="/admin/customer/update/${customer.id}"
                                                                 class="btn btn-warning  mx-2">Update</a>
                                                             <a href="/admin/customer/delete/${customer.id}"
-                                                                class="btn btn-danger">Delete</a>
+                                                                class="btn btn-primary">Feedback</a>
                                                         </td>
                                                     </tr>
 
