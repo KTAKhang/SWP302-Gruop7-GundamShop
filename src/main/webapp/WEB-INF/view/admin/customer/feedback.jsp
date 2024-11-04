@@ -35,7 +35,8 @@
                             <div class="p-4">
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Customers</li>
+                                    <li class="breadcrumb-item"><a href="/admin/customer">Customers</a></li>
+                                    <li class="breadcrumb-item active"></a>Feedback</li>
                                 </ol>
                                 <table class="table table-bordered">
                                     <thead>
@@ -69,6 +70,9 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
+                                <div class="d-flex justify-content-end mb-3">
+                                    <a href="/admin/customer" class="btn btn-success">Back</a>
+                                </div>
 
                                 <!-- Status Message -->
                                 <c:if test="${not empty message}">

@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import gruop7.gundamshop.service.UserService;
+import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.Order;
 import gruop7.gundamshop.service.OrderService;
 
@@ -21,9 +22,11 @@ import gruop7.gundamshop.service.OrderService;
 public class OrderController {
 
     private final OrderService orderService;
+    private final UserService userService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping("/admin/order")
@@ -66,6 +69,19 @@ public class OrderController {
     public String handleUpdateOrder(@ModelAttribute("newOrder") Order order) {
         this.orderService.updateOrder(order);
         return "redirect:/admin/order";
+    }
+
+    @GetMapping("/admin/customer/{customerId}/purchase-history")
+    public String getPurchaseHistory(@PathVariable long customerId, Model model) {
+        User customer = userService.findUserById(customerId); // Gọi phương thức tìm kiếm người dùng
+        if (customer != null) {
+            List<Order> orders = orderService.fetchOrdersByCustomerId(customerId);
+            model.addAttribute("customer", customer);
+            model.addAttribute("orders", orders);
+        } else {
+            model.addAttribute("error", "Customer not found");
+        }
+        return "admin/customer/purchaseHistory"; // Đảm bảo đường dẫn tới trang JSP chính xác
     }
 
 }

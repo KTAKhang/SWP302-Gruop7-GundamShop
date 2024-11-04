@@ -32,7 +32,11 @@
                                 <div class="my-2" style="color: green;">Logout success</div>
                             </c:if>
                             <c:if test="${param.locked != null}">
-                                <div class="my-2" style="color: orange;">Tài khoản của bạn bị khóa</div>
+                                <div class="d-flex justify-content-center my-2">
+                                    <div style="color: orange; text-align: center;">
+                                        Your account is locked. Please contact the administrator for details.
+                                    </div>
+                                </div>
                             </c:if>
                             <input type="email" placeholder="Email Address" name="username" />
                             <input type="password" placeholder="Password" name="password" />

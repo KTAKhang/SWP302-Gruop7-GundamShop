@@ -8,6 +8,7 @@ import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.dto.RegisterDTO;
 import gruop7.gundamshop.repository.RoleRepository;
 import gruop7.gundamshop.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class UserService {
         return userRepository.findAllByRole_IdAndStatus(roleId, status);
     }
 
+    public List<User> getUsersRoleId(long roleId) {
+        return userRepository.findAllByRole_Id(roleId);
+    }
     // public Optional<User> fetchUserById(long id) {
     // return this.userRepository.findById(id);
     // }
@@ -83,4 +87,34 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // Phương thức để lấy thông tin người dùng theo ID
+    public User findUserById(long id) {
+        return userRepository.findById(id); // Sử dụng phương thức tùy chỉnh trong UserRepository
+    }
+
+    // Cấm tài khoản
+    public void banCustomerAccount(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (user.getRole().getId() == 3) { // Chỉ cấm tài khoản có role_id là 3 (customer)
+            user.setStatus(false);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Chỉ có thể cấm tài khoản khách hàng");
+        }
+    }
+
+    // Gỡ cấm tài khoản
+    public void unbanCustomerAccount(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (user.getRole().getId() == 3) { // Chỉ gỡ cấm cho tài khoản có role_id là 3 (customer)
+            user.setStatus(true);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Chỉ có thể gỡ cấm tài khoản khách hàng");
+        }
+    }
 }

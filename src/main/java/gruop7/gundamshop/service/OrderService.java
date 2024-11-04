@@ -100,4 +100,8 @@ public class OrderService {
         return orderRepository.findByUserAndStatusNot(user, excludedStatus);
     }
 
+    public List<Order> fetchOrdersByCustomerId(long customerId) {
+        return orderRepository.findByUser_Id(customerId);
+    }
+
 }
