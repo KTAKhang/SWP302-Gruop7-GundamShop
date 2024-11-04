@@ -66,8 +66,8 @@
                                                                 class="btn btn-success">View</a>
                                                             <a href="/admin/customer/update/${customer.id}"
                                                                 class="btn btn-warning  mx-2">Update</a>
-                                                            <a href="/admin/customer/feedback/${customer.id}"
-                                                                class="btn btn-primary">Feedback</a>
+                                                            <a href="/admin/customer/${customer.id}/feedback"
+                                                                class="btn btn-info">Feedback</a>
                                                         </td>
                                                     </tr>
 
