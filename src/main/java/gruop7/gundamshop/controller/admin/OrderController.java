@@ -84,4 +84,45 @@ public class OrderController {
         return "admin/customer/purchaseHistory"; // Đảm bảo đường dẫn tới trang JSP chính xác
     }
 
+    @GetMapping("/employee/order")
+    public String getDashboarde(Model model) {
+        List<Order> orders = this.orderService.fetchAllOrders();
+        model.addAttribute("orders", orders);
+        return "employee/order/show";
+    }
+
+    @GetMapping("/employee/order/{id}")
+    public String getOrderDetailPagee(Model model, @PathVariable long id) {
+        Order order = this.orderService.fetchOrderById(id).get();
+        model.addAttribute("order", order);
+        model.addAttribute("id", id);
+        model.addAttribute("orderDetails", order.getOrderDetails());
+        return "employee/order/detail";
+    }
+
+    @GetMapping("/employee/order/delete/{id}")
+    public String getDeleteOrderPagee(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("newOrder", new Order());
+        return "employee/order/delete";
+    }
+
+    @PostMapping("/employee/order/delete")
+    public String postDeleteOrdere(@ModelAttribute("newOrder") Order order) {
+        this.orderService.deleteOrderById(order.getId());
+        return "redirect:/employee/order";
+    }
+
+    @GetMapping("/employee/order/update/{id}")
+    public String getUpdateOrderPagee(Model model, @PathVariable long id) {
+        Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
+        model.addAttribute("newOrder", currentOrder.get());
+        return "employee/order/update";
+    }
+
+    @PostMapping("/employee/order/update")
+    public String handleUpdateOrdere(@ModelAttribute("newOrder") Order order) {
+        this.orderService.updateOrder(order);
+        return "redirect:/employee/order";
+    }
 }
