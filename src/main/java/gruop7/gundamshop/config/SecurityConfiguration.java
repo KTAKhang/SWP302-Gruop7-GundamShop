@@ -76,6 +76,7 @@ public class SecurityConfiguration {
                                                 .permitAll()
 
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/employee/**").hasRole("EMPLOYEE")
 
                                                 .anyRequest().authenticated())
                                 .sessionManagement((sessionManagement) -> sessionManagement

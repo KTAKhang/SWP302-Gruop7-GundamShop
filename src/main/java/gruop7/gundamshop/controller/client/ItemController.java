@@ -42,20 +42,6 @@ public class ItemController {
         // Retrieve the product using its ID
         Optional<Product> productOptional = productService.getProductById(id);
 
-        // Retrieve the current user from the session
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("id") == null) {
-            return "error/404"; // Handle case where user is not logged in
-        }
-
-        long idUser = (long) session.getAttribute("id");
-        User currentUser = new User();
-        currentUser.setId(idUser);
-
-        // Fetch the user's cart
-        Cart cart = productService.fetchByUser(currentUser);
-        List<CartDetail> cartDetails = (cart != null) ? cart.getCartDetails() : new ArrayList<>();
-
         // Check if the product exists; if not, return a 404 error
         if (productOptional.isEmpty()) {
             return "error/404"; // Product not found

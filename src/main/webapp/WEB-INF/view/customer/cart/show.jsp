@@ -231,7 +231,7 @@
                     <!-- Cart Page End -->
 
 
-                    <jsp:include page="../layout/footer.jsp" />
+
 
 
                     <!-- Back to Top -->
