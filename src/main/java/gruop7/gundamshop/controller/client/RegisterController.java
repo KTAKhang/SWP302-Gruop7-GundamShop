@@ -61,7 +61,7 @@ public class RegisterController {
             return "redirect:/register?exist";
         }
 
-        if (registerDTO.getConfirmPassword().equals(registerDTO.getPassword())) {
+        if (registerDTO.getConfirmPassword().equals(registerDTO.getPassword()) == false) {
             return "redirect:/register?password";
         }
 
@@ -154,7 +154,7 @@ public class RegisterController {
 
             this.userService.handleSaveUser(user);
             session.invalidate();
-            return "redirect:/login";
+            return "redirect:/login?registersuccess";
         } else {
             request.setAttribute("message", "Invalid OTP. Please try again.");
             return "authentication/enterRegisterOTP";

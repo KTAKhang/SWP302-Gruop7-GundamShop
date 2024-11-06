@@ -44,7 +44,7 @@ public class ForgotPasswordController {
         return "authentication/forgotpassword";
     }
 
-    @PostMapping("/authentication/forgotPassword")
+    @PostMapping("/authentication/forgotpassword")
     public String recoverPassword(Model model, @ModelAttribute("newUser") User user, HttpServletRequest request) {
         boolean checkEmail = this.userService.checkEmailExist(user.getEmail());
         if (checkEmail) {
@@ -93,7 +93,7 @@ public class ForgotPasswordController {
             return "redirect:/authentication/enterOTP"; // Change to redirect
         } else {
             request.setAttribute("message", "Invalid email address!");
-            return "authentication/forgotpassword";
+            return "redirect:/forgotpassword?invalidemail";
         }
     }
 
@@ -124,7 +124,7 @@ public class ForgotPasswordController {
             return "redirect:/authentication/resetPassword";
         } else {
             request.setAttribute("message", "Invalid OTP. Please try again.");
-            return "authentication/enterOTP";
+            return "redirect:/authentication/enterOTP?error";
         }
     }
 
@@ -158,21 +158,16 @@ public class ForgotPasswordController {
                 // Xóa session sau khi đổi mật khẩu thành công
                 session.invalidate();
                 request.setAttribute("message", "Password successfully updated!");
-                return "redirect:/authentication/success";
+                return "redirect:/login?resetsuccess";
             } else {
                 request.setAttribute("message", "Session expired. Please try the process again.");
                 return "authentication/forgotPassword";
             }
         } else {
-            request.setAttribute("message", "Passwords do not match!");
-            return "authentication/resetPassword";
+
+            return "redirect:/authentication/resetPassword?invalidpassword";
         }
 
     }
 
-    @GetMapping("/authentication/success")
-    public String getSuccess(Model model) {
-
-        return "authentication/success";
-    }
 }

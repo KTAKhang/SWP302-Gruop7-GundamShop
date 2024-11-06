@@ -139,7 +139,8 @@
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Số điện thoại</label>
-                                                        <input class="form-control" name="receiverPhone" required />
+                                                        <input class="form-control" name="receiverPhone" type="number"
+                                                            required />
                                                     </div>
 
                                                     <div class="col-12 form-group mb-3">
