@@ -67,6 +67,7 @@
                                             <th scope="col">Tên</th>
                                             <th scope="col">Giá cả</th>
                                             <th scope="col">Số lượng</th>
+                                            <th scope="col">Tồn kho</th>
                                             <th scope="col">Thành tiền</th>
                                             <th scope="col">Xử lý</th>
                                         </tr>
@@ -101,6 +102,7 @@
                                                         <fmt:formatNumber type="number" value="${cartDetail.price}" /> đ
                                                     </p>
                                                 </td>
+
                                                 <td>
                                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                                         <div class="input-group-btn">
@@ -109,12 +111,7 @@
                                                                 <i class="fa fa-minus"></i>
                                                             </button>
                                                         </div>
-                                                        <!-- <input type="text"
-                                                            class="form-control form-control-sm text-center border-0"
-                                                            value="${cartDetail.quantity}"
-                                                            data-cart-detail-id="${cartDetail.id}"
-                                                            data-cart-detail-price="${cartDetail.price}"
-                                                            data-cart-detail-index="${status.index}"> -->
+
                                                         <input type="text"
                                                             class="form-control form-control-sm text-center border-0"
                                                             value="${cartDetail.quantity}"
@@ -130,6 +127,13 @@
                                                             </button>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 mt-4 text-center">
+
+                                                        ${cartDetail.product.quantity}
+
+                                                    </p>
                                                 </td>
                                                 <td>
                                                     <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
@@ -160,6 +164,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <c:if test="${param.errorInventory != null}">
+                                <div class="my-2" style="color: red;">Số lượng đặt hàng vượt quá số lượng tồn kho.</div>
+                            </c:if>
                             <c:if test="${not empty cartDetails}">
                                 <div class="mt-5 row g-4 justify-content-start">
                                     <div class="col-12 col-md-8">

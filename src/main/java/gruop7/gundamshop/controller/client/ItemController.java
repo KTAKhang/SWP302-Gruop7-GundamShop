@@ -42,23 +42,54 @@ public class ItemController {
     }
 
     @GetMapping("/product/{id}")
-    public String getProductPage(@PathVariable long id, Model model) {
+    public String getProductPage(@PathVariable long id, Model model, HttpServletRequest request) {
+        // Retrieve the product using its ID
         Optional<Product> productOptional = productService.getProductById(id);
-        if (productOptional.isEmpty()) {
-            return "error/404"; // Nếu không tìm thấy sản phẩm, trả về lỗi
-        }
-        Product product = productOptional.get();
 
-        // Lấy các đánh giá sản phẩm
+        // Retrieve the current user from the session
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "error/404"; // Handle case where user is not logged in
+        }
+
+        long idUser = (long) session.getAttribute("id");
+        User currentUser = new User();
+        currentUser.setId(idUser);
+
+        // Fetch the user's cart
+        Cart cart = productService.fetchByUser(currentUser);
+        List<CartDetail> cartDetails = (cart != null) ? cart.getCartDetails() : new ArrayList<>();
+
+        // Check if the product exists; if not, return a 404 error
+        if (productOptional.isEmpty()) {
+            return "error/404"; // Product not found
+        }
+
+        Product product = productOptional.get();
+        model.addAttribute("product", product);
+
+        // Fetch CartDetail for the product in the user's cart
+        List<CartDetail> productCartDetails = productService.getCartDetailsByProduct(product);
+        CartDetail cartDetail = null;
+
+        // Logic to determine which CartDetail to use (if any)
+        if (!productCartDetails.isEmpty()) {
+            // Example: Get the first cartDetail (or apply your selection logic)
+            cartDetail = productCartDetails.get(0);
+        }
+
+        model.addAttribute("cartDetail", cartDetail);
+
+        // Fetch reviews for the product
         List<ProductReview> reviews = productReviewService.findReviewsByProductId(id);
         double averageRating = reviews.stream().mapToInt(ProductReview::getRating).average().orElse(0);
 
-        // Đưa dữ liệu vào model
-        model.addAttribute("product", product);
+        // Add reviews and average rating to the model
         model.addAttribute("reviews", reviews);
         model.addAttribute("averageRating", averageRating);
 
-        return "customer/product/detail"; // Trả về trang chi tiết sản phẩm
+        // Return the product detail view
+        return "customer/product/detail";
     }
 
     @GetMapping("/products")
@@ -122,22 +153,22 @@ public class ItemController {
         long productId = id;
         String email = (String) session.getAttribute("email");
 
-        this.productService.handleAddProductToCart(email, productId, session);
+        this.productService.handleAddProductToCart(email, productId, session, 1);
 
         return "redirect:/";
     }
 
-    // @PostMapping("/add-product-from-view-detail")
-    // public String handleAddProductFromViewDetail(
-    // @RequestParam("id") long id,
-    // @RequestParam("quantity") long quantity,
-    // HttpServletRequest request) {
-    // HttpSession session = request.getSession(false);
+    @PostMapping("/add-product-from-view-detail")
+    public String handleAddProductFromViewDetail(
+            @RequestParam("id") long id,
+            @RequestParam("quantity") long quantity,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
-    // String email = (String) session.getAttribute("email");
-    // this.productService.handleAddProductToCart(email, id, session, quantity);
-    // return "redirect:/product/" + id;
-    // }
+        String email = (String) session.getAttribute("email");
+        this.productService.handleAddProductToCart(email, id, session, quantity);
+        return "redirect:/product/" + id;
+    }
 
     @GetMapping("/cart")
     public String getCartPage(Model model, HttpServletRequest request) {
@@ -191,6 +222,9 @@ public class ItemController {
         for (CartDetail cd : cartDetails) {
             if (cd.getProduct().getQuantity() == 0) {
                 return "redirect:/out-of-stock"; // Redirect to an out-of-stock page
+            }
+            if (cd.getProduct().getQuantity() < cd.getQuantity()) {
+                return "redirect:/cart?errorInventory"; // Redirect to an out-of-stock page
             }
         }
 

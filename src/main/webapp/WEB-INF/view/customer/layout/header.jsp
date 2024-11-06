@@ -73,6 +73,7 @@
                             </li>
                             <a href="/" class="nav-item nav-link active fw-bold pr-2">Trang Chủ</a>
 
+
                             <!-- Search Form with Icon -->
                             <form action="/search" method="get" class="nav-item search-bar d-flex">
                                 <input class="nav-search" type="text" name="query" placeholder="Bạn cần gì..." required>
@@ -80,6 +81,7 @@
                                     <i class="fas fa-search fa-lg"></i>
                                 </button>
                             </form>
+
 
                             <a href="/products" class="nav-item nav-link fw-bold">Sản Phẩm</a>
                             <a href="/order-history" class="nav-item nav-link">Lịch sử mua hàng</a>
@@ -113,7 +115,11 @@
                                                 <c:out value="${sessionScope.username}" />
                                             </div>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+
+
+                                        <li><a class="dropdown-item" href="customer/profile">Quản lý tài khoản</a></li>
+
+
                                         <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
