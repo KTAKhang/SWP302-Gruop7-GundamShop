@@ -78,7 +78,7 @@
                                                         <c:if test="${order.status == 'PENDING'}">
                                                             <!-- Kiểm tra nếu sản phẩm đã được đánh giá chưa -->
 
-                                                            <a href="/customer/order-delete/${orderDetail.id}"
+                                                            <a href="/customer/order-delete/${order.id}"
                                                                 class="btn btn-danger">Hủy Đơn Hàng</a>
 
                                                         </c:if>
