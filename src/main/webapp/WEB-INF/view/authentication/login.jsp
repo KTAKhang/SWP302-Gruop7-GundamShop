@@ -50,6 +50,7 @@
                                     Register with your personal details to use all of site features
                                 </p>
                                 <a href="/register"><button class="hidden" id="register">Sign Up</button></a>
+                                <a href="/login"><button class="hidden" id="register">Back</button></a>
                             </div>
                         </div>
                     </div>
