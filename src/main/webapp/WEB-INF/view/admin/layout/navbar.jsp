@@ -6,7 +6,7 @@
             <img src="/images/logo.jpg" alt="Logo" class="logo mb-4"
                 style="width: 160px; height: auto; display: block; margin: 0 auto;">
             <ul class="list-unstyled w-100">
-                <li><a href="dashboard.html" class="btn btn-light w-100 text-start mb-3"><i
+                <li><a href="/admin" class="btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-house-fill"></i> Dashboard</a></li>
                 <li><a href="/admin/category" class=" btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-person-fill"></i>

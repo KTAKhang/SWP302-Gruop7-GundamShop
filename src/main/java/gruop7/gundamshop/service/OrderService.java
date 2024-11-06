@@ -2,6 +2,8 @@ package gruop7.gundamshop.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,12 @@ import gruop7.gundamshop.domain.OrderDetail;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.repository.OrderDetailRepository;
 import gruop7.gundamshop.repository.OrderRepository;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -58,32 +66,6 @@ public class OrderService {
     public List<Order> fetchOrderByUser(User user) {
         return this.orderRepository.findByUser(user);
     }
-    // // Cập nhật trạng thái đơn hàng từ PENDING sang CONFIRMED
-    // public void updateOrderStatusToConfirmed(long orderId) {
-    // Order order = orderRepository.findById(orderId).orElse(null);
-    // if (order != null && order.getStatus().equals(Order.STATUS_PENDING)) {
-    // order.setStatus(Order.STATUS_CONFIRMED);
-    // orderRepository.save(order);
-    // }
-    // }
-
-    // // Cập nhật trạng thái đơn hàng từ CONFIRMED sang SHIPPING
-    // public void updateOrderStatusToShipping(long orderId) {
-    // Order order = orderRepository.findById(orderId).orElse(null);
-    // if (order != null && order.getStatus().equals(Order.STATUS_CONFIRMED)) {
-    // order.setStatus(Order.STATUS_SHIPPING);
-    // orderRepository.save(order);
-    // }
-    // }
-
-    // // Cập nhật trạng thái đơn hàng từ SHIPPING sang COMPLETED
-    // public void updateOrderStatusToCompleted(long orderId) {
-    // Order order = orderRepository.findById(orderId).orElse(null);
-    // if (order != null && order.getStatus().equals(Order.STATUS_SHIPPING)) {
-    // order.setStatus(Order.STATUS_COMPLETED);
-    // orderRepository.save(order);
-    // }
-    // }
 
     // Lấy tất cả đơn hàng của người dùng, không phân biệt trạng thái
     public List<Order> getOrdersByUser(User user) {
@@ -93,6 +75,27 @@ public class OrderService {
     // Lấy đơn hàng của người dùng theo trạng thái (nếu cần)
     public List<Order> getOrdersByUserAndStatus(User user, String status) {
         return orderRepository.findByUserAndStatus(user, status); // Lấy đơn hàng theo trạng thái
+    }
+
+    public Map<Integer, Double> getMonthlyRevenueForYear(int year) {
+        List<Order> orders = orderRepository.findByStatus("COMPLETE");
+        Map<Integer, Double> monthlyRevenue = new HashMap<>();
+
+        for (Order order : orders) {
+            if (order.getOrderDate().getYear() == year) {
+                int month = order.getOrderDate().getMonthValue();
+                monthlyRevenue.put(month, monthlyRevenue.getOrDefault(month, 0.0) + order.getTotalPrice());
+            }
+        }
+        return monthlyRevenue;
+    }
+
+    // Phương thức để lấy danh sách các năm có dữ liệu
+    public Set<Integer> getYearsWithData() {
+        List<Order> orders = orderRepository.findByStatus("COMPLETE");
+        return orders.stream()
+                .map(order -> order.getOrderDate().getYear())
+                .collect(Collectors.toCollection(TreeSet::new)); // TreeSet để sắp xếp các năm tăng dần
     }
 
 }
