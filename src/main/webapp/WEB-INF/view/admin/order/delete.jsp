@@ -14,48 +14,54 @@
                 <link href="/css/styles.css" rel="stylesheet" />
 
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <!-- Bootstrap Icon -->
+                <link rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+                <!-- Custom CSS -->
+                <link rel="stylesheet" href="/css/ewstyle.css">
+
             </head>
 
-            <body class="sb-nav-fixed">
-                <jsp:include page="../layout/header.jsp" />
-                <div id="layoutSidenav">
+            <body>
+                <div class="container-fluid d-flex p-0">
                     <jsp:include page="../layout/navbar.jsp" />
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div class="container-fluid px-4">
-                                <h1 class="mt-4">Orders</h1>
-                                <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/order">Order</a></li>
-                                    <li class="breadcrumb-item active">Delete</li>
-                                </ol>
-                                <div class=" mt-5">
-                                    <div class="row">
-                                        <div class="col-12 mx-auto">
-                                            <div class="d-flex justify-content-between">
-                                                <h3>Delete the order with id = ${id}</h3>
-                                            </div>
 
-                                            <hr />
-                                            <div class="alert alert-danger">
-                                                Are you sure to delete this order ?
-                                            </div>
-                                            <form:form method="post" action="/admin/order/delete"
-                                                modelAttribute="newOrder">
-                                                <div class="mb-3" style="display: none;">
-                                                    <label class="form-label">Id:</label>
-                                                    <form:input value="${id}" type="text" class="form-control"
-                                                        path="id" />
-                                                </div>
-                                                <button class="btn btn-danger">Confirm</button>
-                                            </form:form>
+                    <!-- Main Content -->
+                    <div class="main-content p-0">
+                        <jsp:include page="../layout/header.jsp" />
 
+                        <div class="p-4">
+                            <h1 class="mt-4">Orders</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/order">Order</a></li>
+                                <li class="breadcrumb-item active">Delete</li>
+                            </ol>
+                            <div class=" mt-5">
+                                <div class="row">
+                                    <div class="col-12 mx-auto">
+                                        <div class="d-flex justify-content-between">
+                                            <h3>Delete the order with id = ${id}</h3>
                                         </div>
+
+                                        <hr />
+                                        <div class="alert alert-danger">
+                                            Are you sure to delete this order ?
+                                        </div>
+                                        <form:form method="post" action="/admin/order/delete" modelAttribute="newOrder">
+                                            <div class="mb-3" style="display: none;">
+                                                <label class="form-label">Id:</label>
+                                                <form:input value="${id}" type="text" class="form-control" path="id" />
+                                            </div>
+                                            <button class="btn btn-danger">Confirm</button>
+                                        </form:form>
 
                                     </div>
 
                                 </div>
+
                             </div>
+                        </div>
                         </main>
 
                     </div>

@@ -19,6 +19,7 @@ public class ProductReview {
 
     private int rating;
     private String reviewContent;
+    private String visible = "Yes";
 
     public String getReviewContent() {
         return reviewContent;
@@ -72,5 +73,13 @@ public class ProductReview {
 
     public void setOrderDetail(OrderDetail orderDetail) {
         this.orderDetail = orderDetail;
+    }
+
+    public String getVisible() {
+        return visible;
+    }
+
+    public void setVisible(String visible) {
+        this.visible = visible;
     }
 }
