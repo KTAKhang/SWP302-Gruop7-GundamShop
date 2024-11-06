@@ -20,4 +20,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Tìm tất cả đơn hàng theo người dùng
     List<Order> findByUser(User user);
+
+    // Tìm các đơn hàng của người dùng với trạng thái khác "COMPLETE"
+    List<Order> findByUserAndStatusNot(User user, String status);
+
 }

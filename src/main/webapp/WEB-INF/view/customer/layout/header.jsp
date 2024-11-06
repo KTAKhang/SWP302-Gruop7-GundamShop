@@ -77,7 +77,7 @@
 
                    
 
-                            <a href="" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
+                            <a href="/order-tracking" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
 
 
                             <!-- Việt Nguyên làm chỗ này nha -->
@@ -111,7 +111,7 @@
                                             </div>
                                         </li>
 
-                                        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="customer/profile">Quản lý tài khoản</a></li>
 
                                         <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>

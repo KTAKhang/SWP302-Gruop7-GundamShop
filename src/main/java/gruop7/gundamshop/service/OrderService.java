@@ -96,6 +96,10 @@ public class OrderService {
         return orders.stream()
                 .map(order -> order.getOrderDate().getYear())
                 .collect(Collectors.toCollection(TreeSet::new)); // TreeSet để sắp xếp các năm tăng dần
+       // Lấy tất cả đơn hàng của người dùng với trạng thái khác "COMPLETE"
+    public List<Order> getOrdersByUserAndStatusNot(User user, String excludedStatus) {
+        return orderRepository.findByUserAndStatusNot(user, excludedStatus);
+
     }
 
 }

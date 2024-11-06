@@ -76,13 +76,11 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         // Query the user based on the email
         User user = this.userService.getUserByEmail(email);
 
-        // Check if the user exists and whether the account is inactive or locked
-        if (user != null && !user.isStatus()) {
-            // If the account is inactive or locked, redirect to the locked page
-            redirectStrategy.sendRedirect(request, response, "/login?locked");
+        // Redirect to /login?ban if the account is disabled
+        if (!user.isStatus()) {
+            response.sendRedirect("/login?ban");
             return;
         }
-
         // If the account is active, determine the target URL based on the role
         String targetUrl = determineTargetUrl(authentication);
 

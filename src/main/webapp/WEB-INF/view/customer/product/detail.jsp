@@ -102,29 +102,46 @@
                                                 ${product.shortDesc}
                                             </p>
 
-                                            <div class="input-group quantity mb-5" style="width: 100px;">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-                                                </div>
-                                                <input type="text"
-                                                    class="form-control form-control-sm text-center border-0" value="1"
-                                                    data-cart-detail-index="0">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- <form action="/add-product-from-view-detail" method="post"
-                                                modelAttribute="product"> -->
+
+
                                             <c:choose>
                                                 <c:when test="${product.quantity > 0}">
-                                                    <button data-product-id="${product.id}"
-                                                        class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
-                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                    </button>
+                                                    <div class="input-group quantityDetail mb-5" style="width: 100px;">
+                                                        <div class="input-group-btn">
+                                                            <button
+                                                                class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                        <input type="text"
+                                                            class="form-control form-control-sm text-center border-0"
+                                                            value="1"
+                                                            data-available-quantity="${cartDetail.product.quantity}"
+                                                            data-cart-detail-index="0"
+                                                            cartDetail-available-quantity="${cartDetail.quantity}">
+                                                        <div class="input-group-btn">
+                                                            <button
+                                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <form action="/add-product-from-view-detail" method="post"
+                                                        modelAttribute="product">
+                                                        <input type="hidden" name="${_csrf.parameterName}"
+                                                            value="${_csrf.token}" />
+                                                        <input class="form-control d-none" type="text"
+                                                            value="${product.id}" name="id" />
+
+                                                        <input class="form-control d-none" type="text" name="quantity"
+                                                            id="cartDetails0.quantity" value="1" />
+                                                        <button data-product-id="${product.id}"
+                                                            class=" btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
+                                                                class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                            Add to cart
+                                                        </button>
+                                                    </form>
+
                                                 </c:when>
                                                 <c:otherwise>
                                                     <button class="btn btn-secondary rounded-pill px-4 py-2 mb-4"
@@ -133,7 +150,7 @@
                                             </c:choose>
 
 
-                                            <!-- </form> -->
+
 
                                         </div>
                                         <div class="col-lg-12">
