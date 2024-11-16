@@ -28,6 +28,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="text-center">
+                                        <div class="text-center mb-4">
+                                            <h2><strong>Reset Password</strong></h2>
+                                        </div>
+                                        <c:if test="${param.invalidpassword != null}">
+                                            <div class="my-2" style="color: red;">Password và ConfirmPassword phải trùng
+                                                nhau</div>
+                                        </c:if>
                                         <!-- Sử dụng Spring form:form để tận dụng Spring binding -->
                                         <form:form method="post" action="/authentication/resetPassword"
                                             modelAttribute="resetPasswordForm">

@@ -43,16 +43,6 @@ public class HomePageController {
         return "customer/homepage/show";
     }
 
-    @GetMapping("/login")
-    public String getLogin(Model model) {
-        return "authentication/login";
-    }
-
-    @GetMapping("/access-deny")
-    public String getDeny(Model model) {
-        return "authentication/deny";
-    }
-
     @GetMapping("/order-history")
     public String getOrderHistoryPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);

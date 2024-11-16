@@ -80,6 +80,10 @@ public class SecurityConfiguration {
                                                                 "/authentication/enterRegisterOTP")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                                                .requestMatchers("/employee/**").hasRole("EMPLOYEE")
+
+
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)

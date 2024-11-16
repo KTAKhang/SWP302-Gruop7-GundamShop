@@ -71,18 +71,23 @@
                                         next page</li>
                                 </ol>
                             </div>
-                            <form:form method="post" action="/authentication/forgotPassword" modelAttribute="newUser"
+                            <form:form method="post" action="/authentication/forgotpassword" modelAttribute="newUser"
                                 class="card mt-4" enctype="multipart/form-data">
 
                                 <div class="card-body">
                                     <div class="form-group">
 
+
                                         <label for="email-for-pass">Enter your email address</label>
                                         <c:set var="errorEmail">
                                             <form:errors path="email" cssClass="invalid-feedback" />
                                         </c:set>
+                                        <c:if test="${param.invalidemail != null}">
+                                            <div class="my-2" style="color: red;">Email không hợp lệ</div>
+                                        </c:if>
 
                                         <label class="form-label">Email:</label>
+
                                         <form:input type="email"
                                             class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
                                             path="email" required="" />

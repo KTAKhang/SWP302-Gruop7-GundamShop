@@ -83,9 +83,10 @@
                             </form>
 
 
+
                             <a href="/products" class="nav-item nav-link fw-bold">Sản Phẩm</a>
-                            <a href="/order-history" class="nav-item nav-link">Lịch sử mua hàng</a>
-                            <a href="/order-tracking" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
+                           
+                           
 
                             <c:if test="${not empty pageContext.request.userPrincipal}">
                                 <a href="" class="nav-item nav-link fw-bold">Liên Hệ</a>
@@ -118,7 +119,7 @@
 
 
                                         <li><a class="dropdown-item" href="customer/profile">Quản lý tài khoản</a></li>
-
+                                        <a href="/order-tracking" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
 
                                         <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>
