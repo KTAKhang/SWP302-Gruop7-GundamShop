@@ -32,7 +32,6 @@
             <div class="p-4">
                 <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Manage order</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                     <li class="breadcrumb-item active">Order</li>
                 </ol>
 
@@ -50,6 +49,7 @@
                         
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>
+                    <a href="/admin/order" class="btn btn-secondary ms-2">All Orders</a>
                 </div>
 
                 <div class="mt-5">
@@ -73,37 +73,39 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach var="order" items="${orders}">
-                                        <tr>
-                                            <th>${order.id}</th>
-                                            <td>${order.user.fullName}</td>
-                                            <td>
-                                                <fmt:formatDate value="${order.convertedOrderDate}" pattern="dd/MM/yyyy HH:mm:ss" />
-                                            </td>
-                                            <td>
-                                                <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
-                                            </td>
-                                            <td>${order.status}</td>
-                                            <td>
-                                                <c:if test="${order.status == 'COMPLETE'}">
-                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
-                                                </c:if>
-                                                <c:if test="${order.status == 'CONFIRM'}">
-                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
-                                                    <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                </c:if>
-                                                <c:if test="${order.status == 'SHIPPING'}">
-                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
-                                                    <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                </c:if>
-                                                <c:if test="${order.status == 'PENDING'}">
-                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
-                                                    <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                </c:if>
-                                                <c:if test="${order.status == 'CANCEL'}">
-                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
-                                                </c:if>
-                                            </td>
-                                        </tr>
+                                        <c:if test="${empty param.status || order.status == param.status}">
+                                            <tr>
+                                                <th>${order.id}</th>
+                                                <td>${order.user.fullName}</td>
+                                                <td>
+                                                    <fmt:formatDate value="${order.convertedOrderDate}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                                </td>
+                                                <td>
+                                                    <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
+                                                </td>
+                                                <td>${order.status}</td>
+                                                <td>
+                                                    <c:if test="${order.status == 'COMPLETE'}">
+                                                        <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                    </c:if>
+                                                    <c:if test="${order.status == 'CONFIRM'}">
+                                                        <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                        <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
+                                                    </c:if>
+                                                    <c:if test="${order.status == 'SHIPPING'}">
+                                                        <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                        <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
+                                                    </c:if>
+                                                    <c:if test="${order.status == 'PENDING'}">
+                                                        <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                        <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
+                                                    </c:if>
+                                                    <c:if test="${order.status == 'CANCEL'}">
+                                                        <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                 </tbody>
                             </table>
