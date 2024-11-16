@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import gruop7.gundamshop.service.UserService;
+import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.Order;
 import gruop7.gundamshop.service.OrderService;
 
@@ -21,9 +22,11 @@ import gruop7.gundamshop.service.OrderService;
 public class OrderController {
 
     private final OrderService orderService;
+    private final UserService userService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping("/admin/order")
@@ -68,4 +71,58 @@ public class OrderController {
         return "redirect:/admin/order";
     }
 
+    @GetMapping("/admin/customer/{customerId}/purchase-history")
+    public String getPurchaseHistory(@PathVariable long customerId, Model model) {
+        User customer = userService.findUserById(customerId);
+        if (customer != null) {
+            List<Order> orders = orderService.fetchOrdersByCustomerId(customerId);
+            model.addAttribute("customer", customer);
+            model.addAttribute("orders", orders);
+        } else {
+            model.addAttribute("error", "Customer not found");
+        }
+        return "admin/customer/purchaseHistory"; // Ensure this path is correct
+    }
+
+    @GetMapping("/employee/order")
+    public String getDashboarde(Model model) {
+        List<Order> orders = this.orderService.fetchAllOrders();
+        model.addAttribute("orders", orders);
+        return "employee/order/show";
+    }
+
+    @GetMapping("/employee/order/{id}")
+    public String getOrderDetailPagee(Model model, @PathVariable long id) {
+        Order order = this.orderService.fetchOrderById(id).get();
+        model.addAttribute("order", order);
+        model.addAttribute("id", id);
+        model.addAttribute("orderDetails", order.getOrderDetails());
+        return "employee/order/detail";
+    }
+
+    @GetMapping("/employee/order/delete/{id}")
+    public String getDeleteOrderPagee(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("newOrder", new Order());
+        return "employee/order/delete";
+    }
+
+    @PostMapping("/employee/order/delete")
+    public String postDeleteOrdere(@ModelAttribute("newOrder") Order order) {
+        this.orderService.deleteOrderById(order.getId());
+        return "redirect:/employee/order";
+    }
+
+    @GetMapping("/employee/order/update/{id}")
+    public String getUpdateOrderPagee(Model model, @PathVariable long id) {
+        Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
+        model.addAttribute("newOrder", currentOrder.get());
+        return "employee/order/update";
+    }
+
+    @PostMapping("/employee/order/update")
+    public String handleUpdateOrdere(@ModelAttribute("newOrder") Order order) {
+        this.orderService.updateOrder(order);
+        return "redirect:/employee/order";
+    }
 }

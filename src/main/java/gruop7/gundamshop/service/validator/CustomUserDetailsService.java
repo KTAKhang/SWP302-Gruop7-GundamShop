@@ -29,10 +29,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.getEmail(),
                 user.getPassword(),
                 user.isStatus(), // Maps to enabled (active) status
-                true, // accountNonExpired, can be adjusted based on business rules
-                true, // credentialsNonExpired, can also be adjusted
-                true, // accountNonLocked, if you have a locking mechanism
+                true, // accountNonExpired
+                true, // credentialsNonExpired
+                user.isStatus(), // accountNonLocked, nếu tài khoản không bị khóa
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName())));
+
     }
 
 }
