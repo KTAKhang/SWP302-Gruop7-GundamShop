@@ -77,6 +77,15 @@ public class OrderService {
         return orderRepository.findByUserAndStatus(user, status); // Lấy đơn hàng theo trạng thái
     }
 
+
+    // Lấy tất cả đơn hàng của người dùng với trạng thái khác "COMPLETE"
+    public List<Order> getOrdersByUserAndStatusNotIn(User user, List<String> excludedStatuses) {
+        return orderRepository.findByUserAndStatusNotIn(user, excludedStatuses);
+    }
+
+    public List<Order> fetchOrdersByCustomerId(long customerId) {
+        return orderRepository.findByUser_Id(customerId);
+    }
     public Map<Integer, Double> getMonthlyRevenueForYear(int year) {
         List<Order> orders = orderRepository.findByStatus("COMPLETE");
         Map<Integer, Double> monthlyRevenue = new HashMap<>();
@@ -102,6 +111,7 @@ public class OrderService {
 
     public List<Order> getOrdersByUserAndStatusNot(User user, String excludedStatus) {
         return orderRepository.findByUserAndStatusNot(user, excludedStatus);
+
 
     }
 }

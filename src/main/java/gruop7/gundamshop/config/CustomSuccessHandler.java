@@ -76,9 +76,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         // Query the user based on the email
         User user = this.userService.getUserByEmail(email);
 
-        // Redirect to /login?ban if the account is disabled
+        // Redirect to /login?locked if the account is disabled
         if (!user.isStatus()) {
-            response.sendRedirect("/login?ban");
+            // Redirect to login with a parameter indicating the account is locked
+            response.sendRedirect("/login?locked");
             return;
         }
         // If the account is active, determine the target URL based on the role

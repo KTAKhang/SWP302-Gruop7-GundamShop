@@ -33,7 +33,7 @@
                         <div class="p-4">
                             <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Manage order</h1>
                             <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="/employee">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Order</li>
                             </ol>
                             <div class="mt-5">
@@ -71,31 +71,31 @@
                                                         <td>${order.status}</td>
                                                         <td>
                                                             <c:if test="${order.status == 'COMPLETE'}">
-                                                                <a href="/admin/order/${order.id}"
+                                                                <a href="/employee/order/${order.id}"
                                                                     class="btn btn-success">View</a>
                                                             </c:if>
                                                             <c:if test="${order.status == 'CONFIRM'}">
-                                                                <a href="/admin/order/${order.id}"
+                                                                <a href="/employee/order/${order.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
+                                                                <a href="/employee/order/update/${order.id}"
                                                                     class="btn btn-warning  mx-2">Update</a>
                                                             </c:if>
                                                             <c:if test="${order.status == 'SHIPPING'}">
-                                                                <a href="/admin/order/${order.id}"
+                                                                <a href="/employee/order/${order.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
+                                                                <a href="/employee/order/update/${order.id}"
                                                                     class="btn btn-warning  mx-2">Update</a>
                                                             </c:if>
                                                             <c:if test="${order.status == 'PENDING'}">
-                                                                <a href="/admin/order/${order.id}"
+                                                                <a href="/employee/order/${order.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
+                                                                <a href="/employee/order/update/${order.id}"
                                                                     class="btn btn-warning  mx-2">Update</a>
                                                             </c:if>
                                                             <c:if test="${order.status == 'CANCEL'}">
-                                                                <a href="/admin/order/${order.id}"
+                                                                <a href="/employee/order/${order.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <!-- <a href="/admin/order/delete/${order.id}"
+                                                                <!-- <a href="/employee/order/delete/${order.id}"
                                                                     class="btn btn-danger mx-2">Delete</a> -->
                                                             </c:if>
                                                             <!-- <a href="/admin/order/${order.id}"

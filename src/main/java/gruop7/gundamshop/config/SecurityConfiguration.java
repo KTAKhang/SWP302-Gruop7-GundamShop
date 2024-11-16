@@ -1,5 +1,8 @@
 package gruop7.gundamshop.config;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,14 +17,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
-
+import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.service.UserService;
 import gruop7.gundamshop.service.validator.CustomUserDetailsService;
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
+
+        @Autowired
+        private UserService userService; // Thêm thuộc tính này
 
         @Bean
         public PasswordEncoder passwordEncoder() {
@@ -63,39 +71,57 @@ public class SecurityConfiguration {
         SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
                 http
-
                                 .authorizeHttpRequests(authorize -> authorize
-                                                .dispatcherTypeMatchers(DispatcherType.FORWARD,
-                                                                DispatcherType.INCLUDE)
+                                                .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                                                 .permitAll()
-
                                                 .requestMatchers("/", "/login", "/register", "/client/**", "/css/**",
                                                                 "/js/**", "/images/**", "/forgotpassword",
                                                                 "/authentication/**", "/product/**", "/products",
                                                                 "/authentication/enterRegisterOTP")
                                                 .permitAll()
-
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+
                                                 .requestMatchers("/employee/**").hasRole("EMPLOYEE")
 
+
                                                 .anyRequest().authenticated())
-                                .sessionManagement((sessionManagement) -> sessionManagement
+                                .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                                                 .invalidSessionUrl("/logout?expired")
                                                 .maximumSessions(1)
                                                 .maxSessionsPreventsLogin(false))
-
-                                .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
-
-                                .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
+                                .logout(logout -> logout
+                                                .deleteCookies("JSESSIONID")
+                                                .invalidateHttpSession(true))
+                                .rememberMe(r -> r
+                                                .rememberMeServices(rememberMeServices()))
                                 .formLogin(formLogin -> formLogin
                                                 .loginPage("/login")
-                                                .failureUrl("/login?error")
+                                                .failureHandler(this::handleLoginFailure) // Gọi phương thức xử lý lỗi
                                                 .successHandler(customSuccessHandler())
                                                 .permitAll())
-                                .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+                                .exceptionHandling(ex -> ex
+                                                .accessDeniedPage("/access-deny"));
 
                 return http.build();
         }
 
+        // Phương thức xử lý lỗi đăng nhập
+        private void handleLoginFailure(HttpServletRequest request, HttpServletResponse response,
+                        org.springframework.security.core.AuthenticationException exception) throws IOException {
+                String email = request.getParameter("username");
+                User user = userService.getUserByEmail(email);
+
+                if (user != null) {
+                        if (!user.isStatus()) {
+                                // Hiện thông báo tài khoản bị cấm
+                                request.getSession().setAttribute("message", "Tài khoản của bạn đã bị cấm.");
+                                response.sendRedirect("/login?locked"); // Chuyển hướng tới trang đăng nhập
+                        } else {
+                                response.sendRedirect("/login?error"); // Chuyển hướng cho các lỗi khác
+                        }
+                } else {
+                        response.sendRedirect("/login?error"); // Người dùng không tồn tại
+                }
+        }
 }

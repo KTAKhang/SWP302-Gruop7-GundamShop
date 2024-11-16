@@ -31,8 +31,18 @@
                             <c:if test="${param.logout != null}">
                                 <div class="my-2" style="color: green;">Logout thành công</div>
                             </c:if>
+
                             <c:if test="${param.resetsuccess != null}">
                                 <div class="my-2" style="color: green;">Đổi mật khẩu thành công</div>
+                           </c:if>
+
+                            <c:if test="${param.locked != null}">
+                                <div class="d-flex justify-content-center my-2">
+                                    <div style="color: orange; text-align: center;">
+                                        Your account is locked. Please contact the administrator for details.
+                                    </div>
+                                </div>
+
                             </c:if>
 
                             <c:if test="${param.registersuccess != null}">
@@ -59,7 +69,8 @@
                                     Register with your personal details to use all of site features
                                 </p>
                                 <a href="/register"><button class="hidden" id="register">Sign Up</button></a>
-                                <a href="/"><button class="hidden" id="register">Back</button></a>
+                <a href="/"><button class="hidden" id="register">Back</button></a>
+
                             </div>
                         </div>
                     </div>

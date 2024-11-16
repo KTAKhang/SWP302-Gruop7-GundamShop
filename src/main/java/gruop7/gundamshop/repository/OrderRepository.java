@@ -22,6 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser(User user);
 
     // Tìm các đơn hàng của người dùng với trạng thái khác "COMPLETE"
-    List<Order> findByUserAndStatusNot(User user, String status);
+    List<Order> findByUserAndStatusNotIn(User user, List<String> statuses);
 
+    List<Order> findByUser_Id(long userId);
 }

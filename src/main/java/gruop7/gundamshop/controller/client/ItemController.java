@@ -304,7 +304,7 @@ public class ItemController {
         model.addAttribute("targets", targets);
         model.addAttribute("searchKeyword", keyword);
 
-        return "customer/product/show";
+        return "customer/search/show";
     }
 
 }

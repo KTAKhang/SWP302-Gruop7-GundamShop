@@ -1,5 +1,6 @@
 package gruop7.gundamshop.controller.client;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +65,9 @@ public class HomePageController {
             User currentUser = new User();
             currentUser.setId(userId);
 
-            List<Order> orders = orderService.getOrdersByUserAndStatusNot(currentUser, "COMPLETE");
+            // Exclude both "COMPLETE" and "CANCEL" statuses
+            List<Order> orders = orderService.getOrdersByUserAndStatusNotIn(currentUser,
+                    Arrays.asList("COMPLETE", "CANCEL"));
             model.addAttribute("orders", orders);
         }
         return "customer/order/tracking";
