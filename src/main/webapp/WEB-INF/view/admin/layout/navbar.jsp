@@ -6,7 +6,7 @@
             <img src="/images/logo.jpg" alt="Logo" class="logo mb-4"
                 style="width: 160px; height: auto; display: block; margin: 0 auto;">
             <ul class="list-unstyled w-100">
-                <li><a href="dashboard.html" class="btn btn-light w-100 text-start mb-3"><i
+                <li><a href="/admin" class="btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-house-fill"></i> Dashboard</a></li>
                 <li><a href="/admin/category" class=" btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-person-fill"></i>
@@ -20,9 +20,10 @@
                 <li><a href="/admin/employee" class="btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-clipboard-fill"></i> Manage Employee</a></li>
                 <li><a href="/admin/order" class="btn btn-light w-100 text-start mb-3"><i
-                            class="bi bi-calendar-fill"></i> Manage Order</a></li>
-                <li><a href="feedback.html" class="btn btn-light w-100 text-start mb-3"><i class="bi bi-chat-fill"></i>
-                        View Feedback</a></li>
+                            class="bi bi-clipboard-fill"></i> Manage Order</a></li>
+                <li><a href="/admin/profile/${sessionScope.id}" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-calendar-fill"></i>Manage Profile</a></li>
+
                 <li>
                     <form method="post" action="/logout">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 //bổ sung thu viện mới
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders")
@@ -132,5 +133,11 @@ public class Order {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public List<Product> getProducts() {
+        return orderDetails.stream()
+                .map(OrderDetail::getProduct) // Lấy sản phẩm từ OrderDetail
+                .collect(Collectors.toList());
     }
 }

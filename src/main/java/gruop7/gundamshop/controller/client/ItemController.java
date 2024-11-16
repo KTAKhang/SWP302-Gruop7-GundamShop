@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ import gruop7.gundamshop.domain.dto.ProductCriteriaDTO;
 import gruop7.gundamshop.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import gruop7.gundamshop.service.CategoryService;
 import gruop7.gundamshop.service.ProductReviewService;
 
 @Controller
@@ -31,6 +33,8 @@ public class ItemController {
 
     private final ProductService productService;
     private final ProductReviewService productReviewService; // Thêm ProductReviewService
+    @Autowired
+    private CategoryService categoryService; // Dịch vụ để lấy danh sách category
 
     public ItemController(ProductService productService, ProductReviewService productReviewService) {
         this.productService = productService;
@@ -41,20 +45,6 @@ public class ItemController {
     public String getProductPage(@PathVariable long id, Model model, HttpServletRequest request) {
         // Retrieve the product using its ID
         Optional<Product> productOptional = productService.getProductById(id);
-
-        // Retrieve the current user from the session
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("id") == null) {
-            return "error/404"; // Handle case where user is not logged in
-        }
-
-        long idUser = (long) session.getAttribute("id");
-        User currentUser = new User();
-        currentUser.setId(idUser);
-
-        // Fetch the user's cart
-        Cart cart = productService.fetchByUser(currentUser);
-        List<CartDetail> cartDetails = (cart != null) ? cart.getCartDetails() : new ArrayList<>();
 
         // Check if the product exists; if not, return a 404 error
         if (productOptional.isEmpty()) {
@@ -266,6 +256,55 @@ public class ItemController {
     public String getThankYouPage(Model model) {
 
         return "customer/cart/thank";
+    }
+
+    @GetMapping("/search")
+    public String getSearchPage(Model model,
+            ProductCriteriaDTO productCriteriaDTO,
+            HttpServletRequest request) {
+        int page = productCriteriaDTO.getPage()
+                .map(Integer::parseInt)
+                .orElse(1);
+
+        // Khởi tạo Pageable mặc định không có sắp xếp
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        // Kiểm tra xem có sort hay không
+        if (productCriteriaDTO.getSort().isPresent()) {
+            String sort = productCriteriaDTO.getSort().get();
+            if ("gia-tang-dan".equals(sort)) {
+                pageable = PageRequest.of(page - 1, 10, org.springframework.data.domain.Sort.by("price").ascending());
+            } else if ("gia-giam-dan".equals(sort)) {
+                pageable = PageRequest.of(page - 1, 10, org.springframework.data.domain.Sort.by("price").descending());
+            }
+        }
+
+        // Lấy từ khóa tìm kiếm từ người dùng
+        String keyword = productCriteriaDTO.getSearchKeyword()
+                .orElse(request.getParameter("query"));
+
+        // Tìm kiếm sản phẩm theo tên sản phẩm hoặc tên danh mục với các tiêu chí lọc
+        Page<Product> prs = this.productService.searchProducts(keyword, pageable, productCriteriaDTO);
+        List<Product> products = prs.getContent();
+
+        List<String> factories = productService.getAllFactories();
+        List<String> targets = productService.getAllTargets();
+
+        // Xử lý query string để phân trang
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            qs = qs.replace("page=" + page, "");
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("queryString", qs);
+        model.addAttribute("factories", factories);
+        model.addAttribute("targets", targets);
+        model.addAttribute("searchKeyword", keyword);
+
+        return "customer/search/show";
     }
 
 }

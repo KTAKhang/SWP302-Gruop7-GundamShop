@@ -2,6 +2,7 @@ package gruop7.gundamshop.controller.admin;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.service.UploadService;
 import gruop7.gundamshop.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @Controller
@@ -91,11 +95,29 @@ public class UserController {
     }
 
     // -------------------------------- User ---------------------------------
+    @PostMapping("/admin/customer/ban/{userId}")
+    public String banOrUnbanCustomer(@PathVariable Long userId, @RequestParam boolean status,
+            RedirectAttributes redirectAttributes) {
+        try {
+            if (!status) {
+                userService.banCustomerAccount(userId);
+                redirectAttributes.addFlashAttribute("message", "Tài khoản đã bị cấm thành công!");
+            } else {
+                userService.unbanCustomerAccount(userId);
+                redirectAttributes.addFlashAttribute("message", "Tài khoản đã được gỡ cấm thành công!");
+            }
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("error", "Tài khoản không tìm thấy!");
+        }
+        return "redirect:/admin/customer"; // Điều hướng lại trang danh sách khách hàng
+    }
 
     // -------------------------------- Customer ---------------------------------
     @GetMapping("/admin/customer")
     public String getAllCustomer(Model model) {
-        List<User> customers = this.userService.getUsersByRoleId(3, true);
+        List<User> customers = this.userService.getUsersRoleId(3);
         model.addAttribute("customers", customers);
         return "admin/customer/show";
     }

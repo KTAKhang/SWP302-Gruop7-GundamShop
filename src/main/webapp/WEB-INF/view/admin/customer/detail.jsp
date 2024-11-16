@@ -14,6 +14,13 @@
                 <link href="/css/styles.css" rel="stylesheet" />
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <!-- Bootstrap Icon -->
+                <link rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+                <!-- Custom CSS -->
+                <link rel="stylesheet" href="/css/ewstyle.css">
+
+                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
                 <style>
                     body {
                         background-color: #f8f9fa;
@@ -37,47 +44,51 @@
                 </style>
             </head>
 
-            <body class="sb-nav-fixed">
-                <div id="layoutSidenav">
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div class="container-fluid px-4">
-                                <h1 class="mt-4">Customer Detail</h1>
-                                <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/customer">Customers</a></li>
-                                    <li class="breadcrumb-item active">View Detail</li>
-                                </ol>
+            <body>
+                <div class="container-fluid d-flex p-0">
+                    <jsp:include page="../layout/navbar.jsp" />
 
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8 col-lg-6">
-                                        <div class="card mb-4">
+                    <!-- Main Content -->
+                    <div class="main-content p-0">
+                        <jsp:include page="../layout/header.jsp" />
+
+                        <div class="p-4">
+                            <h1 class="mt-4">Customer Detail</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="/admin/customer">Customers</a></li>
+                                <li class="breadcrumb-item active">View Detail</li>
+                            </ol>
+
+                            <div class="row justify-content-center">
+                                <div class="col-md-8 col-lg-6">
+                                    <div class="card mb-4">
 
 
-                                            <div class="card-header">
-                                                Customer Information
-                                            </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">ID: ${newCustomer.id}</li>
-                                                <li class="list-group-item">Full Name: ${newCustomer.fullName}</li>
-                                                <li class="list-group-item">Address: ${newCustomer.address}</li>
-                                                <li class="list-group-item">Email: ${newCustomer.email}</li>
-                                                <li class="list-group-item">Phone Number: ${newCustomer.phone}</li>
-                                            </ul>
+                                        <div class="card-header">
+                                            Customer Information
                                         </div>
-                                        <a href="/admin/customer" class="btn btn-success mt-3">Back</a>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">ID: ${newCustomer.id}</li>
+                                            <li class="list-group-item">Full Name: ${newCustomer.fullName}</li>
+                                            <li class="list-group-item">Address: ${newCustomer.address}</li>
+                                            <li class="list-group-item">Email: ${newCustomer.email}</li>
+                                            <li class="list-group-item">Phone Number: ${newCustomer.phone}</li>
+                                        </ul>
                                     </div>
+                                    <a href="/admin/customer" class="btn btn-success mt-3">Back</a>
+                                </div>
 
-                                    <div class="col-md-4">
-                                        <div class="card p-4">
-                                            <h3>Profile Photo</h3>
-                                            <img class="card-img-top" src="/images/avatar/${newCustomer.avatar}"
-                                                alt="${newCustomer.fullName}'s avatar" />
+                                <div class="col-md-4">
+                                    <div class="card p-4">
+                                        <h3>Profile Photo</h3>
+                                        <img class="card-img-top" src="/images/avatar/${newCustomer.avatar}"
+                                            alt="${newCustomer.fullName}'s avatar" />
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </main>
                         <jsp:include page="../layout/footer.jsp" />
                     </div>

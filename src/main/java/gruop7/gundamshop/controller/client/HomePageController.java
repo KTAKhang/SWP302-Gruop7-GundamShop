@@ -1,5 +1,6 @@
 package gruop7.gundamshop.controller.client;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,16 +43,6 @@ public class HomePageController {
         return "customer/homepage/show";
     }
 
-    @GetMapping("/login")
-    public String getLogin(Model model) {
-        return "authentication/login";
-    }
-
-    @GetMapping("/access-deny")
-    public String getDeny(Model model) {
-        return "authentication/deny";
-    }
-
     @GetMapping("/order-history")
     public String getOrderHistoryPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -74,7 +65,9 @@ public class HomePageController {
             User currentUser = new User();
             currentUser.setId(userId);
 
-            List<Order> orders = orderService.getOrdersByUserAndStatusNot(currentUser, "COMPLETE");
+            // Exclude both "COMPLETE" and "CANCEL" statuses
+            List<Order> orders = orderService.getOrdersByUserAndStatusNotIn(currentUser,
+                    Arrays.asList("COMPLETE", "CANCEL"));
             model.addAttribute("orders", orders);
         }
         return "customer/order/tracking";

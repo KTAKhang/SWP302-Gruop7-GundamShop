@@ -85,24 +85,33 @@
                                                 </td>
                                                 <td>${order.status}</td>
                                                 <td>
-                                                    <c:if test="${order.status == 'COMPLETE'}">
-                                                        <a href="/employee/order/${order.id}" class="btn btn-success">View</a>
-                                                    </c:if>
-                                                    <c:if test="${order.status == 'CONFIRM'}">
-                                                        <a href="/employee/order/${order.id}" class="btn btn-success">View</a>
-                                                        <a href="/employee/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                    </c:if>
-                                                    <c:if test="${order.status == 'SHIPPING'}">
-                                                        <a href="/employee/order/${order.id}" class="btn btn-success">View</a>
-                                                        <a href="/employee/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                    </c:if>
-                                                    <c:if test="${order.status == 'PENDING'}">
-                                                        <a href="/employee/order/${order.id}" class="btn btn-success">View</a>
-                                                        <a href="/employee/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                    </c:if>
-                                                    <c:if test="${order.status == 'CANCEL'}">
-                                                        <a href="/employee/order/${order.id}" class="btn btn-success">View</a>
-                                                    </c:if>
+                                                     <c:if test="${order.status == 'COMPLETE'}">
+                                                                <a href="/employee/order/${order.id}"
+                                                                    class="btn btn-success">View</a>
+                                                            </c:if>
+                                                            <c:if test="${order.status == 'CONFIRM'}">
+                                                                <a href="/employee/order/${order.id}"
+                                                                    class="btn btn-success">View</a>
+                                                                <a href="/employee/order/update/${order.id}"
+                                                                    class="btn btn-warning  mx-2">Update</a>
+                                                            </c:if>
+                                                            <c:if test="${order.status == 'SHIPPING'}">
+                                                                <a href="/employee/order/${order.id}"
+                                                                    class="btn btn-success">View</a>
+                                                                <a href="/employee/order/update/${order.id}"
+                                                                    class="btn btn-warning  mx-2">Update</a>
+                                                            </c:if>
+                                                            <c:if test="${order.status == 'PENDING'}">
+                                                                <a href="/employee/order/${order.id}"
+                                                                    class="btn btn-success">View</a>
+                                                                <a href="/employee/order/update/${order.id}"
+                                                                    class="btn btn-warning  mx-2">Update</a>
+                                                            </c:if>
+                                                            <c:if test="${order.status == 'CANCEL'}">
+                                                                <a href="/employee/order/${order.id}"
+                                                                    class="btn btn-success">View</a>
+                                                             
+                                                            </c:if>
                                                 </td>
                                             </tr>
                                         </c:if>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import gruop7.gundamshop.domain.Category_;
 import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.Product_;
 import gruop7.gundamshop.domain.Order;
@@ -51,6 +52,7 @@ public class ProductSpecs {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Product_.STATUS), status);
     }
 
+
     // Order Specifications
     public static Specification<Order> matchOrderStatus(String status) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Order_.STATUS), status);
@@ -58,5 +60,15 @@ public class ProductSpecs {
 
     public static Specification<Order> matchAnyOrderStatus() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+    public static Specification<Product> matchNameOrCategory(String keyword) {
+        return (root, query, criteriaBuilder) -> {
+            // Tạo điều kiện để tìm kiếm tên sản phẩm hoặc tên danh mục
+            query.distinct(true); // Đảm bảo rằng không có bản sao
+            return criteriaBuilder.or(
+                    criteriaBuilder.like(root.get(Product_.NAME), "%" + keyword + "%"),
+                    criteriaBuilder.like(root.join(Product_.CATEGORY).get(Category_.NAME), "%" + keyword + "%"));
+        };
+
     }
 }

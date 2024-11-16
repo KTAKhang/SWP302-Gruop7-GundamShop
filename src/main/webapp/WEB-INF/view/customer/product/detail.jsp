@@ -173,26 +173,26 @@
 
                                             </div>
 
-                                            <!-- Bình luận của khách hàng -->
+                                            <!-- Customer reviews section -->
                                             <h4 class="fw-bold mb-4">Bình luận của khách hàng:</h4>
                                             <c:forEach var="review" items="${reviews}">
-                                                <div class="review-item d-flex align-items-start mb-3">
-                                                    <!-- Hiển thị ảnh đại diện của người dùng -->
-                                                    <img src="/images/avatar/${review.user.avatar}"
-                                                        alt="${review.user.fullName} Avatar" class="rounded-circle"
-                                                        width="50" height="50" style="margin-right: 15px;">
-
-                                                    <div>
-                                                        <p><strong>${review.user.fullName} :</strong> đã đánh giá:
-                                                            <span>${review.rating} <i
-                                                                    class="fa fa-star text-secondary"></i></span>
-                                                        </p>
-                                                        <p>${review.reviewContent}</p>
+                                                <c:if test="${review.visible == 'Yes'}">
+                                                    <div class="review-item d-flex align-items-start mb-3">
+                                                        <!-- Display user's avatar -->
+                                                        <img src="/images/avatar/${review.user.avatar}"
+                                                            alt="${review.user.fullName} Avatar" class="rounded-circle"
+                                                            width="50" height="50" style="margin-right: 15px;">
+                                                        <div>
+                                                            <p><strong>${review.user.fullName} :</strong> đã đánh giá:
+                                                                <span>${review.rating} <i
+                                                                        class="fa fa-star text-secondary"></i></span>
+                                                            </p>
+                                                            <p>${review.reviewContent}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <hr />
+                                                    <hr />
+                                                </c:if>
                                             </c:forEach>
-
 
                                         </div>
 
