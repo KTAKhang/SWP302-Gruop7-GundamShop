@@ -96,8 +96,8 @@ public class OrderService {
     }
 
     // Lấy tất cả đơn hàng của người dùng với trạng thái khác "COMPLETE"
-    public List<Order> getOrdersByUserAndStatusNot(User user, String excludedStatus) {
-        return orderRepository.findByUserAndStatusNot(user, excludedStatus);
+    public List<Order> getOrdersByUserAndStatusNotIn(User user, List<String> excludedStatuses) {
+        return orderRepository.findByUserAndStatusNotIn(user, excludedStatuses);
     }
 
     public List<Order> fetchOrdersByCustomerId(long customerId) {

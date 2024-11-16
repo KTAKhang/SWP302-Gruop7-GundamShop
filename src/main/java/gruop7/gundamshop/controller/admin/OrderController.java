@@ -73,7 +73,7 @@ public class OrderController {
 
     @GetMapping("/admin/customer/{customerId}/purchase-history")
     public String getPurchaseHistory(@PathVariable long customerId, Model model) {
-        User customer = userService.findUserById(customerId); // Gọi phương thức tìm kiếm người dùng
+        User customer = userService.findUserById(customerId);
         if (customer != null) {
             List<Order> orders = orderService.fetchOrdersByCustomerId(customerId);
             model.addAttribute("customer", customer);
@@ -81,7 +81,7 @@ public class OrderController {
         } else {
             model.addAttribute("error", "Customer not found");
         }
-        return "admin/customer/purchaseHistory"; // Đảm bảo đường dẫn tới trang JSP chính xác
+        return "admin/customer/purchaseHistory"; // Ensure this path is correct
     }
 
     @GetMapping("/employee/order")

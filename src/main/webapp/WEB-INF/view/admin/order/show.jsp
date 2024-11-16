@@ -49,8 +49,8 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>User</th>
-                                                    <th>Total Price</th>
                                                     <th>Date</th>
+                                                    <th>Total Price</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -95,8 +95,8 @@
                                                             <c:if test="${order.status == 'CANCEL'}">
                                                                 <a href="/admin/order/${order.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger mx-2">Delete</a>
+                                                                <!-- <a href="/admin/order/delete/${order.id}"
+                                                                    class="btn btn-danger mx-2">Delete</a> -->
                                                             </c:if>
                                                             <!-- <a href="/admin/order/${order.id}"
                                                                     class="btn btn-success">View</a>
