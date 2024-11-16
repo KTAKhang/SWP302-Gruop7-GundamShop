@@ -114,21 +114,24 @@
 
                                                     </tbody>
                                                 </table>
-                                                <div class="d-flex justify-content-end">
-                                                    <a href="/employee/order" class="btn btn-success mt-3">Back</a>
-                                                </div>
+
                                             </div>
+                                            <a href="/employee/order" class="btn btn-success mt-3">Back</a>
 
                                         </div>
+
                                     </div>
-                                    </main>
+
+                                </div>
+                            </div>
+                            </main>
 
 
 
-                                    <script
-                                        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                                        crossorigin="anonymous"></script>
-                                    <script src="/js/scripts.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                                crossorigin="anonymous"></script>
+                            <script src="/js/scripts.js"></script>
+
 
                 </body>
 

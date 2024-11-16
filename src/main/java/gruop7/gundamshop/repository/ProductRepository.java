@@ -27,4 +27,14 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Product findByIdAndStatus(long id, boolean status);
 
     List<Product> findAllByStatus(boolean status);
+
+
+    @Query("SELECT p FROM Product p WHERE " +
+           "(LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+           "OR LOWER(p.category.name) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+           "AND p.status = :status")
+    List<Product> findByNameOrCategoryNameAndStatus(@Param("keyword") String keyword, @Param("status") boolean status);
+
 }
+
+

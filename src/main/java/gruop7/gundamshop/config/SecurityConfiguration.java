@@ -80,6 +80,7 @@ public class SecurityConfiguration {
                                                                 "/authentication/enterRegisterOTP")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/employee/**").hasRole("EMPLOYEE")
 
                                                 .requestMatchers("/employee/**").hasRole("EMPLOYEE")
 

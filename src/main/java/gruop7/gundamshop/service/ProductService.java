@@ -310,6 +310,15 @@ public class ProductService {
         }
     }
 
+
+    public List<Product> findAll(Specification<Product> spec) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+    public List<Product> getProductByNameOrCategory(String keyword, boolean status) {
+        return productRepository.findByNameOrCategoryNameAndStatus(keyword, status);
+    }
+
     public Page<Product> searchProducts(String keyword, Pageable pageable,
             ProductCriteriaDTO productCriteriaDTO) {
         // Bắt đầu với điều kiện cơ bản để chỉ bao gồm sản phẩm có trạng thái = true
@@ -342,5 +351,6 @@ public class ProductService {
         // Trả về kết quả phân trang sử dụng đặc tả kết hợp
         return productRepository.findAll(combinedSpec, pageable);
     }
+
 
 }

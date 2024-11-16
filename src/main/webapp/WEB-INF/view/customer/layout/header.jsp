@@ -89,7 +89,9 @@
                            
 
                             <c:if test="${not empty pageContext.request.userPrincipal}">
-                                <a href="" class="nav-item nav-link fw-bold">Liên Hệ</a>
+                                <!-- Updated "Liên Hệ" link -->
+                                <a href="/contact/new " class="nav-item nav-link fw-bold">Liên Hệ</a>
+
                             </c:if>
                         </div>
 
