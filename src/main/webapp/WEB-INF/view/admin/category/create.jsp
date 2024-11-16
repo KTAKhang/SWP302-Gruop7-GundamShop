@@ -56,12 +56,16 @@
                                     <div class="mb-3 col-12 col-md-6">
                                         <label class="form-label">Name of Category:</label>
                                         <form:input type="text" class="form-control" path="name" />
+                                        <form:errors path="name" cssClass="text-danger" />
                                     </div>
+                                    
 
                                     <div class="mb-3 col-12 col-md-6">
                                         <label for="imageFile" class="form-label">Image:</label>
                                         <input class="form-control" type="file" id="imageFile" accept=".png, .jpg, .jpeg" name="imageFile" />
+                                        <form:errors path="image" cssClass="text-danger" />
                                     </div>
+                                    
                                     <div class="col-12 mb-3">
                                         <img style="max-height: 250px; display: none;" alt="image preview" id="imagePreview" />
                                     </div>

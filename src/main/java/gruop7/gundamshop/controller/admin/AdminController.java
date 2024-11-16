@@ -27,6 +27,10 @@ public class AdminController {
         if (year == null) {
             year = Year.now().getValue();
         }
+
+        // Log nhận được từ client
+        System.out.println("Received year: " + year);
+
         Map<Integer, Double> monthlyRevenue = orderService.getMonthlyRevenueForYear(year);
         Set<Integer> yearsWithData = orderService.getYearsWithData();
 
@@ -36,5 +40,4 @@ public class AdminController {
 
         return "admin/homepage/statistics";
     }
-
 }
