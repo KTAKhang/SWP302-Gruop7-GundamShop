@@ -53,6 +53,7 @@
                                     </thead>
                                     <tbody>
                                         <c:forEach var="order" items="${orders}">
+
                                             <tr>
                                                 <td>
                                                     <div class="d-flex flex-column align-items-start">
@@ -82,6 +83,7 @@
                                                     </c:if>
                                                 </td>
                                             </tr>
+
                                         </c:forEach>
                                     </tbody>
                                 </table>
