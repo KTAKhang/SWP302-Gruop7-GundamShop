@@ -305,4 +305,12 @@ public class ProductService {
             }
         }
     }
+
+    public List<Product> findAll(Specification<Product> spec) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+    public List<Product> getProductByNameOrCategory(String keyword, boolean status) {
+        return productRepository.findByNameOrCategoryNameAndStatus(keyword, status);
+    }
 }

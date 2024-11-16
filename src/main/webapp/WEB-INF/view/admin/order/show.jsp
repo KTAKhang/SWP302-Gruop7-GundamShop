@@ -1,133 +1,122 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-            <!DOCTYPE html>
-            <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-            <head>
-                <meta charset="utf-8" />
-                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
-                <meta name="author" content="Hỏi Dân IT" />
-                <title>Manager Order</title>
-                <link href="/css/styles.css" rel="stylesheet" />
-                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-                <!-- Bootstrap Icon -->
-                <link rel="stylesheet"
-                    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-                <!-- Custom CSS -->
-                <link rel="stylesheet" href="/css/ewstyle.css">
-            </head>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
+    <meta name="author" content="Hỏi Dân IT" />
+    <title>Manager Order</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/ewstyle.css">
+</head>
 
-            <body>
-                <div class="container-fluid d-flex p-0">
+<body>
+    <div class="container-fluid d-flex p-0">
+        <jsp:include page="../layout/navbar.jsp" />
 
+        <!-- Main Content -->
+        <div class="main-content p-0">
+            <jsp:include page="../layout/header.jsp" />
 
-                    <jsp:include page="../layout/navbar.jsp" />
+            <div class="p-4">
+                <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Manage order</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Order</li>
+                </ol>
 
+                <!-- Filter Bar -->
+                <div class="filter-bar mb-4">
+                    <form method="GET" action="/admin/order" class="d-inline">
+                        <select name="status" style="margin-right: 10px;">
+                            <option value="" <c:if test="${empty param.status}">selected</c:if>>All</option>
+                            <option value="COMPLETE" <c:if test="${param.status == 'COMPLETE'}">selected</c:if>>Complete</option>
+                            <option value="CONFIRM" <c:if test="${param.status == 'CONFIRM'}">selected</c:if>>Confirm</option>
+                            <option value="PENDING" <c:if test="${param.status == 'PENDING'}">selected</c:if>>Pending</option>
+                            <option value="SHIPPING" <c:if test="${param.status == 'SHIPPING'}">selected</c:if>>Shipping</option>
+                            <option value="CANCEL" <c:if test="${param.status == 'CANCEL'}">selected</c:if>>Cancel</option>
+                        </select>
+                        
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
 
-                    <!-- Main Content -->
-                    <div class="main-content p-0">
-                        <jsp:include page="../layout/header.jsp" />
-
-                        <div class="p-4">
-                            <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Manage order</h1>
-                            <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Order</li>
-                            </ol>
-                            <div class="mt-5">
-                                <div class="row">
-                                    <div class="col-12 mx-auto">
-                                        <div class="d-flex">
-                                            <h3>Table Orders</h3>
-                                        </div>
-
-                                        <hr />
-                                        <table class=" table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>User</th>
-                                                    <th>Total Price</th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="order" items="${orders}">
-                                                    <tr>
-                                                        <th>${order.id}</th>
-                                                        <td>${order.user.fullName}</td>
-                                                        <td>
-                                                            <fmt:formatDate value="${order.convertedOrderDate}"
-                                                                pattern="dd/MM/yyyy HH:mm:ss" />
-                                                        <td>
-                                                            <fmt:formatNumber type="number"
-                                                                value="${order.totalPrice}" /> đ
-                                                        </td>
-
-                                                        <td>${order.status}</td>
-                                                        <td>
-                                                            <c:if test="${order.status == 'COMPLETE'}">
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                            </c:if>
-                                                            <c:if test="${order.status == 'CONFIRM'}">
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                            </c:if>
-                                                            <c:if test="${order.status == 'SHIPPING'}">
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                            </c:if>
-                                                            <c:if test="${order.status == 'PENDING'}">
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                            </c:if>
-                                                            <c:if test="${order.status == 'CANCEL'}">
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger mx-2">Delete</a>
-                                                            </c:if>
-                                                            <!-- <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger">Delete</a> -->
-                                                        </td>
-                                                    </tr>
-
-                                                </c:forEach>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-
+                <div class="mt-5">
+                    <div class="row">
+                        <div class="col-12 mx-auto">
+                            <div class="d-flex">
+                                <h3>Table Orders</h3>
                             </div>
-                        </div>
-                        </main>
 
+                            <hr />
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Total Price</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="order" items="${orders}">
+                                        <tr>
+                                            <th>${order.id}</th>
+                                            <td>${order.user.fullName}</td>
+                                            <td>
+                                                <fmt:formatDate value="${order.convertedOrderDate}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                            </td>
+                                            <td>
+                                                <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
+                                            </td>
+                                            <td>${order.status}</td>
+                                            <td>
+                                                <c:if test="${order.status == 'COMPLETE'}">
+                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                </c:if>
+                                                <c:if test="${order.status == 'CONFIRM'}">
+                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                    <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
+                                                </c:if>
+                                                <c:if test="${order.status == 'SHIPPING'}">
+                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                    <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
+                                                </c:if>
+                                                <c:if test="${order.status == 'PENDING'}">
+                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                    <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
+                                                </c:if>
+                                                <c:if test="${order.status == 'CANCEL'}">
+                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                </c:if>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                    crossorigin="anonymous"></script>
-                <script src="/js/scripts.js"></script>
+            </div>
+        </div>
+    </div>
 
-            </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/js/scripts.js"></script>
 
-            </html>
+</body>
+
+</html>

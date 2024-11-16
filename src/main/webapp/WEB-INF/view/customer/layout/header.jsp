@@ -82,7 +82,9 @@
 
                             <!-- Việt Nguyên làm chỗ này nha -->
                             <c:if test="${not empty pageContext.request.userPrincipal}">
-                                <a href="" class="nav-item nav-link fw-bold">Liên Hệ</a>
+                                <!-- Updated "Liên Hệ" link -->
+                                <a href="/contact/new " class="nav-item nav-link fw-bold">Liên Hệ</a>
+
                             </c:if>
                         </div>
                         <div class="d-flex m-3 me-0">

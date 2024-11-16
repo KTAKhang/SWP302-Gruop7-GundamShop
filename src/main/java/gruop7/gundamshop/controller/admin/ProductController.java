@@ -200,4 +200,19 @@ public class ProductController {
         model.addAttribute("id", id);
         return "admin/product/detail";
     }
-}
+    @GetMapping("/admin/product/search")
+    public String getProduct(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<Product> products;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            products = productService.getProductByNameOrCategory(keyword, true);
+        } else {
+            products = productService.getProductByStatus(true);
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", keyword);  // Để giữ giá trị tìm kiếm trong form
+
+        return "admin/product/show";
+    }
+    }
