@@ -117,7 +117,7 @@
                                                                     class="btn btn-success">View</a>
                                                                 
                                                             </c:if>
-                                                   </c:if>
+                                                 
                                                 </td>
                                             </tr>
                                         </c:if>

@@ -136,7 +136,7 @@
                                                         <input class="form-control d-none" type="text" name="quantity"
                                                             id="cartDetails0.quantity" value="1" />
                                                         <button data-product-id="${product.id}"
-                                                            class=" btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
+                                                            class=" btn btn-primary border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
                                                                 class="fa fa-shopping-bag me-2 text-primary"></i>
                                                             Add to cart
                                                         </button>

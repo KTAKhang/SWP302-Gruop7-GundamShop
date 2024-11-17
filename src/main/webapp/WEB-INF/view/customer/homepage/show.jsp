@@ -37,7 +37,27 @@
 
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
                     rel="stylesheet">
+<style> 
 
+button.btn {
+    min-height: 40px; /* Đặt chiều cao tối thiểu cho các nút */
+    width: 100%; /* Đặt chiều rộng nút đầy đủ */
+    text-align: center; /* Căn giữa chữ trong nút */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px; /* Font size đồng nhất */
+    flex: 1;
+    
+}
+.fruite-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Chiều cao bằng nhau */
+}
+
+</style>
             </head>
 
             <body>
@@ -63,7 +83,7 @@
                         <div class="tab-class text-center">
                             <div class="row g-4">
                                 <div class="col-lg-4 text-start">
-                                    <h1>Sản phẩm nổi bật</h1>
+                                    <h1>Sản Phẩm Tham Khảo</h1>
                                 </div>
                                 <div class="col-lg-8 text-end">
                                     <ul class="nav nav-pills d-inline-flex text-center mb-5">
@@ -101,7 +121,7 @@
                                                                     <a href="/product/${product.id}">${product.name}</a>
                                                                 </h4>
                                                                 <!-- mô tả ngắn -->
-                                                                <p style="font-size: 13px;">${product.shortDesc}</p>
+                                                                <p class="product-desc">${product.shortDesc}</p>
                                                                 <div
                                                                     class="d-flex flex-lg-wrap justify-content-center flex-column">
                                                                     <p style="font-size: 15px; text-align: center; width: 100%;"
@@ -112,28 +132,17 @@
                                                                     </p>
 
                                                                     <c:choose>
-                                                                        <c:when test="${product.quantity > 0}">
-                                                                            <form
-                                                                                action="/add-product-to-cart/${product.id}"
-                                                                                method="post">
-                                                                                <input type="hidden"
-                                                                                    name="${_csrf.parameterName}"
-                                                                                    value="${_csrf.token}" />
+                                                                            <c:when test="${product.quantity > 0}">
+                                                                                <form action="/add-product-to-cart/${product.id}" method="post">
+                                                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                                                    <button class="btn btn-primary w-100">Add to cart</button>
+                                                                                </form>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <button class="btn btn-secondary w-100" disabled>Hết hàng</button>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
 
-                                                                                <button
-                                                                                    class=" mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                                    Add to cart
-                                                                                </button>
-                                                                            </form>
-
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <button
-                                                                                class="btn btn-secondary rounded-pill px-4 py-2 mb-4"
-                                                                                disabled>Hết hàng</button>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
 
                                                                 </div>
                                                             </div>
@@ -175,6 +184,17 @@
                 <script src="/client/js/main.js"></script>
                 <script
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+
+                                        <!-- Template Javascript -->
+                                        <script src="/client/js/main.js"></script>
+                                        <script>
+                                            document.querySelectorAll('.product-desc').forEach(function(desc) {
+                                                const words = desc.textContent.trim().split(/\s+/);
+                                                if (words.length >4) {
+                                                    desc.textContent = words.slice(0, 4).join(' ') + '...';
+                                                }
+                                            });
+                                        </script>
             </body>
 
             </html>
