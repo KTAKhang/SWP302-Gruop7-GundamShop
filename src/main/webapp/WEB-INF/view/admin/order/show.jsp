@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ 
 
             <!DOCTYPE html>
             <html lang="en">
@@ -22,12 +24,12 @@
                 <link rel="stylesheet" href="/css/ewstyle.css">
             </head>
 
-            <body>
+
+
+<body>
+            
                 <div class="container-fluid d-flex p-0">
-
-
                     <jsp:include page="../layout/navbar.jsp" />
-
 
                     <!-- Main Content -->
                     <div class="main-content p-0">
@@ -39,6 +41,22 @@
                                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Order</li>
                             </ol>
+                           <!-- Filter Bar -->
+                <div class="filter-bar mb-4">
+                    <form method="GET" action="/admin/order" class="d-inline">
+                        <select name="status" style="margin-right: 10px;">
+                            <option value="" <c:if test="${empty param.status}">selected</c:if>>All</option>
+                            <option value="COMPLETE" <c:if test="${param.status == 'COMPLETE'}">selected</c:if>>Complete</option>
+                            <option value="CONFIRM" <c:if test="${param.status == 'CONFIRM'}">selected</c:if>>Confirm</option>
+                            <option value="PENDING" <c:if test="${param.status == 'PENDING'}">selected</c:if>>Pending</option>
+                            <option value="SHIPPING" <c:if test="${param.status == 'SHIPPING'}">selected</c:if>>Shipping</option>
+                            <option value="CANCEL" <c:if test="${param.status == 'CANCEL'}">selected</c:if>>Cancel</option>
+                        </select>
+                        
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                    <a href="/admin/order" class="btn btn-secondary ms-2">All Orders</a>
+                </div>
                             <div class="mt-5">
                                 <div class="row">
                                     <div class="col-12 mx-auto">
@@ -52,28 +70,27 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>User</th>
-                                                    <th>Total Price</th>
                                                     <th>Date</th>
+                                                    <th>Total Price</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <c:forEach var="order" items="${orders}">
-                                                    <tr>
-                                                        <th>${order.id}</th>
-                                                        <td>${order.user.fullName}</td>
-                                                        <td>
-                                                            <fmt:formatDate value="${order.convertedOrderDate}"
-                                                                pattern="dd/MM/yyyy HH:mm:ss" />
-                                                        <td>
-                                                            <fmt:formatNumber type="number"
-                                                                value="${order.totalPrice}" /> đ
-                                                        </td>
-
-                                                        <td>${order.status}</td>
-                                                        <td>
-                                                            <c:if test="${order.status == 'COMPLETE'}">
+                                        <c:if test="${empty param.status || order.status == param.status}">
+                                            <tr>
+                                                <th>${order.id}</th>
+                                                <td>${order.user.fullName}</td>
+                                                <td>
+                                                    <fmt:formatDate value="${order.convertedOrderDate}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                                </td>
+                                                <td>
+                                                    <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
+                                                </td>
+                                                <td>${order.status}</td>
+                                                <td>
+                                                    <c:if test="${order.status == 'COMPLETE'}">
                                                                 <a href="/admin/order/${order.id}"
                                                                     class="btn btn-success">View</a>
                                                             </c:if>
@@ -98,19 +115,13 @@
                                                             <c:if test="${order.status == 'CANCEL'}">
                                                                 <a href="/admin/order/${order.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger mx-2">Delete</a>
+                                                                
                                                             </c:if>
-                                                            <!-- <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger">Delete</a> -->
-                                                        </td>
-                                                    </tr>
-
-                                                </c:forEach>
+                                                 
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
 
                                             </tbody>
                                         </table>
@@ -118,16 +129,16 @@
 
                                 </div>
 
-                            </div>
-                        </div>
-                        </main>
 
-                    </div>
+               
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                    crossorigin="anonymous"></script>
-                <script src="/js/scripts.js"></script>
+            </div>
+        </div>
+    </div>
 
-            </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/js/scripts.js"></script>
 
-            </html>
+</body>
+
+</html>

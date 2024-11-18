@@ -49,7 +49,8 @@
                     <jsp:include page="../layout/header.jsp" />
 
                     <!-- Cart Page Start -->
-                    <div class="container-fluid py-5">
+                    <div class="container-fluid py-5"
+                    style="margin-bottom: 80px;">
                         <div class="container py-5">
                             <div class="mb-3">
                                 <nav aria-label="breadcrumb">
@@ -229,9 +230,9 @@
                         </div>
                     </div>
                     <!-- Cart Page End -->
-
-
                     <jsp:include page="../layout/footer.jsp" />
+
+
 
 
                     <!-- Back to Top -->

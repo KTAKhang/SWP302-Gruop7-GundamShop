@@ -26,14 +26,30 @@
 
                             <h1>Sign In</h1>
                             <c:if test="${param.error != null}">
-                                <div class="my-2" style="color: red;">Invalid email or password.</div>
+                                <div class="my-2" style="color: red;">Email hoặc Password không hợp lệ</div>
                             </c:if>
                             <c:if test="${param.logout != null}">
-                                <div class="my-2" style="color: green;">Logout success</div>
+                                <div class="my-2" style="color: green;">Logout thành công</div>
                             </c:if>
+
+                            <c:if test="${param.resetsuccess != null}">
+                                <div class="my-2" style="color: green;">Đổi mật khẩu thành công</div>
+                           </c:if>
+
                             <c:if test="${param.locked != null}">
-                                <div class="my-2" style="color: orange;">Tài khoản của bạn bị khóa</div>
+                                <div class="d-flex justify-content-center my-2">
+                                    <div style="color: orange; text-align: center;">
+                                        Your account is locked. Please contact the administrator for details.
+                                    </div>
+                                </div>
+
                             </c:if>
+
+                            <c:if test="${param.registersuccess != null}">
+                                <div class="my-2" style="color: green;">Đăng kí thành công</div>
+                            </c:if>
+
+
                             <input type="email" placeholder="Email Address" name="username" />
                             <input type="password" placeholder="Password" name="password" />
 
@@ -41,7 +57,10 @@
                             <a href="/forgotpassword">Forget Your Password?</a>
 
                             <button>Sign In</button>
+
                         </form>
+
+
                     </div>
                     <div class="toggle-container">
                         <div class="toggle">
@@ -51,6 +70,8 @@
                                     Register with your personal details to use all of site features
                                 </p>
                                 <a href="/register"><button class="hidden" id="register">Sign Up</button></a>
+                <a href="/"><button class="hidden" id="register">Back</button></a>
+
                             </div>
                         </div>
                     </div>

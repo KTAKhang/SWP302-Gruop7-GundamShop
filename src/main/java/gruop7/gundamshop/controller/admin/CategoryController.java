@@ -47,26 +47,29 @@ public class CategoryController {
     }
 
     @PostMapping(value = "/admin/category/create")
-    public String createCategoryPage(Model model, @ModelAttribute("newCategory") @Valid Category category,
+    public String createCategoryPage(Model model,
+            @ModelAttribute("newCategory") @Valid Category category,
             BindingResult newCategoryBindingResult,
             @RequestParam("imageFile") MultipartFile file) {
-        // validation
-        List<FieldError> errors = newCategoryBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
+        // Kiểm tra lỗi
         if (newCategoryBindingResult.hasErrors()) {
+            model.addAttribute("newCategory", category);
             return "admin/category/create";
         }
-        //
 
+        // Kiểm tra hình ảnh
+        if (file.isEmpty()) {
+            newCategoryBindingResult.rejectValue("image", "error.image", "Hình ảnh không được bỏ trống");
+            model.addAttribute("newCategory", category);
+            return "admin/category/create";
+        }
+
+        // Xử lý upload file
         String image = this.uploadService.handleSaveUploadFile(file, "category");
-
         category.setImage(image);
-        ;
         category.setStatus(true);
 
-        // save
+        // Lưu vào database
         this.categoryService.handleSaveCategory(category);
 
         return "redirect:/admin/category";
@@ -93,30 +96,43 @@ public class CategoryController {
     }
 
     @PostMapping("/admin/category/update")
-    public String postUpdateCategory(Model model, @ModelAttribute("newCategory") @Valid Category category,
+    public String postUpdateCategory(Model model,
+            @ModelAttribute("newCategory") @Valid Category category,
             BindingResult newCategoryBindingResult,
             @RequestParam("imageFile") MultipartFile file) {
-        // // validate
-        // if (newProductBindingResult.hasErrors()) {
-        // return "admin/customer/update";
-        // }
         Category currentCategory = this.categoryService.getCategoryById(category.getId());
-        if (currentCategory != null) {
-            // update new image
-            if (!file.isEmpty()) {
-                String img = this.uploadService.handleSaveUploadFile(file, "category");
-                currentCategory.setImage(img);
-            }
-            currentCategory.setName(category.getName());
 
-            this.categoryService.handleSaveCategory(currentCategory);
+        // Kiểm tra lỗi cho name
+        if (newCategoryBindingResult.hasErrors()) {
+            model.addAttribute("newCategory", category);
+            return "admin/category/update";
         }
+
+        if (file.isEmpty() && (currentCategory.getImage() == null || currentCategory.getImage().isEmpty())) {
+            newCategoryBindingResult.rejectValue("image", "error.image", "Hình ảnh không được bỏ trống");
+            model.addAttribute("newCategory", category);
+            return "admin/category/update";
+        }
+
+        // Nếu có hình ảnh mới, xử lý lưu hình ảnh
+        if (!file.isEmpty()) {
+            String img = this.uploadService.handleSaveUploadFile(file, "category");
+            currentCategory.setImage(img);
+        }
+
+        // Cập nhật thông tin
+        currentCategory.setName(category.getName());
+
+        this.categoryService.handleSaveCategory(currentCategory);
+
         return "redirect:/admin/category";
     }
 
     @GetMapping("/admin/category/delete/{id}")
     public String getDeleteCategoryPage(Model model, @PathVariable long id) {
+        Category category = this.categoryService.getCategoryById(id);
         model.addAttribute("id", id);
+        model.addAttribute("name", category.getName()); // Thêm name
         model.addAttribute("newCategory", new Category());
         return "admin/category/delete";
     }

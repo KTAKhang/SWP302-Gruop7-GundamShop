@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +22,12 @@ import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.ProductReview;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.dto.ProductCriteriaDTO;
+import gruop7.gundamshop.repository.CartDetailRepository;
+import gruop7.gundamshop.repository.CartRepository;
 import gruop7.gundamshop.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import gruop7.gundamshop.service.CategoryService;
 import gruop7.gundamshop.service.ProductReviewService;
 
 @Controller
@@ -31,10 +35,17 @@ public class ItemController {
 
     private final ProductService productService;
     private final ProductReviewService productReviewService; // Thêm ProductReviewService
+    private final CartDetailRepository cartDetailRepository;
+    private final CartRepository cartRepository;
+    @Autowired
+    private CategoryService categoryService; // Dịch vụ để lấy danh sách category
 
-    public ItemController(ProductService productService, ProductReviewService productReviewService) {
+    public ItemController(ProductService productService, ProductReviewService productReviewService,
+            CartDetailRepository cartDetailRepository, CartRepository cartRepository) {
         this.productService = productService;
         this.productReviewService = productReviewService;
+        this.cartDetailRepository = cartDetailRepository;
+        this.cartRepository = cartRepository;
     }
 
     @GetMapping("/product/{id}")
@@ -42,33 +53,25 @@ public class ItemController {
         // Retrieve the product using its ID
         Optional<Product> productOptional = productService.getProductById(id);
 
-        // Retrieve the current user from the session
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("id") == null) {
-            return "error/404"; // Handle case where user is not logged in
-        }
-
-        long idUser = (long) session.getAttribute("id");
-        User currentUser = new User();
-        currentUser.setId(idUser);
-
-        // Fetch the user's cart
-        Cart cart = productService.fetchByUser(currentUser);
-        List<CartDetail> cartDetails = (cart != null) ? cart.getCartDetails() : new ArrayList<>();
-
-        // Check if the product exists; if not, return a 404 error
+        // Kiểm tra nếu sản phẩm không tồn tại
         if (productOptional.isEmpty()) {
-            return "error/404"; // Product not found
+            return "customer/product/product-hidden"; // Product not found
         }
 
         Product product = productOptional.get();
+
+        // Kiểm tra nếu sản phẩm bị ẩn (status == 0)
+        if (!product.isStatus()) {
+            return "customer/product/product-hidden"; // Hoặc trả về trang thông báo lỗi
+        }
+
+        // Thêm thông tin sản phẩm vào model
         model.addAttribute("product", product);
 
         // Fetch CartDetail for the product in the user's cart
         List<CartDetail> productCartDetails = productService.getCartDetailsByProduct(product);
         CartDetail cartDetail = null;
 
-        // Logic to determine which CartDetail to use (if any)
         if (!productCartDetails.isEmpty()) {
             // Example: Get the first cartDetail (or apply your selection logic)
             cartDetail = productCartDetails.get(0);
@@ -80,7 +83,6 @@ public class ItemController {
         List<ProductReview> reviews = productReviewService.findReviewsByProductId(id);
         double averageRating = reviews.stream().mapToInt(ProductReview::getRating).average().orElse(0);
 
-        // Add reviews and average rating to the model
         model.addAttribute("reviews", reviews);
         model.addAttribute("averageRating", averageRating);
 
@@ -178,8 +180,34 @@ public class ItemController {
         List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
 
         double totalPrice = 0;
+        // Duyệt qua từng CartDetail để kiểm tra và cập nhật giá
         for (CartDetail cd : cartDetails) {
-            totalPrice += cd.getPrice() * cd.getQuantity();
+            Optional<Product> optionalProduct = this.productService.getProductById(cd.getProduct().getId());
+
+            if (optionalProduct.isPresent()) {
+                Product product = optionalProduct.get();
+                if (cart.getSum() == 0) {
+                    this.cartRepository.delete(cart);
+                    session.setAttribute("sum", 0);
+                }
+                if (!product.isStatus()) {
+                    this.cartDetailRepository.delete(cd);
+
+                    int currentSum = cart.getSum();
+                    cart.setSum(currentSum - 1);
+                    session.setAttribute("sum", currentSum - 1);
+
+                }
+
+                // Nếu giá trong CartDetail khác giá của Product, cập nhật lại
+                if (cd.getPrice() != product.getPrice()) {
+                    cd.setPrice(product.getPrice());
+                    this.cartDetailRepository.save(cd);
+                }
+
+                // Tính tổng giá trị (giá mới * số lượng)
+                totalPrice += cd.getPrice() * cd.getQuantity();
+            }
         }
 
         model.addAttribute("cartDetails", cartDetails);
@@ -266,6 +294,55 @@ public class ItemController {
     public String getThankYouPage(Model model) {
 
         return "customer/cart/thank";
+    }
+
+    @GetMapping("/search")
+    public String getSearchPage(Model model,
+            ProductCriteriaDTO productCriteriaDTO,
+            HttpServletRequest request) {
+        int page = productCriteriaDTO.getPage()
+                .map(Integer::parseInt)
+                .orElse(1);
+
+        // Khởi tạo Pageable mặc định không có sắp xếp
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        // Kiểm tra xem có sort hay không
+        if (productCriteriaDTO.getSort().isPresent()) {
+            String sort = productCriteriaDTO.getSort().get();
+            if ("gia-tang-dan".equals(sort)) {
+                pageable = PageRequest.of(page - 1, 10, org.springframework.data.domain.Sort.by("price").ascending());
+            } else if ("gia-giam-dan".equals(sort)) {
+                pageable = PageRequest.of(page - 1, 10, org.springframework.data.domain.Sort.by("price").descending());
+            }
+        }
+
+        // Lấy từ khóa tìm kiếm từ người dùng
+        String keyword = productCriteriaDTO.getSearchKeyword()
+                .orElse(request.getParameter("query"));
+
+        // Tìm kiếm sản phẩm theo tên sản phẩm hoặc tên danh mục với các tiêu chí lọc
+        Page<Product> prs = this.productService.searchProducts(keyword, pageable, productCriteriaDTO);
+        List<Product> products = prs.getContent();
+
+        List<String> factories = productService.getAllFactories();
+        List<String> targets = productService.getAllTargets();
+
+        // Xử lý query string để phân trang
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            qs = qs.replace("page=" + page, "");
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("queryString", qs);
+        model.addAttribute("factories", factories);
+        model.addAttribute("targets", targets);
+        model.addAttribute("searchKeyword", keyword);
+
+        return "customer/search/show";
     }
 
 }

@@ -114,7 +114,12 @@
 		</dependency>
 
 
-
+		<!-- Nguyên bổ sung cho giới hạng từ mô tả thành 20 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 	</dependencies>
 

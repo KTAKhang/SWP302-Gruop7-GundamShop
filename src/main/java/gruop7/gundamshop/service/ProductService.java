@@ -1,10 +1,14 @@
 package gruop7.gundamshop.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDateTime;
@@ -305,4 +309,47 @@ public class ProductService {
             }
         }
     }
+
+    public List<Product> findAll(Specification<Product> spec) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+
+    public List<Product> getProductByNameOrCategory(String keyword, boolean status) {
+        return productRepository.findByNameOrCategoryNameAndStatus(keyword, status);
+    }
+
+    public Page<Product> searchProducts(String keyword, Pageable pageable,
+            ProductCriteriaDTO productCriteriaDTO) {
+        // Bắt đầu với điều kiện cơ bản để chỉ bao gồm sản phẩm có trạng thái = true
+        Specification<Product> combinedSpec = Specification.where(ProductSpecs.matchStatus(true));
+
+        // Nếu có keyword được cung cấp, sử dụng keyword để tìm kiếm
+        if (keyword != null && !keyword.isEmpty()) {
+            Specification<Product> keywordSpec = ProductSpecs.matchNameOrCategory(keyword);
+            combinedSpec = combinedSpec.and(keywordSpec);
+        }
+
+        // Thêm lọc theo target
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> targetSpec = ProductSpecs.matchListTarget(productCriteriaDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(targetSpec);
+        }
+
+        // Thêm lọc theo factory
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> factorySpec = ProductSpecs.matchListFactory(productCriteriaDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(factorySpec);
+        }
+
+        // Thêm lọc theo khoảng giá
+        if (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
+            Specification<Product> priceSpec = this.buildPriceSpecification(productCriteriaDTO.getPrice().get());
+            combinedSpec = combinedSpec.and(priceSpec);
+        }
+
+        // Trả về kết quả phân trang sử dụng đặc tả kết hợp
+        return productRepository.findAll(combinedSpec, pageable);
+    }
+
 }

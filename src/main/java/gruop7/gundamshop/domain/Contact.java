@@ -1,6 +1,13 @@
 package gruop7.gundamshop.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -10,52 +17,31 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Size(max = 255, message = "Note should not exceed 255 characters")
-    private String note;
-
-    @Size(max = 15, message = "Phone number should not exceed 15 characters")
+    @NotNull
+    @Size(min = 10, max = 20)
     private String phoneNumber;
 
-    @NotNull(message = "Status cannot be null")
-    private Boolean status;
-
-    @NotNull(message = "Subject name cannot be null")
-    @Size(max = 100, message = "Subject name should not exceed 100 characters")
     private String subjectName;
+    private String note;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    // Constructors
-    public Contact() {
-    }
+    @Column(name = "user_id", insertable = false, updatable = false)  // This will be used to map the column
+    private Long userId;
 
-    public Contact(String note, String phoneNumber, Boolean status, String subjectName, User user) {
-        this.note = note;
-        this.phoneNumber = phoneNumber;
-        this.status = status;
-        this.subjectName = subjectName;
-        this.user = user;
-    }
+    private boolean status;
 
-    // Getters and Setters
-    public Long getId() {
+    // Getters and setters for all fields
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     public String getPhoneNumber() {
@@ -66,14 +52,6 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
     public String getSubjectName() {
         return subjectName;
     }
@@ -82,24 +60,42 @@ public class Contact {
         this.subjectName = subjectName;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+        this.userId = (user != null) ? user.getId() : null;  // Update the userId when setting the User
     }
 
-    // Optional: Override toString() for better debugging
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", note='" + note + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", status=" + status +
-                ", subjectName='" + subjectName + '\'' +
-                ", user=" + (user != null ? user.getId() : "null") +
-                '}';
+        return "Contact [id=" + id + ", phoneNumber=" + phoneNumber
+                + ", subjectName=" + subjectName + ", note=" + note + ", user=" + user + ", status=" + status + "]";
     }
 }

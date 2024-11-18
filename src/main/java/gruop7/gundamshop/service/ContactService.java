@@ -4,9 +4,11 @@ import gruop7.gundamshop.domain.Contact;
 import gruop7.gundamshop.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 import java.util.List;
+
 
 @Service
 public class ContactService {
@@ -31,6 +33,13 @@ public class ContactService {
             return true; // Trả về true khi xóa thành công
         }
         return false; // Trả về false nếu không tìm thấy contact
+    }
+
+
+    public void saveContact(Contact contact) {
+        // Set status or other properties if needed
+        contact.setStatus(true);  // Set the status to true or whatever is appropriate
+        contactRepository.save(contact);  // Save contact to the database
     }
 
 }

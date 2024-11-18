@@ -39,6 +39,7 @@ public class ProfileController {
         String email = (String) session.getAttribute("username");
         User currentUser = this.userService.getUserByEmail(email);
 
+
         model.addAttribute("newUser", currentUser);
 
         return "admin/profile/profile";
@@ -122,6 +123,7 @@ public class ProfileController {
             BindingResult newProductBindingResult,
             @RequestParam("imagesFile") MultipartFile file) {
         // validate
+
         // if (newProductBindingResult.hasErrors()) {
         // return "admin/customer/update";
         // }
@@ -138,6 +140,7 @@ public class ProfileController {
 
             this.userService.handleSaveUser(currentUser);
         }
+
         // Redirect to the profile page of the updated user
         return "redirect:/customers/profile/" + user.getId();
     }
