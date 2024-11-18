@@ -24,6 +24,10 @@
                 <li><a href="/admin/profile/${sessionScope.id}" class="btn btn-light w-100 text-start mb-3"><i
                             class="bi bi-calendar-fill"></i>Manage Profile</a></li>
 
+                <li><a href="/admin/contact" class="btn btn-light w-100 text-start mb-3"><i
+                            class="bi bi-clipboard-fill"></i> View Contact</a></li>
+
+
                 <li>
                     <form method="post" action="/logout">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

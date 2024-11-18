@@ -39,26 +39,17 @@ public class ProfileController {
         String email = (String) session.getAttribute("username");
         User currentUser = this.userService.getUserByEmail(email);
 
-        // Ensure customer is not null before adding to model
-        if (currentUser == null) {
-            // Handle the case where the user is not found
-            return "redirect:/admin/customer"; // Redirect or show an error page
-        }
-        // Ensure customer is not null before adding to model
-        if (!currentUser.isStatus()) {
-            // Handle the case where the user is not found
-            return "redirect:/admin/customer"; // Redirect or show an error page
-        }
+
         model.addAttribute("newUser", currentUser);
 
-        return "admin/profile/show";
+        return "admin/profile/profile";
     }
 
     @PostMapping("/admin/profile/update")
     public String postUpdateUser(Model model, @ModelAttribute("newUser") @Valid User user,
             BindingResult newProductBindingResult,
             @RequestParam("imagesFile") MultipartFile file) {
-        // // validate
+        // validate
         // if (newProductBindingResult.hasErrors()) {
         // return "admin/customer/update";
         // }
@@ -75,7 +66,83 @@ public class ProfileController {
 
             this.userService.handleSaveUser(currentUser);
         }
-        return "redirect:/admin/user";
+        // Redirect to the profile page of the updated user
+        return "redirect:/admin/profile/" + user.getId();
+
+    }
+
+    @GetMapping("/employee/profile/{id}")
+    public String getDashboardE(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("username");
+        User currentUser = this.userService.getUserByEmail(email);
+
+        model.addAttribute("newUser", currentUser);
+
+        return "employee/profile/profile";
+    }
+
+    @PostMapping("/employee/profile/update")
+    public String postUpdateUserE(Model model, @ModelAttribute("newUser") @Valid User user,
+            BindingResult newProductBindingResult,
+            @RequestParam("imagesFile") MultipartFile file) {
+        // validate
+        // if (newProductBindingResult.hasErrors()) {
+        // return "admin/customer/update";
+        // }
+        User currentUser = this.userService.getUserById(user.getId());
+        if (currentUser != null) {
+            // update new image
+            if (!file.isEmpty()) {
+                String img = this.uploadService.handleSaveUploadFile(file, "avatar");
+                currentUser.setAvatar(img);
+            }
+            currentUser.setAddress(user.getAddress());
+            currentUser.setFullName(user.getFullName());
+            currentUser.setPhone(user.getPhone());
+
+            this.userService.handleSaveUser(currentUser);
+        }
+        // Redirect to the profile page of the updated user
+        return "redirect:/employee/profile/" + user.getId();
+    }
+
+    @GetMapping("/customers/profile/{id}")
+    public String getDashboardEN(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("username");
+        User currentUser = this.userService.getUserByEmail(email);
+
+        model.addAttribute("newUser", currentUser);
+
+        return "customers/profile/profile";
+    }
+
+    @PostMapping("/customers/profile/update")
+    public String postUpdateUserEN(Model model, @ModelAttribute("newUser") @Valid User user,
+            BindingResult newProductBindingResult,
+            @RequestParam("imagesFile") MultipartFile file) {
+        // validate
+
+        // if (newProductBindingResult.hasErrors()) {
+        // return "admin/customer/update";
+        // }
+        User currentUser = this.userService.getUserById(user.getId());
+        if (currentUser != null) {
+            // update new image
+            if (!file.isEmpty()) {
+                String img = this.uploadService.handleSaveUploadFile(file, "avatar");
+                currentUser.setAvatar(img);
+            }
+            currentUser.setAddress(user.getAddress());
+            currentUser.setFullName(user.getFullName());
+            currentUser.setPhone(user.getPhone());
+
+            this.userService.handleSaveUser(currentUser);
+        }
+
+        // Redirect to the profile page of the updated user
+        return "redirect:/customers/profile/" + user.getId();
     }
 
 }

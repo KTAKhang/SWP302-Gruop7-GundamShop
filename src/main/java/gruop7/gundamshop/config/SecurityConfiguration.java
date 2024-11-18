@@ -74,7 +74,9 @@ public class SecurityConfiguration {
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                                                 .permitAll()
+
                                                 .requestMatchers("/", "/login", "/register", "/client/**", "/css/**",
+
                                                                 "/js/**", "/images/**", "/forgotpassword",
                                                                 "/authentication/**", "/product/**", "/products",
                                                                 "/authentication/enterRegisterOTP")
