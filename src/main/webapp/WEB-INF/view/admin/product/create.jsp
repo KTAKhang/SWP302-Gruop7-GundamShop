@@ -29,13 +29,8 @@
 
             </head>
 
-            <body >
-                <div class="container-fluid d-flex p-0">
-                    <jsp:include page="../layout/navbar.jsp" />
+            <body class="sb-nav-fixed">
 
-                    <!-- Main Content -->
-                    <div class="main-content p-0">
-                        <jsp:include page="../layout/header.jsp" />
 
                 <div id="layoutSidenav">
 
@@ -44,8 +39,8 @@
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Dashboard</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item "><a href="/employee">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/employee/product">Products</a></li>
+                                    <li class="breadcrumb-item "><a href="/admin">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/product">Products</a></li>
                                     <li class="breadcrumb-item active">Create</li>
                                 </ol>
                                 <div class="mt-5">
@@ -53,8 +48,8 @@
                                         <div class="col-md-6 col-12 mx-auto">
                                             <h3>Create a Product</h3>
                                             <hr />
-                                            <form:form method="post" action="/employee/product/create" class="row"
-enctype="multipart/form-data" modelAttribute="newProduct">
+                                            <form:form method="post" action="/admin/product/create" class="row"
+                                                enctype="multipart/form-data" modelAttribute="newProduct">
 
 
                                                 <div class="mb-3 col-12 col-md-6">
@@ -95,7 +90,7 @@ enctype="multipart/form-data" modelAttribute="newProduct">
                                                     <label class="form-label">Category:</label>
                                                     <form:select class="form-select" path="category.name">
                                                         <c:forEach var="category" items="${categories}">
-<form:option value="${category.name}">${category.name}
+                                                            <form:option value="${category.name}">${category.name}
                                                             </form:option>
                                                         </c:forEach>
                                                     </form:select>
@@ -138,7 +133,7 @@ enctype="multipart/form-data" modelAttribute="newProduct">
 
                     </div>
                 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="js/scripts.js"></script>
             </body>

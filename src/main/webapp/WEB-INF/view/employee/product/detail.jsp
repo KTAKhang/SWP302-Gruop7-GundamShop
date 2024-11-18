@@ -38,31 +38,14 @@
             </head>
 
             <body class="sb-nav-fixed">
-                <div class="d-flex">
-                    <!-- Sidebar -->
-                    <div class="p-3 d-flex flex-column align-items-center"
-                        style="width: 250px; min-height: 100vh; background-color: #1D3865;">
-                        <img src="/images/logo.jpg" alt="Logo" class="logo mb-4"
-                            style="width: 160px; height: auto; display: block; margin: 0 auto;">
-                        <ul class="list-unstyled w-100">
-                            <li><a href="/employee/order" class="btn btn-light w-100 text-start mb-3"><i
-                                        class="bi bi-house-fill"></i> Manage Order</a></li>
-                            <li><a href="/employee/product" class="btn btn-light w-100 text-start mb-3"><i
-                                        class="bi bi-calendar-fill"></i> Manage Product</a></li>
-                            <form method="post" action="/logout">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                <button class="btn btn-danger w-100 text-start"><i class="bi bi-box-arrow-right"></i> Log Out</button>
-                            </form>
-                        </ul>
-                    </div>
                 <div id="layoutSidenav">
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Product Detail</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/employee/order">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/employee/product">Products</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/category">Products</a></li>
                                     <li class="breadcrumb-item active">View Detail</li>
                                 </ol>
 
