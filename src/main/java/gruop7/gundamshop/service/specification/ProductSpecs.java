@@ -52,7 +52,6 @@ public class ProductSpecs {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Product_.STATUS), status);
     }
 
-
     // Order Specifications
     public static Specification<Order> matchOrderStatus(String status) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Order_.STATUS), status);
@@ -60,6 +59,7 @@ public class ProductSpecs {
 
     public static Specification<Order> matchAnyOrderStatus() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+    }
 
     public static Specification<Product> matchNameOrCategory(String keyword) {
         return (root, query, criteriaBuilder) -> {
@@ -71,4 +71,5 @@ public class ProductSpecs {
         };
 
     }
+
 }

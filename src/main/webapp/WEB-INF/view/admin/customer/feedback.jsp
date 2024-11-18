@@ -42,6 +42,7 @@
                                     <thead>
                                         <tr>
                                             <th>Product ID</th>
+                                            <th>Product Name</th>
                                             <th>Rating</th>
                                             <th>Feedback Content</th>
                                             <th>Visible</th>
@@ -52,6 +53,7 @@
                                         <c:forEach var="feedback" items="${feedbackList}">
                                             <tr>
                                                 <td>${feedback.product.id}</td>
+                                                <td>${feedback.product.name}</td>
                                                 <td>${feedback.rating}</td>
                                                 <td>${feedback.reviewContent}</td>
                                                 <td>${feedback.visible}</td>

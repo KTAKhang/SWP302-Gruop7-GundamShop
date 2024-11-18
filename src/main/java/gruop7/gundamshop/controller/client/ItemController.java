@@ -46,19 +46,25 @@ public class ItemController {
         // Retrieve the product using its ID
         Optional<Product> productOptional = productService.getProductById(id);
 
-        // Check if the product exists; if not, return a 404 error
+        // Kiểm tra nếu sản phẩm không tồn tại
         if (productOptional.isEmpty()) {
             return "error/404"; // Product not found
         }
 
         Product product = productOptional.get();
+
+        // Kiểm tra nếu sản phẩm bị ẩn (status == 0)
+        if (!product.isStatus()) {
+            return "customer/product/product-hidden"; // Hoặc trả về trang thông báo lỗi
+        }
+
+        // Thêm thông tin sản phẩm vào model
         model.addAttribute("product", product);
 
         // Fetch CartDetail for the product in the user's cart
         List<CartDetail> productCartDetails = productService.getCartDetailsByProduct(product);
         CartDetail cartDetail = null;
 
-        // Logic to determine which CartDetail to use (if any)
         if (!productCartDetails.isEmpty()) {
             // Example: Get the first cartDetail (or apply your selection logic)
             cartDetail = productCartDetails.get(0);
@@ -70,7 +76,6 @@ public class ItemController {
         List<ProductReview> reviews = productReviewService.findReviewsByProductId(id);
         double averageRating = reviews.stream().mapToInt(ProductReview::getRating).average().orElse(0);
 
-        // Add reviews and average rating to the model
         model.addAttribute("reviews", reviews);
         model.addAttribute("averageRating", averageRating);
 

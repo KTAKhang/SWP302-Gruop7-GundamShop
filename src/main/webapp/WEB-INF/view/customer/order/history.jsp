@@ -77,7 +77,7 @@
                             </tr>
                         </c:if>
                         <c:forEach var="order" items="${orders}">
-                            <c:if test="${order.status == 'COMPLETE'}">
+                            <c:if test="${order.status == 'COMPLETE' || order.status == 'CANCEL'}">
                                 <tr>
                                     <td colspan="2" style="background-color: #f2f2f2;">ĐƠN HÀNG SỐ ${order.id}</td>
                                     <td colspan="1" style="background-color: #f2f2f2;">
@@ -117,6 +117,7 @@
                                         </td>
                                         <td>${order.status}</td>
                                         <td>
+                                            <c:if test="${order.status == 'COMPLETE'}">
                                             <a href="/customer/product-review/${orderDetail.id}" 
                                                 class="btn btn-primary">Đánh giá sản phẩm</a>
                                             <c:choose>
@@ -127,6 +128,7 @@
                                                     <p>Trạng thái: <span style="color: blue;">Đã đánh giá</span></p>
                                                 </c:otherwise>
                                             </c:choose>
+                                        </c:if>
                                         </td>
                                     </tr>
                                 </c:forEach>
