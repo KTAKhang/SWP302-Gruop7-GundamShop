@@ -176,7 +176,7 @@
                                             <!-- Customer reviews section -->
                                             <h4 class="fw-bold mb-4">Bình luận của khách hàng:</h4>
                                             <c:forEach var="review" items="${reviews}">
-                                                <c:if test="${review.visible == 'Yes'}">
+                                               
                                                     <div class="review-item d-flex align-items-start mb-3">
                                                         <!-- Display user's avatar -->
                                                         <img src="/images/avatar/${review.user.avatar}"
@@ -187,11 +187,17 @@
                                                                 <span>${review.rating} <i
                                                                         class="fa fa-star text-secondary"></i></span>
                                                             </p>
+                                                            <c:if test="${review.visible == 'Yes'}">
                                                             <p>${review.reviewContent}</p>
+                                                        </c:if>
+                                                        <c:if test="${review.visible != 'Yes'}">
+                                                            <p class="text-muted">Bình luận bị ẩn vì chứa từ ngữ không
+                                                                phù hợp.</p>
+                                                        </c:if>
                                                         </div>
                                                     </div>
                                                     <hr />
-                                                </c:if>
+                                              
                                             </c:forEach>
 
                                         </div>

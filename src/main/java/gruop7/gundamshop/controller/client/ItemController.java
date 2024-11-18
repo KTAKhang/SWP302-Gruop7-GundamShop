@@ -22,6 +22,8 @@ import gruop7.gundamshop.domain.Product;
 import gruop7.gundamshop.domain.ProductReview;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.domain.dto.ProductCriteriaDTO;
+import gruop7.gundamshop.repository.CartDetailRepository;
+import gruop7.gundamshop.repository.CartRepository;
 import gruop7.gundamshop.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,12 +35,17 @@ public class ItemController {
 
     private final ProductService productService;
     private final ProductReviewService productReviewService; // Thêm ProductReviewService
+    private final CartDetailRepository cartDetailRepository;
+    private final CartRepository cartRepository;
     @Autowired
     private CategoryService categoryService; // Dịch vụ để lấy danh sách category
 
-    public ItemController(ProductService productService, ProductReviewService productReviewService) {
+    public ItemController(ProductService productService, ProductReviewService productReviewService,
+            CartDetailRepository cartDetailRepository, CartRepository cartRepository) {
         this.productService = productService;
         this.productReviewService = productReviewService;
+        this.cartDetailRepository = cartDetailRepository;
+        this.cartRepository = cartRepository;
     }
 
     @GetMapping("/product/{id}")
@@ -48,7 +55,7 @@ public class ItemController {
 
         // Kiểm tra nếu sản phẩm không tồn tại
         if (productOptional.isEmpty()) {
-            return "error/404"; // Product not found
+            return "customer/product/product-hidden"; // Product not found
         }
 
         Product product = productOptional.get();
@@ -173,8 +180,34 @@ public class ItemController {
         List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
 
         double totalPrice = 0;
+        // Duyệt qua từng CartDetail để kiểm tra và cập nhật giá
         for (CartDetail cd : cartDetails) {
-            totalPrice += cd.getPrice() * cd.getQuantity();
+            Optional<Product> optionalProduct = this.productService.getProductById(cd.getProduct().getId());
+
+            if (optionalProduct.isPresent()) {
+                Product product = optionalProduct.get();
+                if (cart.getSum() == 0) {
+                    this.cartRepository.delete(cart);
+                    session.setAttribute("sum", 0);
+                }
+                if (!product.isStatus()) {
+                    this.cartDetailRepository.delete(cd);
+
+                    int currentSum = cart.getSum();
+                    cart.setSum(currentSum - 1);
+                    session.setAttribute("sum", currentSum - 1);
+
+                }
+
+                // Nếu giá trong CartDetail khác giá của Product, cập nhật lại
+                if (cd.getPrice() != product.getPrice()) {
+                    cd.setPrice(product.getPrice());
+                    this.cartDetailRepository.save(cd);
+                }
+
+                // Tính tổng giá trị (giá mới * số lượng)
+                totalPrice += cd.getPrice() * cd.getQuantity();
+            }
         }
 
         model.addAttribute("cartDetails", cartDetails);
