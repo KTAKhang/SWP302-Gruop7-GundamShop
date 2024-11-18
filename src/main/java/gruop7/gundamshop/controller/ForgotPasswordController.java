@@ -134,40 +134,45 @@ public class ForgotPasswordController {
         String email = (String) session.getAttribute("email");
         Integer generatedOtp = (Integer) session.getAttribute("otp");
 
-        // Check if the email and OTP are present in the session
+        // Kiểm tra xem email và OTP có trong session hay không
         if (email == null || generatedOtp == null) {
             request.setAttribute("message",
                     "Session expired or unauthorized access. Please go through the forgot password process again.");
-            return "redirect:/forgotpassword";
+            return "redirect:/forgotpassword"; // Chuyển hướng đến trang quên mật khẩu
         }
 
         model.addAttribute("resetPasswordForm", new ResetPasswordForm());
-        return "authentication/resetPassword";
+        return "authentication/resetPassword"; // Trả về trang reset password
     }
 
     @PostMapping("/authentication/resetPassword")
-    public String resetPassword(HttpServletRequest request, @RequestParam("password") String password,
-            @RequestParam("confPassword") String confPassword, Model model) {
+    public String resetPassword(HttpServletRequest request,
+            @RequestParam("password") String password,
+            @RequestParam("confPassword") String confPassword,
+            Model model) {
+        // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp không
         if (password.equals(confPassword)) {
             HttpSession session = request.getSession();
             String email = (String) session.getAttribute("email");
-            String newPassword = this.passwordEncoder.encode(password);
 
             if (email != null) {
+                // Mã hóa mật khẩu mới
+                String newPassword = this.passwordEncoder.encode(password);
+                // Cập nhật mật khẩu trong cơ sở dữ liệu
                 this.userService.updatePassword(email, newPassword);
+
                 // Xóa session sau khi đổi mật khẩu thành công
                 session.invalidate();
-                request.setAttribute("message", "Password successfully updated!");
-                return "redirect:/authentication/success";
+                request.setAttribute("message", "Password successfully updated! Please login with your new password.");
+                return "redirect:/authentication/success"; // Chuyển hướng đến trang thành công
             } else {
                 request.setAttribute("message", "Session expired. Please try the process again.");
-                return "authentication/forgotPassword";
+                return "authentication/forgotPassword"; // Chuyển hướng đến trang quên mật khẩu
             }
         } else {
             request.setAttribute("message", "Passwords do not match!");
-            return "authentication/resetPassword";
+            return "authentication/resetPassword"; // Trả về lại trang đổi mật khẩu
         }
-
     }
 
     @GetMapping("/authentication/success")

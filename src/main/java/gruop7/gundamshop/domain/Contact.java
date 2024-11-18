@@ -1,13 +1,6 @@
 package gruop7.gundamshop.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -17,67 +10,44 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @NotNull
-    @Size(min = 2, max = 50)
-    private String fullName;
-
-    @NotNull
-    @Email
-    private String email;
-
-    @NotNull
-    @Size(min = 10, max = 20)
-    private String phoneNumber;
-
-    private String subjectName;
+    @Size(max = 255, message = "Note should not exceed 255 characters")
     private String note;
 
+    @Size(max = 15, message = "Phone number should not exceed 15 characters")
+    private String phoneNumber;
+
+    @NotNull(message = "Status cannot be null")
+    private Boolean status;
+
+    @NotNull(message = "Subject name cannot be null")
+    @Size(max = 100, message = "Subject name should not exceed 100 characters")
+    private String subjectName;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
-    private boolean status;
+    // Constructors
+    public Contact() {
+    }
 
-    public long getId() {
+    public Contact(String note, String phoneNumber, Boolean status, String subjectName, User user) {
+        this.note = note;
+        this.phoneNumber = phoneNumber;
+        this.status = status;
+        this.subjectName = subjectName;
+        this.user = user;
+    }
+
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getSubjectName() {
-        return subjectName;
-    }
-
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
     }
 
     public String getNote() {
@@ -88,6 +58,30 @@ public class Contact {
         this.note = note;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     public User getUser() {
         return user;
     }
@@ -96,18 +90,16 @@ public class Contact {
         this.user = user;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
+    // Optional: Override toString() for better debugging
     @Override
     public String toString() {
-        return "Contact [id=" + id + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber
-                + ", subjectName=" + subjectName + ", note=" + note + ", user=" + user + ", status=" + status + "]";
+        return "Contact{" +
+                "id=" + id +
+                ", note='" + note + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", status=" + status +
+                ", subjectName='" + subjectName + '\'' +
+                ", user=" + (user != null ? user.getId() : "null") +
+                '}';
     }
-
 }
