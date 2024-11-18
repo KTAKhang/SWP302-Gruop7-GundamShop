@@ -58,7 +58,7 @@ public class UserService {
         User user = new User();
         user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
         user.setEmail(registerDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword())); // Encode password
+        user.setPassword(registerDTO.getPassword());
         return user;
     }
 
