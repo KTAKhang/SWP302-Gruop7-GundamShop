@@ -20,11 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import gruop7.gundamshop.domain.User;
 import gruop7.gundamshop.service.UploadService;
 import gruop7.gundamshop.service.UserService;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 import jakarta.persistence.EntityNotFoundException;
-
 import jakarta.validation.Valid;
 
 @Controller
@@ -271,9 +267,8 @@ public class UserController {
     }
 
     @PostMapping(value = "admin/employee/create")
-
     public String createEmployeePage(Model model, @ModelAttribute("newEmployee") @Valid User employee,
-            BindingResult newUserBindingResult, HttpServletRequest request,
+            BindingResult newUserBindingResult,
             @RequestParam("imagesFile") MultipartFile file) {
         // validation
         List<FieldError> errors = newUserBindingResult.getFieldErrors();
@@ -282,10 +277,6 @@ public class UserController {
         }
         if (newUserBindingResult.hasErrors()) {
             return "admin/employee/create";
-        }
-        if (userService.checkEmailExist(employee.getEmail())) {
-            request.setAttribute("message", "Email is already registered. Try logging in.");
-            return "redirect:/admin/employee/create?exit";
         }
         //
 

@@ -120,34 +120,10 @@
                                         </li>
 
 
-                                        <li>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.role == 'admin'}">
-                                                    <a class="dropdown-item"
-                                                        href="/admin/profile/${sessionScope.id}">Quản lý tài khoản
-                                                    </a>
-                                                </c:when>
-                                                <c:when test="${sessionScope.role == 'employee'}">
-                                                    <a class="dropdown-item"
-                                                        href="/employee/profile/${sessionScope.id}">Quản lý tài khoản
-                                                    </a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="dropdown-item"
-                                                        href="/customers/profile/${sessionScope.id}">Quản lý tài khoản
-                                                    </a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-
-
-
-
                                         <li><a class="dropdown-item" href="customer/profile">Quản lý tài khoản</a></li>
                                         <a href="/order-tracking" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
 
-
-                                        <li><a class=" dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
+                                        <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

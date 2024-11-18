@@ -99,3 +99,4 @@ public class Contact {
                 + ", subjectName=" + subjectName + ", note=" + note + ", user=" + user + ", status=" + status + "]";
     }
 }
+
