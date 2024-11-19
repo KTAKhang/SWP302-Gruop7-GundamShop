@@ -37,27 +37,31 @@
 
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
                     rel="stylesheet">
-<style> 
+                <style>
+                    button.btn {
+                        min-height: 40px;
+                        /* Đặt chiều cao tối thiểu cho các nút */
+                        width: 100%;
+                        /* Đặt chiều rộng nút đầy đủ */
+                        text-align: center;
+                        /* Căn giữa chữ trong nút */
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        /* Font size đồng nhất */
+                        flex: 1;
 
-button.btn {
-    min-height: 40px; /* Đặt chiều cao tối thiểu cho các nút */
-    width: 100%; /* Đặt chiều rộng nút đầy đủ */
-    text-align: center; /* Căn giữa chữ trong nút */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px; /* Font size đồng nhất */
-    flex: 1;
-    
-}
-.fruite-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%; /* Chiều cao bằng nhau */
-}
+                    }
 
-</style>
+                    .fruite-item {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        height: 100%;
+                        /* Chiều cao bằng nhau */
+                    }
+                </style>
             </head>
 
             <body>
@@ -103,41 +107,54 @@ button.btn {
                                                 <!-- vòng lập -->
 
                                                 <c:set var="count" value="0" />
-<c:forEach var="product" items="${products}">
-    <c:if test="${count < 4}">
-        <c:if test="${product.quantity > 0}">
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="rounded position-relative fruite-item">
-                    <div class="fruite-img">
-                        <!-- hình ảnh -->
-                        <img src="/images/product/${product.image}" class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                         style="top: 10px; left: 10px;">${product.category.name}</div>
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4 style="font-size: 15px;">
-                            <!-- ID và Tên Sản Phẩm -->
-                            <a href="/product/${product.id}">${product.name}</a>
-                        </h4>
-                        <!-- mô tả ngắn -->
-                        <p class="product-desc">${product.shortDesc}</p>
-                        <div class="d-flex flex-lg-wrap justify-content-center flex-column">
-                            <p style="font-size: 15px; text-align: center; width: 100%;" class="text-dark fw-bold mb-3">
-                                <!-- giá cả -->
-                                <fmt:formatNumber type="number" value="${product.price}" /> đ
-                            </p>
-                            <form action="/add-product-to-cart/${product.id}" method="post">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                <button class="btn btn-primary w-100">Add to cart</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <c:set var="count" value="${count + 1}" />
-        </c:if>
-    </c:if>
-</c:forEach>
+                                                <c:forEach var="product" items="${products}">
+                                                    <c:if test="${count < 4}">
+                                                        <c:if test="${product.quantity > 0}">
+                                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div class="rounded position-relative fruite-item">
+                                                                    <div class="fruite-img">
+                                                                        <!-- hình ảnh -->
+                                                                        <img src="/images/product/${product.image}"
+                                                                            class="img-fluid w-100 rounded-top" alt="">
+                                                                    </div>
+                                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                                        style="top: 10px; left: 10px;">
+                                                                        ${product.category.name}</div>
+                                                                    <div
+                                                                        class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                        <h4 style="font-size: 15px;">
+                                                                            <!-- ID và Tên Sản Phẩm -->
+                                                                            <a
+                                                                                href="/product/${product.id}">${product.name}</a>
+                                                                        </h4>
+                                                                        <!-- mô tả ngắn -->
+                                                                        <p class="product-desc">${product.shortDesc}</p>
+                                                                        <div
+                                                                            class="d-flex flex-lg-wrap justify-content-center flex-column">
+                                                                            <p style="font-size: 15px; text-align: center; width: 100%;"
+                                                                                class="text-dark fw-bold mb-3">
+                                                                                <!-- giá cả -->
+                                                                                <fmt:formatNumber type="number"
+                                                                                    value="${product.price}" /> đ
+                                                                            </p>
+                                                                            <form
+                                                                                action="/add-product-to-cart/${product.id}"
+                                                                                method="post">
+                                                                                <input type="hidden"
+                                                                                    name="${_csrf.parameterName}"
+                                                                                    value="${_csrf.token}" />
+                                                                                <button class="btn btn-primary w-100"><i
+                                                                                        class="fa fa-shopping-bag me-2 text-primary"></i>Thêm
+                                                                                    vào giỏ hàng</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <c:set var="count" value="${count + 1}" />
+                                                        </c:if>
+                                                    </c:if>
+                                                </c:forEach>
 
 
 
@@ -175,16 +192,16 @@ button.btn {
                 <script
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
-                                        <!-- Template Javascript -->
-                                        <script src="/client/js/main.js"></script>
-                                        <script>
-                                            document.querySelectorAll('.product-desc').forEach(function(desc) {
-                                                const words = desc.textContent.trim().split(/\s+/);
-                                                if (words.length >4) {
-                                                    desc.textContent = words.slice(0, 4).join(' ') + '...';
-                                                }
-                                            });
-                                        </script>
+                <!-- Template Javascript -->
+                <script src="/client/js/main.js"></script>
+                <script>
+                    document.querySelectorAll('.product-desc').forEach(function (desc) {
+                        const words = desc.textContent.trim().split(/\s+/);
+                        if (words.length > 4) {
+                            desc.textContent = words.slice(0, 4).join(' ') + '...';
+                        }
+                    });
+                </script>
             </body>
 
             </html>

@@ -157,7 +157,7 @@ public class RegisterController {
             return "redirect:/login?registersuccess";
         } else {
             request.setAttribute("message", "Invalid OTP. Please try again.");
-            return "authentication/enterRegisterOTP";
+            return "authentication/enterRegisterOTP?error";
         }
     }
 }

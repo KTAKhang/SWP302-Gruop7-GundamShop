@@ -39,7 +39,6 @@ public class ProfileController {
         String email = (String) session.getAttribute("username");
         User currentUser = this.userService.getUserByEmail(email);
 
-
         model.addAttribute("newUser", currentUser);
 
         return "admin/profile/profile";
@@ -107,7 +106,7 @@ public class ProfileController {
         return "redirect:/employee/profile/" + user.getId();
     }
 
-    @GetMapping("/customers/profile/{id}")
+    @GetMapping("/customer/profile/{id}")
     public String getDashboardEN(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("username");
@@ -115,10 +114,10 @@ public class ProfileController {
 
         model.addAttribute("newUser", currentUser);
 
-        return "customers/profile/profile";
+        return "customer/profile/profile";
     }
 
-    @PostMapping("/customers/profile/update")
+    @PostMapping("/customer/profile/update")
     public String postUpdateUserEN(Model model, @ModelAttribute("newUser") @Valid User user,
             BindingResult newProductBindingResult,
             @RequestParam("imagesFile") MultipartFile file) {
@@ -142,7 +141,7 @@ public class ProfileController {
         }
 
         // Redirect to the profile page of the updated user
-        return "redirect:/customers/profile/" + user.getId();
+        return "redirect:/customer/profile/" + user.getId();
     }
 
 }

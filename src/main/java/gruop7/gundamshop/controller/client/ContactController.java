@@ -25,34 +25,36 @@ public class ContactController {
     public String showContactForm(Model model) {
         // Ensure the contact object is available in the model with the name "contact"
         model.addAttribute("contact", new Contact());
-        return "customer/contact/contact";  // Display the contact form view
+        return "customer/contact/contact"; // Display the contact form view
     }
 
     // Handle form submission
     @PostMapping("/contact/contact-success")
-    public String sendContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult result, Model model, HttpSession session) {
+    public String sendContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult result, Model model,
+            HttpSession session) {
         if (result.hasErrors()) {
             // If validation errors occur, add them to the model and redisplay the form
             model.addAttribute("error", "Invalid contact information.");
-            return "customer/contact/contact";  // Redisplay form with errors
+            return "customer/contact/contact"; // Redisplay form with errors
         }
 
         // Get the userId from the session and set it in the contact object
-        Long userId = (Long) session.getAttribute("id");  // Assuming session holds "id" for user
+        Long userId = (Long) session.getAttribute("id"); // Assuming session holds "id" for user
         if (userId != null) {
-            // Set the userId to contact and associate the User object (optional, for lazy loading)
-            User user = new User();  // Create a user object if needed
+            // Set the userId to contact and associate the User object (optional, for lazy
+            // loading)
+            User user = new User(); // Create a user object if needed
             user.setId(userId);
-            contact.setUser(user);  // This will set the userId automatically via @ManyToOne mapping
+            contact.setUser(user); // This will set the userId automatically via @ManyToOne mapping
         } else {
             model.addAttribute("error", "User not logged in.");
-            return "customer/contact/contact";  // Return to form with error message
+            return "customer/contact/contact"; // Return to form with error message
         }
 
         // Save the contact information (with userId included)
         contactService.saveContact(contact);
 
         model.addAttribute("message", "Contact sent successfully!");
-        return "customer/contact/contact-success";  // Redirect to a success page
+        return "customer/contact/contact-success"; // Redirect to a success page
     }
 }

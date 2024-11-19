@@ -141,14 +141,14 @@ public class ChangePassController {
         return "employee/changepass/pass"; // Stay on the same page to display success message
     }
 
-    @GetMapping("/customers/changepass")
+    @GetMapping("/customer/changepass")
     public String showChangePassFormEN(Model model) {
         model.addAttribute("passwordChangeForm", new PasswordChangeForm());
-        return "customers/changepass/pass"; // Path to pass.jsp
+        return "customer/changepass/pass"; // Path to pass.jsp
     }
 
     // Handle password change submission
-    @PostMapping("/customers/changepass")
+    @PostMapping("/customer/changepass")
     public String changePasswordEN(
             @Valid PasswordChangeForm passwordChangeForm,
             BindingResult bindingResult,
@@ -158,7 +158,7 @@ public class ChangePassController {
         // Check for input errors
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "All fields are required.");
-            return "customers/changepass/pass"; // Return the password change page if there are errors
+            return "customer/changepass/pass"; // Return the password change page if there are errors
         }
 
         // Get email from session
@@ -168,26 +168,26 @@ public class ChangePassController {
         // Check if there is no email in the session
         if (email == null || email.isEmpty()) {
             model.addAttribute("errorMessage", "Session has expired or user is not logged in.");
-            return "customers/changepass/pass"; // Return the page if email is not found
+            return "customer/changepass/pass"; // Return the page if email is not found
         }
 
         // Get the user by email
         User user = userService.getUserByEmail(email);
         if (user == null) {
             model.addAttribute("errorMessage", "User not found.");
-            return "customers/changepass/pass";
+            return "customer/changepass/pass";
         }
 
         // Check if the current password is correct
         if (!passwordEncoder.matches(passwordChangeForm.getCurrentPassword(), user.getPassword())) {
             model.addAttribute("errorMessage", "Current password is incorrect.");
-            return "customers/changepass/pass";
+            return "customer/changepass/pass";
         }
 
         // Check if the new password and confirm password match
         if (!passwordChangeForm.getNewPassword().equals(passwordChangeForm.getConfirmPassword())) {
             model.addAttribute("errorMessage", "New password and confirmation password do not match.");
-            return "customers/changepass/pass";
+            return "customer/changepass/pass";
         }
 
         // Update the user's password
@@ -196,7 +196,7 @@ public class ChangePassController {
         // Add success message after password change
         model.addAttribute("successMessage", "Password has been successfully changed.");
 
-        return "customers/changepass/pass"; // Stay on the same page to display success message
+        return "customer/changepass/pass"; // Stay on the same page to display success message
     }
 
 }

@@ -59,16 +59,16 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-8 col-md-10">
                             <div class="forgot">
-                                <h2>Forgot your password?</h2>
-                                <p>Change your password in three easy steps. This will help you
-                                    to secure your password!</p>
+                                <h2>Bạn quên mật khẩu?</h2>
+                                <p>Thay đổi mật khẩu của bạn trong ba bước đơn giản. Điều này sẽ giúp bạn bảo mật mật
+                                    khẩu của mình!
+                                </p>
                                 <ol class="list-unstyled">
-                                    <li><span class="text-primary text-medium">1. </span>Enter
-                                        your email address below.</li>
-                                    <li><span class="text-primary text-medium">2. </span>Our
-                                        system will send you an OTP to your email</li>
-                                    <li><span class="text-primary text-medium">3. </span>Enter the OTP on the
-                                        next page</li>
+                                    <li><span class="text-primary text-medium">1. </span>Nhập địa chỉ email của bạn bên
+                                        dưới.</li>
+                                    <li><span class="text-primary text-medium">2. </span>Hệ thống của chúng tôi sẽ gửi
+                                        mã OTP tới email của bạn</li>
+                                    <li><span class="text-primary text-medium">3. </span>Nhập OTP ở trang tiếp theo</li>
                                 </ol>
                             </div>
                             <form:form method="post" action="/authentication/forgotpassword" modelAttribute="newUser"
@@ -78,7 +78,7 @@
                                     <div class="form-group">
 
 
-                                        <label for="email-for-pass">Enter your email address</label>
+                                        <label for="email-for-pass">Nhập Email:</label>
                                         <c:set var="errorEmail">
                                             <form:errors path="email" cssClass="invalid-feedback" />
                                         </c:set>
@@ -86,23 +86,22 @@
                                             <div class="my-2" style="color: red;">Email không hợp lệ</div>
                                         </c:if>
 
-                                        <label class="form-label">Email:</label>
 
                                         <form:input type="email"
                                             class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
                                             path="email" required="" />
                                         ${errorEmail}
 
-                                        <small class="form-text text-muted">Enter the registered email
-                                            address . Then we'll
-                                            email a OTP to this address.</small>
+                                        <small class="form-text text-muted">Nhập email đã đăng ký
+                                            . Sau đó chúng tôi sẽ
+                                            gửi email OTP đến địa chỉ này.</small>
                                     </div>
 
                                 </div>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Get OTP</button>
-                                    <button class="btn btn-danger"><a href="/login">Back</a></button>
+                                    <button type="submit" class="btn btn-primary">Gửi OTP</button>
+                                    <button class="btn btn-danger"><a href="/login">Quay lại</a></button>
                                 </div>
                             </form:form>
                         </div>

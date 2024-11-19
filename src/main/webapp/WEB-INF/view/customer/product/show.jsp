@@ -43,56 +43,67 @@
                         }
 
                         .custom-product-blog {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; /* Khoảng cách giữa các sản phẩm */
-    justify-content: center; /* Căn giữa sản phẩm */
-}
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 16px;
+                            /* Khoảng cách giữa các sản phẩm */
+                            justify-content: center;
+                            /* Căn giữa sản phẩm */
+                        }
 
-.custom-product-blog .product-item {
-    flex: 0 0 calc(33.333% - 16px); /* 3 sản phẩm trên mỗi dòng */
-    max-width: calc(33.333% - 16px);
-    box-sizing: border-box; /* Đảm bảo padding và border không ảnh hưởng đến kích thước */
-    margin-bottom: 24px;
-}
+                        .custom-product-blog .product-item {
+                            flex: 0 0 calc(33.333% - 16px);
+                            /* 3 sản phẩm trên mỗi dòng */
+                            max-width: calc(33.333% - 16px);
+                            box-sizing: border-box;
+                            /* Đảm bảo padding và border không ảnh hưởng đến kích thước */
+                            margin-bottom: 24px;
+                        }
 
-@media (max-width: 768px) {
-    .custom-product-blog .product-item {
-        flex: 0 0 calc(50% - 16px); /* 2 sản phẩm trên mỗi dòng trên màn hình nhỏ hơn */
-        max-width: calc(50% - 16px);
-    }
-}
+                        @media (max-width: 768px) {
+                            .custom-product-blog .product-item {
+                                flex: 0 0 calc(50% - 16px);
+                                /* 2 sản phẩm trên mỗi dòng trên màn hình nhỏ hơn */
+                                max-width: calc(50% - 16px);
+                            }
+                        }
 
-@media (max-width: 480px) {
-    .custom-product-blog .product-item {
-        flex: 0 0 100%; /* 1 sản phẩm trên mỗi dòng trên màn hình rất nhỏ */
-        max-width: 100%;
-    }
-}
+                        @media (max-width: 480px) {
+                            .custom-product-blog .product-item {
+                                flex: 0 0 100%;
+                                /* 1 sản phẩm trên mỗi dòng trên màn hình rất nhỏ */
+                                max-width: 100%;
+                            }
+                        }
 
-.custom-product-blog .product-item img {
-    width: 100%;
-    height: auto;
-    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
-    border-radius: 8px; /* Bo góc cho hình ảnh */
-}
+                        .custom-product-blog .product-item img {
+                            width: 100%;
+                            height: auto;
+                            object-fit: cover;
+                            /* Đảm bảo hình ảnh không bị méo */
+                            border-radius: 8px;
+                            /* Bo góc cho hình ảnh */
+                        }
 
-.custom-product-blog .product-item .product-desc {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap; /* Hiển thị dòng mô tả duy nhất, cắt bớt nếu quá dài */
-    font-size: 13px;
-    color: #555; /* Màu chữ mô tả */
-}
+                        .custom-product-blog .product-item .product-desc {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            /* Hiển thị dòng mô tả duy nhất, cắt bớt nếu quá dài */
+                            font-size: 13px;
+                            color: #555;
+                            /* Màu chữ mô tả */
+                        }
 
-.custom-product-blog .product-item .btn {
-    margin-top: 8px;
-    width: 100%; /* Nút rộng bằng toàn bộ sản phẩm */
-    text-align: center;
-    padding: 10px;
-    border-radius: 16px; /* Bo tròn nút */
-}
-
+                        .custom-product-blog .product-item .btn {
+                            margin-top: 8px;
+                            width: 100%;
+                            /* Nút rộng bằng toàn bộ sản phẩm */
+                            text-align: center;
+                            padding: 10px;
+                            border-radius: 16px;
+                            /* Bo tròn nút */
+                        }
                     </style>
                 </head>
 
@@ -226,31 +237,41 @@
                                                         <div class="product-item">
                                                             <div class="rounded position-relative">
                                                                 <div class="fruite-img">
-                                                                    <img src="/images/product/${product.image}" class="img-fluid w-100 rounded-top" alt="">
+                                                                    <img src="/images/product/${product.image}"
+                                                                        class="img-fluid w-100 rounded-top" alt="">
                                                                 </div>
                                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                                     style="top: 10px; left: 10px;">${product.category.name}
+                                                                    style="top: 10px; left: 10px;">
+                                                                    ${product.category.name}
                                                                 </div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <div
+                                                                    class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                                     <h4 style="font-size: 15px;">
-                                                                        <a href="/product/${product.id}">${product.name}</a>
+                                                                        <a
+                                                                            href="/product/${product.id}">${product.name}</a>
                                                                     </h4>
                                                                     <p class="product-desc">${product.shortDesc}</p>
                                                                     <p style="font-size: 15px; text-align: center; width: 100%;"
-                                                                       class="text-dark fw-bold mb-3">
-                                                                        <fmt:formatNumber type="number" value="${product.price}" /> đ
+                                                                        class="text-dark fw-bold mb-3">
+                                                                        <fmt:formatNumber type="number"
+                                                                            value="${product.price}" /> đ
                                                                     </p>
                                                                     <c:choose>
                                                                         <c:when test="${product.quantity > 0}">
-                                                                            <form action="/add-product-to-cart/${product.id}" method="post">
-                                                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                                                <button
-                                                                                class="btn btn-primary"><i
-                                                                                class="fa fa-shopping-bag me-2"></i>Add to cart</button>
+                                                                            <form
+                                                                                action="/add-products-to-cart/${product.id}"
+                                                                                method="post">
+                                                                                <input type="hidden"
+                                                                                    name="${_csrf.parameterName}"
+                                                                                    value="${_csrf.token}" />
+                                                                                <button class="btn btn-primary"><i
+                                                                                        class="fa fa-shopping-bag me-2"></i>Thêm
+                                                                                    vào giỏ hàng</button>
                                                                             </form>
                                                                         </c:when>
                                                                         <c:otherwise>
-                                                                            <button class="btn btn-secondary" disabled>Hết hàng</button>
+                                                                            <button class="btn btn-secondary"
+                                                                                disabled>Hết hàng</button>
                                                                         </c:otherwise>
                                                                     </c:choose>
                                                                 </div>
@@ -259,7 +280,7 @@
                                                     </c:if>
                                                 </c:forEach>
                                             </div>
-                                            
+
 
 
 
@@ -317,14 +338,14 @@
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
                     <script>
-                        document.querySelectorAll('.product-desc').forEach(function(desc) {
+                        document.querySelectorAll('.product-desc').forEach(function (desc) {
                             const words = desc.textContent.trim().split(/\s+/);
-                            if (words.length >4) {
+                            if (words.length > 4) {
                                 desc.textContent = words.slice(0, 4).join(' ') + '...';
                             }
                         });
                     </script>
-                    
+
                 </body>
 
                 </html>

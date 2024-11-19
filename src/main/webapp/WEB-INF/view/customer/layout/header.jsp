@@ -85,8 +85,8 @@
 
 
                             <a href="/products" class="nav-item nav-link fw-bold">Sản Phẩm</a>
-                           
-                           
+
+
 
                             <c:if test="${not empty pageContext.request.userPrincipal}">
                                 <!-- Updated "Liên Hệ" link -->
@@ -121,30 +121,14 @@
 
 
                                         <li>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.role == 'admin'}">
-                                                    <a class="dropdown-item"
-                                                        href="/admin/profile/${sessionScope.id}">Quản lý tài khoản
-                                                    </a>
-                                                </c:when>
-                                                <c:when test="${sessionScope.role == 'employee'}">
-                                                    <a class="dropdown-item"
-                                                        href="/employee/profile/${sessionScope.id}">Quản lý tài khoản
-                                                    </a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="dropdown-item"
-                                                        href="/customers/profile/${sessionScope.id}">Quản lý tài khoản
-                                                    </a>
-                                                </c:otherwise>
-                                            </c:choose>
+                                            <a class="dropdown-item" href="/customer/profile/${sessionScope.id}">Quản
+                                                lý tài khoản
+                                            </a>
                                         </li>
 
 
-
-
-                                        <li><a class="dropdown-item" href="customer/profile">Quản lý tài khoản</a></li>
-                                        <a href="/order-tracking" class="nav-item nav-link fw-bold">Theo Dõi Vận Chuyển</a>
+                                        <a href="/order-tracking" class="dropdown-item">Theo Dõi Vận
+                                            Chuyển</a>
 
 
                                         <li><a class=" dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
@@ -155,7 +139,7 @@
                                             <form method="post" action="/logout">
                                                 <input type="hidden" name="${_csrf.parameterName}"
                                                     value="${_csrf.token}" />
-                                                <button class="dropdown-item">Đăng xuất</button>
+                                                <button class="dropdown-item">Đăng Xuất</button>
                                             </form>
                                         </li>
                                     </ul>

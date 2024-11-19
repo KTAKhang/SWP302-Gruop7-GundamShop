@@ -74,18 +74,16 @@ public class SecurityConfiguration {
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                                                 .permitAll()
-
                                                 .requestMatchers("/", "/login", "/register", "/client/**", "/css/**",
-
                                                                 "/js/**", "/images/**", "/forgotpassword",
                                                                 "/authentication/**", "/product/**", "/products",
+                                                                "/search/**",
                                                                 "/authentication/enterRegisterOTP")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .requestMatchers("/employee/**").hasRole("EMPLOYEE")
 
-                                                .requestMatchers("/employee/**").hasRole("EMPLOYEE")
-
+                                                .requestMatchers("/customer/**").hasRole("CUSTOMER")
 
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManagement -> sessionManagement

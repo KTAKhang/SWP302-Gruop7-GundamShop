@@ -31,7 +31,7 @@
                             <h1 class="mt-4">Change Password</h1>
                             <ol class="breadcrumb mb-4">
 
-                                <li class="breadcrumb-item"><a href="/customers/profile/${id}">Customer Profile</a>
+                                <li class="breadcrumb-item"><a href="/customer/profile/${id}">Customer Profile</a>
                                 </li>
                                 <li class="breadcrumb-item active">Change Password</li>
                             </ol>
@@ -55,7 +55,7 @@
                                         </c:if>
 
                                         <!-- Password Change Form -->
-                                        <form:form method="post" action="/customers/changepass"
+                                        <form:form method="post" action="/customer/changepass"
                                             modelAttribute="passwordChangeForm" class="row">
                                             <div class="mb-3 col-12 position-relative">
                                                 <label class="form-label">Current Password:</label>
@@ -87,7 +87,7 @@
                                             <div class="col-12 mb-5">
                                                 <button type="submit" class="btn btn-primary">Change
                                                     Password</button>
-                                                <a href="/customers/profile/${id}" class="btn btn-secondary">Back</a>
+                                                <a href="/customer/profile/${id}" class="btn btn-secondary">Back</a>
                                             </div>
                                         </form:form>
                                     </div>
@@ -151,7 +151,7 @@
 
                     // Redirect to login page when OK button is clicked in the modal
                     document.getElementById("redirectToLogin").addEventListener('click', function () {
-                        window.location.href = '/customers/profile/${id}';
+                        window.location.href = '/customer/profile/${id}';
                     });
                 </script>
             </body>

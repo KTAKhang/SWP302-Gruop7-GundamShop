@@ -18,7 +18,7 @@
                     <form method="post" action="/logout">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         <button class="btn btn-danger w-100 text-start"><a><i class="bi bi-box-arrow-right"></i>
-                                Log Out</a></button>
+                                Đăng Xuất</a></button>
                     </form>
 
                 </li>

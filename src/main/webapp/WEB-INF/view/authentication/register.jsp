@@ -11,7 +11,7 @@
                 <link rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
                 <link rel="stylesheet" href="/css/register.css" />
-                <title>Register Page</title>
+                <title>Trang Đăng Ký</title>
             </head>
 
             <body class="bg-primary">
@@ -23,10 +23,10 @@
                                     <div class="col-lg-7">
                                         <div class="card shadow-lg border-0 rounded-lg mt-5">
                                             <div class="card-header">
-                                                <h3 class="text-center font-weight-light my-4">Create Account</h3>
+                                                <h3 class="text-center font-weight-light my-4">Tạo Tài Khoản</h3>
                                                 <c:if test="${param.exist != null}">
-                                                    <div class="my-2" style="color: red;">Email is already registered.
-                                                        Try logging in.</div>
+                                                    <div class="my-2" style="color: red;">Email đã đăng ký.
+                                                        Hãy thử đăng nhập.</div>
                                                 </c:if>
                                                 <c:if test="${param.password != null}">
                                                     <div class="my-2" style="color: red;">Password và ConfirmPassword
@@ -112,14 +112,15 @@
                                                     <div class="mt-4 mb-0">
                                                         <div class="d-grid">
                                                             <button class="btn btn-primary btn-block">
-                                                                Create Account
+                                                                Tạo
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </form:form>
                                             </div>
                                             <div class="card-footer text-center py-3">
-                                                <div class="small"><a href="/login">Have an account? Go to login</a>
+                                                <div class="small"><a href="/login">Đã có tài khoản? Quay lại đăng
+                                                        nhập</a>
                                                 </div>
                                             </div>
                                         </div>

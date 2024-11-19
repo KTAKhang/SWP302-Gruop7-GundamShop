@@ -46,19 +46,19 @@
             </head>
 
             <body class="sb-nav-fixed">
-                <jsp:include page="../layouts/header.jsp" />
+                <jsp:include page="../layout/header.jsp" />
                 <div class="container my-5 pt-5"> <!-- Thêm class "pt-5" để tạo khoảng cách trên -->
                     <!-- Page Title -->
                     <div class="d-flex justify-content-between align-items-center">
                         <h3>Customer Profile</h3>
-                        <a href="/customers/changepass" class="btn btn-primary">Change Password</a>
+                        <a href="/customer/changepass" class="btn btn-primary">Change Password</a>
                     </div>
                     <hr />
 
                     <!-- Profile Form -->
                     <div class="row">
                         <div class="col-md-6 mx-auto">
-                            <form:form method="post" action="/customers/profile/update" modelAttribute="newUser"
+                            <form:form method="post" action="/customer/profile/update" modelAttribute="newUser"
                                 enctype="multipart/form-data" class="row g-3">
                                 <!-- Avatar Preview -->
                                 <div class="text-center mb-3">
