@@ -54,16 +54,16 @@
 
                 <!-- Breadcrumb -->
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="/admin/category">Categories</a></li>
-                    <li class="breadcrumb-item active">Update</li>
+                    <li class="breadcrumb-item"><a href="/admin">Trang Chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/category">Category</a></li>
+                    <li class="breadcrumb-item active">Chỉnh Sửa</li>
                 </ol>
 
                 <div class="container-fluid px-4">
                     <div class="mt-5">
                         <div class="row">
                             <div class="col-md-6 col-12 mx-auto">
-                                <h3>Update a Category</h3>
+                                <h3>Chỉnh Sửa Category</h3>
                                 <hr />
                                 <form:form method="post" action="/admin/category/update"
                                            modelAttribute="newCategory" class="row" enctype="multipart/form-data">
@@ -71,13 +71,13 @@
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
                                     <div class="mb-3 col-12 col-md-6">
-                                        <label class="form-label">Name of Category:</label>
+                                        <label class="form-label">Tên Của Category:</label>
                                         <form:input type="text" class="form-control" path="name" />
                                         <form:errors path="name" cssClass="text-danger" />
                                     </div>
                                     
                                     <div class="mb-3 col-12 col-md-6">
-                                        <label for="imageFile" class="form-label">Image:</label>
+                                        <label for="imageFile" class="form-label">Hình Ảnh:</label>
                                         <input class="form-control" type="file" id="imageFile" accept=".png, .jpg, .jpeg" name="imageFile" />
                                         <form:errors path="image" cssClass="text-danger" />
                                     </div>
@@ -87,7 +87,7 @@
                                     </div>
                                     
                                     <div class="col-12 mb-5">
-                                        <button type="submit" class="btn btn-primary">Update</button>
+                                        <button type="submit" class="btn btn-primary">Sửa</button>
                                     </div>
                                 </form:form>
                             </div>

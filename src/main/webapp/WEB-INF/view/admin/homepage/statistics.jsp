@@ -10,7 +10,11 @@
     <title>Thống Kê Doanh Thu</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/ewstyle.css">
+    
 </head>
 
 <body>
@@ -23,8 +27,8 @@
             <div class="p-4">
                 <h1 class="mb-4 mt-4 text-center" style="font-weight: bold;">Thống Kê Doanh Thu</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Statistics</li>
+                    <li class="breadcrumb-item"><a href="/admin">Trang Chủ</a></li>
+                    <li class="breadcrumb-item active">Thống kê</li>
                 </ol>
 
                 <!-- Form chọn năm -->

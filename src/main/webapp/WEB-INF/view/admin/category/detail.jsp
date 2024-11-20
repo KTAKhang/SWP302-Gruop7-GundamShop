@@ -14,6 +14,12 @@
                 <link href="/css/styles.css" rel="stylesheet" />
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                  <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <!-- Bootstrap Icon -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+            <!-- Custom CSS -->
+            <link rel="stylesheet" href="/css/ewstyle.css">
                 <style>
                     body {
                         background-color: #f8f9fa;
@@ -37,16 +43,20 @@
                 </style>
             </head>
 
-            <body class="sb-nav-fixed">
+            <body class="">
+                <div class="container-fluid d-flex p-0">
+
+
+                    <jsp:include page="../layout/navbar.jsp" />
                 <div id="layoutSidenav">
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Category Detail</h1>
+                                <h1 class="mt-4">Chi Tiết Category</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/category">Categories</a></li>
-                                    <li class="breadcrumb-item active">View Detail</li>
+                                    <li class="breadcrumb-item"><a href="/admin">Trang Chu</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/category">Category</a></li>
+                                    <li class="breadcrumb-item active">Xem Chi Tiết</li>
                                 </ol>
 
                                 <div class="row justify-content-center">
@@ -56,7 +66,7 @@
 
                                             <div class="row">
                                                 <div class="card p-4">
-                                                    <h3>Profile Photo</h3>
+                                                    <h3>Ảnh</h3>
                                                     <img class="card-img-top"
                                                         src="/images/category/${newCategory.image}"
                                                         alt="${newCategory.name}'s image" />
@@ -64,15 +74,15 @@
                                                 </div>
                                             </div>
                                             <div class="card-header">
-                                                Category Information
+                                                Thông Tin Category
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">ID: ${newCategory.id}</li>
-                                                <li class="list-group-item">Name of Category: ${newCategory.name}</li>
+                                                <li class="list-group-item">Tên Của Category: ${newCategory.name}</li>
 
                                             </ul>
                                             <a href="/admin/category"
-                                                class="btn btn-success mt-3 justify-content-center col-4">Back</a>
+                                                class="btn btn-success mt-3 justify-content-center col-4">Trở Về</a>
                                         </div>
 
                                     </div>
@@ -89,6 +99,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/js/scripts.js"></script>
+                </div>
             </body>
 
             </html>

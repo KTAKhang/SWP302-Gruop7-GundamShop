@@ -93,7 +93,7 @@
                                     <ul class="nav nav-pills d-inline-flex text-center mb-5">
                                         <li class="nav-item">
                                             <a class="d-flex m-2 py-2 bg-light rounded-pill active" href="/products">
-                                                <span class="text-dark" style="width: 130px;">All Products</span>
+                                                <span class="text-dark" style="width: 130px;">SẢN PHẨM</span>
                                             </a>
                                         </li>
                                     </ul>

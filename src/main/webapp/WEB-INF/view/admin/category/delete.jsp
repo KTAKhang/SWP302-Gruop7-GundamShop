@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
     <meta name="author" content="Hỏi Dân IT" />
-    <title>Delete Category</title>
+    <title>Xóa Category</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap Icon -->
@@ -33,9 +33,9 @@
             <div class="p-4">
                 <!-- Breadcrumb -->
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="/admin/category">Categories</a></li>
-                    <li class="breadcrumb-item active">Delete</li>
+                    <li class="breadcrumb-item"><a href="/admin">Trang Chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/category">Category</a></li>
+                    <li class="breadcrumb-item active">Xóa</li>
                 </ol>
 
                 <div class="container-fluid px-4">
@@ -43,20 +43,19 @@
                         <div class="row">
                             <div class="col-12 mx-auto">
                                 <div class="d-flex justify-content-between">
-                                    <h3>Delete the category with id = ${id}</h3>
-                                    <h3>With name = ${name}</h3>
+                                    <h3>Xóa Category có tên = ${name}</h3>
                                 </div>
 
                                 <hr />
                                 <div class="alert alert-danger">
-                                    Are you sure you want to delete this category?
+                                    Bạn có chắc chắn muốn xóa Category này không?
                                 </div>
                                 <form:form method="post" action="/admin/category/delete" modelAttribute="newCategory">
                                     <div class="mb-3" style="display: none;">
                                         <label class="form-label">Id:</label>
                                         <form:input value="${id}" type="text" class="form-control" path="id" />
                                     </div>
-                                    <button class="btn btn-danger">Confirm</button>
+                                    <button class="btn btn-danger">Xác Nhận</button>
                                 </form:form>
                             </div>
                         </div>

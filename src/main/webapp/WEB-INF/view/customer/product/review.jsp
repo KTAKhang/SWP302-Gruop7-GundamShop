@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -146,7 +147,8 @@
     <div class="fullscreen-container">
         <div class="rating-container">
             <h2>Đánh giá sản phẩm: ${product.name}</h2>
-            <p>Giá: ${product.price} đ</p>
+            <p>Giá: <fmt:formatNumber value="${product.price}" type="number" /> đ</p>
+
             <form action="${pageContext.request.contextPath}/customer/submit-review/${orderDetail.id}" method="POST">
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 
